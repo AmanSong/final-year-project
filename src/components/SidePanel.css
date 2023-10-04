@@ -1,0 +1,6 @@
+.SidePanel-main {
+    background-color: rgba(194, 194, 194, 0.74);
+    width: 20vw;
+    height: 100%;
+    position: fixed;
+}
