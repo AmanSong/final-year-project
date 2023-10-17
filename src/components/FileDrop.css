@@ -1,0 +1,11 @@
+.filedrop {
+    background-color: rgba(199, 242, 255, 0.76);
+    height: 15vh;
+    border-radius: 15px;
+    border: 1px black solid;
+}
+
+.upload-label {
+    margin: auto;
+    text-align: center;
+}

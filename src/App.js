@@ -1,4 +1,4 @@
-import {React} from "react"
+import { React } from "react"
 import { CContainer, CHeader } from '@coreui/react';
 import './App.css';
 import '@coreui/coreui/dist/css/coreui.min.css'

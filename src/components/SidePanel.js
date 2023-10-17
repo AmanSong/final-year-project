@@ -1,42 +1,33 @@
 import { CButton, CContainer, CForm, CFormInput, CImage, CSidebar } from "@coreui/react";
-import {React, useState} from "react"
-import "./SidePanel.css"
+import { React, useState } from "react"
 import axios from "axios";
-
+import "./SidePanel.css"
+import FileDropComponent from "./FileDropComponent";
 
 function SidePanel() {
 
-const [image, updateImage] = useState();
-const [prompt, updatePrompt] = useState('');
-const [loading, updateLoading] = useState();
-
-const generate = async (prompt) => {
-    updateLoading(true);
+  const generate = async (prompt) => {
+    // updateLoading(true);
     const result = await axios.get(`http://127.0.0.1:8000/?prompt=${prompt}`);
-    updateImage(result.data);
-    updateLoading(false);
-};
+    // updateImage(result.data);
+    // updateLoading(false);
+  };
 
+  // retrieve uploaded from user
+  const [PDF, UpdatePDF] = useState([]);
+
+  const handleUpload = (file) => {
+    UpdatePDF(file)
+  }
 
   return (
     <CSidebar className="SidePanel-main">
-        <CContainer>
-            <CForm>
-                <CFormInput
-                    type="text"
-                    label="Enter prompt"
-                    value={prompt}
-                    onChange={(e) => updatePrompt(e.target.value)}
-                />
-            </CForm>
-            <CButton onClick={(e) => generate(prompt)}>Generate</CButton>
-        </CContainer>
 
-        {loading ? (
-          <h1>LOADING...</h1>
-        ) : image ? (
-          <CImage src={`data:image/png;base64,${image}`}></CImage>
-        ) : null}
+      <CContainer className="SidePanel">
+          <FileDropComponent onFilesUploaded={handleUpload}/>
+          
+      </CContainer>
+
     </CSidebar>
   );
 }
