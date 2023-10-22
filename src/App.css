@@ -6,8 +6,18 @@
 
 .Main {
   padding: 0;
+  display: flex; 
 }
 
-.SidePanel {
-  height: 100%;
+.main-header {
+  height: 6vh;
+}
+#p-title {
+  font-size: 3vh;
+}
+
+.componenets {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }

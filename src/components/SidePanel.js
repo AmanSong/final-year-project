@@ -1,34 +1,52 @@
 import { CButton, CContainer, CForm, CFormInput, CImage, CSidebar } from "@coreui/react";
-import { React, useState } from "react"
+import { React, useState, useCallback } from "react"
 import axios from "axios";
-import "./SidePanel.css"
 import FileDropComponent from "./FileDropComponent";
 
-function SidePanel() {
+import "./SidePanel.css"
+import SelectModel from "./SelectModel";
+
+function SidePanel({ image }) {
+
+  const [prompt, updatePrompt] = useState('');
+  const [loading, updateLoading] = useState(false);
+  const [model, updateModel] = useState('');
+  const [PDF, updatePDF] = useState([]);
 
   const generate = async (prompt) => {
-    // updateLoading(true);
+    updateLoading(true);
     const result = await axios.get(`http://127.0.0.1:8000/?prompt=${prompt}`);
-    // updateImage(result.data);
-    // updateLoading(false);
+    image(result.data);
+    updateLoading(false);
   };
 
-  // retrieve uploaded from user
-  const [PDF, UpdatePDF] = useState([]);
-
   const handleUpload = (file) => {
-    UpdatePDF(file)
+    updatePDF(file)
   }
 
-  return (
-    <CSidebar className="SidePanel-main">
+  console.log(model)
 
-      <CContainer className="SidePanel">
-          <FileDropComponent onFilesUploaded={handleUpload}/>
-          
+  return (
+
+    <div className="SidePanel">
+
+      <CContainer className="inputContainer">
+        <CForm className="form">
+          <CFormInput
+            type="text"
+            label="Enter Prompt"
+            value={prompt}
+            onChange={(e) => updatePrompt(e.target.value)}
+          />
+        </CForm>
+        <CButton className="generateButton" onClick={(e) => generate(prompt)}>Generate</CButton>
       </CContainer>
 
-    </CSidebar>
+      <SelectModel selectedModel={updateModel}></SelectModel>
+
+      <FileDropComponent onFilesUploaded={handleUpload} />
+
+    </div>
   );
 }
 

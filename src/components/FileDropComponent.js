@@ -3,7 +3,7 @@ import { React, useCallback } from "react"
 import { useDropzone } from "react-dropzone";
 import "./FileDrop.css"
 
-function FileDropComponent({onFileUploaded}) {
+function FileDropComponent({ onFileUploaded }) {
 
     const onDrop = useCallback((acceptedFiles) => {
         onFileUploaded(acceptedFiles);

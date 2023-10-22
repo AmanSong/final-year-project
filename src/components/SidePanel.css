@@ -1,11 +1,26 @@
-.SidePanel-main {
-    
+.SidePanel {
+    background-color: rgba(151, 151, 151, 0.74);
+    height: 94vh;
     width: 20vw;
-    height: 100%;
-    position: fixed;
+    padding: 1%;
+    float: left;
+    display: block;
 }
 
-.SidePanel {
-    background-color: rgba(194, 194, 194, 0.74);
+.inputContainer {
+    background-color: aliceblue;
+    height: 15vh;
+    border: 1px black solid;
+    border-radius: 5px;
+    margin-bottom: 7%;
     padding: 2%;
+}
+.form {
+    text-align: center;
+    margin-bottom: 2%;
+}
+.generateButton {
+    height: 4vh;
+    width: 100%;
+    margin: auto;
 }
