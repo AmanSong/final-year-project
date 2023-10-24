@@ -9,18 +9,23 @@
 
 .inputContainer {
     background-color: aliceblue;
-    height: 15vh;
+    min-height: 15vh; 
     border: 1px black solid;
     border-radius: 5px;
-    margin-bottom: 7%;
     padding: 2%;
+    margin-bottom: 5vh;
 }
 .form {
     text-align: center;
-    margin-bottom: 2%;
 }
 .generateButton {
-    height: 4vh;
+    height: 15%; 
     width: 100%;
     margin: auto;
+    margin-top: 1vh;
+    font-size: 1.5vh;
+}
+
+.selectModal-container {
+    margin-bottom: 5vh;
 }
