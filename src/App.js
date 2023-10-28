@@ -12,15 +12,17 @@ function App() {
 
   return (
     <div className="App">
+
       <CHeader className="main-header">
         <h2 id="p-title">Final Year Project</h2>
       </CHeader>
 
-      <div className="componenets">
+      <div className="components">
         <SidePanel image={updateGeneratedImage}></SidePanel>
 
         <DisplayImage image={generatedImage}></DisplayImage>
       </div>
+
     </div>
   );
 }

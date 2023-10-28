@@ -72,7 +72,6 @@ def generate(prompt: str):
         try:
             # Try to open the image with PIL
             image = Image.open(BytesIO(image_bytes))
-            image.save("testimage.png")
 
             # Convert the PIL Image to base64 format
             buffer = BytesIO()

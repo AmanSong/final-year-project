@@ -8,6 +8,8 @@ import SelectModel from "./SelectModel";
 
 function SidePanel({ image }) {
 
+  const [visible, setVisible] = useState(true);
+
   const [prompt, updatePrompt] = useState('');
   const [model, updateModel] = useState('');
   const [PDF, updatePDF] = useState([]);
@@ -31,8 +33,8 @@ function SidePanel({ image }) {
       console.error("Error sending data:", error);
     }
   }
-  
-  
+
+
   useEffect(() => {
     chooseModel();
   }, [model]);
@@ -42,29 +44,36 @@ function SidePanel({ image }) {
   }
 
 
+
   return (
 
-    <div className="SidePanel">
+    <div className="SidePanel-Container">
 
-      <CContainer className="inputContainer">
-        <CForm className="form">
-          <CFormInput
-            type="text"
-            label="Enter Prompt"
-            value={prompt}
-            onChange={(e) => updatePrompt(e.target.value)}
-          />
-        </CForm>
-        <CButton className="generateButton" onClick={(e) => generate(prompt)}>Generate</CButton>
-      </CContainer>
+      <button className="sidebar-button" onClick={() => setVisible(!visible)}>|||</button>
 
-      <div className="selectModal-container">
-        <SelectModel selectedModel={updateModel}></SelectModel>
+      <div className="SidePanel" style={{ display: visible ? 'block' : 'none' }}>
+
+        <CContainer className="inputContainer">
+          <CForm className="form">
+            <CFormInput
+              type="text"
+              label="Enter Prompt"
+              value={prompt}
+              onChange={(e) => updatePrompt(e.target.value)}
+            />
+          </CForm>
+          <CButton className="generateButton" onClick={(e) => generate(prompt)}>Generate</CButton>
+        </CContainer>
+
+        <div className="selectModal-container">
+          <SelectModel selectedModel={updateModel}></SelectModel>
+        </div>
+
+        <FileDropComponent onFilesUploaded={handleUpload} />
+
       </div>
-
-      <FileDropComponent onFilesUploaded={handleUpload} />
-
     </div>
+
   );
 }
 
