@@ -2,9 +2,9 @@ import { CButton, CContainer, CForm, CFormInput, CImage, CSidebar } from "@coreu
 import { React, useState, useEffect } from "react"
 import axios from "axios";
 import FileDropComponent from "./FileDropComponent";
-
-import "./SidePanel.css"
 import SelectModel from "./SelectModel";
+import "./SidePanel.css"
+
 
 function SidePanel({ image }) {
 
@@ -12,7 +12,6 @@ function SidePanel({ image }) {
 
   const [prompt, updatePrompt] = useState('');
   const [model, updateModel] = useState('');
-  const [PDF, updatePDF] = useState([]);
 
   const generate = async (prompt) => {
     const result = await axios.get(`http://127.0.0.1:8000/?prompt=${prompt}`);
@@ -34,16 +33,9 @@ function SidePanel({ image }) {
     }
   }
 
-
   useEffect(() => {
     chooseModel();
   }, [model]);
-
-  const handleUpload = (file) => {
-    updatePDF(file)
-  }
-
-
 
   return (
 
@@ -69,7 +61,7 @@ function SidePanel({ image }) {
           <SelectModel selectedModel={updateModel}></SelectModel>
         </div>
 
-        <FileDropComponent onFilesUploaded={handleUpload} />
+        <FileDropComponent />
 
       </div>
     </div>

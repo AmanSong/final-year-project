@@ -11,6 +11,10 @@ import base64
 from PIL import Image
 import requests
 from dotenv import load_dotenv
+from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import JSONResponse
+
+from extract import read
 
 app = FastAPI()
 
@@ -101,5 +105,21 @@ def generate(prompt: str):
         return Response(content=imgstr, media_type="image/png")
 
 
+@app.post("/upload-pdf")
+async def upload_pdf(file: UploadFile):
+    try:
+        if file.content_type != "application/pdf":
+            return JSONResponse(content={"message": "Only PDF files are allowed"}, status_code=400)
 
-        
+        # Read the file content into memory
+        file_content = await file.read()
+
+        read(file_content)
+
+        # Once processing is done, you can discard the file content
+        del file_content
+
+        return JSONResponse(content={"message": "File uploaded and processed successfully"}, status_code=200)
+    except Exception as e:
+        print(f"Error processing the file: {e}")
+        return JSONResponse(content={"message": "An error occurred while processing the file"}, status_code=500)

@@ -2,30 +2,32 @@ import fitz
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize, word_tokenize
+from fastapi import FastAPI, Response
 
 # make sure to download before running
 # nltk.download('punkt')
 # nltk.download('stopwords')
 
-
-def read(pdf):
+def read(file_content):
     text = []
 
-    # open the pdf using PyMuPDF
-    document = fitz.open(pdf)
+    # Open the PDF using PyMuPDF
+    document = fitz.open(stream=file_content, filetype="pdf")
 
-    # iterate through the pdf pages and extract text
-    for page_num in range(document.page_count):
-
+    # Iterate through the PDF pages and extract text
+    for page_num in range(len(document)):
         page = document[page_num]
         page_text = page.get_text()
-        
-        # append each page into the list
         text.append(page_text)
 
     document.close()
-    
-    return text
+
+    page_summaries = summarize_pages(text, num_sentences=1)
+
+    for page_num, summary in enumerate(page_summaries, start=1):
+        print(f"Page {page_num} Summary:")
+        print(summary)
+        print("\n-------------")
 
 def summarize_pages(text, num_sentences=1):
 
@@ -51,11 +53,5 @@ def summarize_pages(text, num_sentences=1):
 
     return summaries
 
-file = "GreatGatsby.pdf"
-text = read(file)
-page_summaries = summarize_pages(text, num_sentences=1)
-
-for page_num, summary in enumerate(page_summaries, start=1):
-    print(f"Page {page_num} Summary:")
-    print(summary)
-    print("\n-------------")
+# file = "GreatGatsby.pdf"
+# text = read(file)

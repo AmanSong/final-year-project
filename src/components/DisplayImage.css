@@ -1,10 +1,23 @@
 .displayImage {
     background-color: aliceblue;
     height: 94vh;
-    width: 100vh;
+    width: 150vh;
+    display: flex;
+}
+
+.firstpage {
+    width: 50%;
+    background-color: antiquewhite;
+    padding: .5%;
+}
+
+.secondpage {
+    width: 50%;
+    background-color: wheat;
+    padding: .5%;
 }
 
 .image {
     width: 100%;
-    height: 100%;
+    height: auto;
 }
