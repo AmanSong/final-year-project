@@ -6,22 +6,26 @@ import SelectModel from "./SelectModel";
 import "./SidePanel.css"
 
 
-function SidePanel({ image }) {
+function SidePanel({ props }) {
 
   const [visible, setVisible] = useState(true);
 
   const [prompt, updatePrompt] = useState('');
   const [model, updateModel] = useState('');
+  const [dropFileData, setDropFileData] = useState();
 
   const generate = async (prompt) => {
     const result = await axios.get(`http://127.0.0.1:8000/?prompt=${prompt}`);
-    image(result.data);
+    props({
+      image: result.data,   // Image data
+      text: dropFileData    // Text data
+    });
   };
 
   const chooseModel = async (e) => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/selectModel", {
-        model: model // Ensure 'model' is a valid string
+        model: model
       }, {
         headers: {
           'Content-Type': 'application/json',
@@ -33,9 +37,20 @@ function SidePanel({ image }) {
     }
   }
 
+  const setFile = () => {
+    props({
+      text: dropFileData
+    });
+    console.log('worked', dropFileData)
+  }
+
   useEffect(() => {
     chooseModel();
   }, [model]);
+
+  useEffect(() => {
+    setFile();
+  }, [dropFileData]);
 
   return (
 
@@ -61,7 +76,7 @@ function SidePanel({ image }) {
           <SelectModel selectedModel={updateModel}></SelectModel>
         </div>
 
-        <FileDropComponent />
+        <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
 
       </div>
     </div>

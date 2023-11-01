@@ -24,10 +24,12 @@ def read(file_content):
 
     page_summaries = summarize_pages(text, num_sentences=1)
 
-    for page_num, summary in enumerate(page_summaries, start=1):
-        print(f"Page {page_num} Summary:")
-        print(summary)
-        print("\n-------------")
+    return text, page_summaries
+
+    # for page_num, summary in enumerate(page_summaries, start=1):
+    #     print(f"Page {page_num} Summary:")
+    #     print(summary)
+    #     print("\n-------------")
 
 def summarize_pages(text, num_sentences=1):
 
@@ -52,6 +54,3 @@ def summarize_pages(text, num_sentences=1):
         summaries.append(summary)
 
     return summaries
-
-# file = "GreatGatsby.pdf"
-# text = read(file)

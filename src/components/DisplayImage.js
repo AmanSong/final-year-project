@@ -3,13 +3,15 @@ import { React } from "react"
 
 import './DisplayImage.css'
 
-function DisplayImage({ image }) {
+function DisplayImage({ image, pdf }) {
+
+    const thirdPageText = pdf?.rawtext?.[3];
 
     return (
         <CContainer className="displayImage">
 
             <div className="firstpage">
-
+                {thirdPageText}
             </div>
 
             <div className="secondpage">

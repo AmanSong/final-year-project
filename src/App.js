@@ -8,7 +8,18 @@ import DisplayImage from "./components/DisplayImage";
 
 function App() {
 
+  const handleProps = (propsData) => {
+    const { image, text } = propsData;
+
+    // Now you can use the image and text data as needed
+    console.log('Image:', image);
+    console.log('Text:', text);
+    setPDF(text);
+    updateGeneratedImage(image);
+  };
+
   const [generatedImage, updateGeneratedImage] = useState(null);
+  const [PDF, setPDF] = useState(null);
 
   return (
     <div className="App">
@@ -18,9 +29,9 @@ function App() {
       </CHeader>
 
       <div className="components">
-        <SidePanel image={updateGeneratedImage}></SidePanel>
+        <SidePanel props={handleProps}></SidePanel>
 
-        <DisplayImage image={generatedImage}></DisplayImage>
+        <DisplayImage image={generatedImage} pdf={PDF}></DisplayImage>
       </div>
 
     </div>

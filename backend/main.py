@@ -114,12 +114,18 @@ async def upload_pdf(file: UploadFile):
         # Read the file content into memory
         file_content = await file.read()
 
-        read(file_content)
+        rawtext, summaries = read(file_content)
 
         # Once processing is done, you can discard the file content
         del file_content
 
-        return JSONResponse(content={"message": "File uploaded and processed successfully"}, status_code=200)
+        response_content = {
+            "message": "File uploaded and processed successfully",
+            "rawtext": rawtext,
+            "summaries": summaries,
+        }
+
+        return JSONResponse(content=response_content, status_code=200)
     except Exception as e:
         print(f"Error processing the file: {e}")
         return JSONResponse(content={"message": "An error occurred while processing the file"}, status_code=500)

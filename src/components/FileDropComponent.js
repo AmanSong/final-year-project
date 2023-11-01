@@ -1,10 +1,9 @@
-import { CContainer } from "@coreui/react";
-import { React, useCallback } from "react"
+import { React, useCallback, useState } from "react"
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import "./FileDrop.css"
 
-function FileDropComponent({  }) {
+function FileDropComponent({ onDataExtracted }) {
 
     const onDrop = useCallback(async (acceptedFiles) => {
         const file = acceptedFiles[0];
@@ -19,6 +18,9 @@ function FileDropComponent({  }) {
             });
 
             console.log(response)
+            if (response.status === 200) {
+                onDataExtracted(response.data);
+            }
         } catch (error) {
             console.error('Error uploading the file:', error);
         }
