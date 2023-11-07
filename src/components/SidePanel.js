@@ -17,8 +17,8 @@ function SidePanel({ props }) {
   const generate = async (prompt) => {
     const result = await axios.get(`http://127.0.0.1:8000/?prompt=${prompt}`);
     props({
-      image: result.data,   // Image data
-      text: dropFileData    // Text data
+      image: result.data,   
+      text: dropFileData   
     });
   };
 
@@ -37,16 +37,16 @@ function SidePanel({ props }) {
     }
   }
 
+  useEffect(() => {
+    chooseModel();
+  }, [model]);
+
   const setFile = () => {
     props({
       text: dropFileData
     });
     console.log('worked', dropFileData)
   }
-
-  useEffect(() => {
-    chooseModel();
-  }, [model]);
 
   useEffect(() => {
     setFile();

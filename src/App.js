@@ -11,9 +11,6 @@ function App() {
   const handleProps = (propsData) => {
     const { image, text } = propsData;
 
-    // Now you can use the image and text data as needed
-    console.log('Image:', image);
-    console.log('Text:', text);
     setPDF(text);
     updateGeneratedImage(image);
   };
