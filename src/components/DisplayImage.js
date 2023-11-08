@@ -26,10 +26,15 @@ function DisplayImage({ image, pdf }) {
         if (pdf && pdf.summaries && pdf.summaries.length > 0) {
           const generateImages = async () => {
             const images = [];
-            for (let i = 0; i <= 5; i++) {
+            for (let i = 0; i <= 10; i++) {
               let prompt = pdf.summaries[i];
-              const image = await generate(prompt); // Await the Promise
-              images[i] = image;
+              if(prompt != '') {
+                const image = await generate(prompt);
+                images[i] = image;
+              } else {
+                images[i] = null
+              }
+              
             }
             setAiImages(images);
             setPdfLoaded(true);
