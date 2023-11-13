@@ -4,6 +4,7 @@ import axios from "axios";
 import FileDropComponent from "./FileDropComponent";
 import SelectModel from "./SelectModel";
 import "./SidePanel.css"
+import StyleDrop from "./StyleDrop";
 
 
 function SidePanel({ props }) {
@@ -64,7 +65,10 @@ function SidePanel({ props }) {
           <CButton className="generateButton" onClick={(e) => generate(prompt)}>Generate</CButton>
         </CContainer> */}
 
+      
         <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
+
+        <StyleDrop></StyleDrop>
 
         <div className="selectModal-container">
           <SelectModel selectedModel={updateModel}></SelectModel>

@@ -5,10 +5,14 @@ import "./FileDrop.css"
 
 function FileDropComponent({ onDataExtracted }) {
 
+    const [fileName, setFileName] = useState('');
+
     const onDrop = useCallback(async (acceptedFiles) => {
         const file = acceptedFiles[0];
         const formData = new FormData();
         formData.append('file', file);
+
+        setFileName(file.name)
 
         try {
             const response = await axios.post('http://127.0.0.1:8000/upload-pdf', formData, {
@@ -34,7 +38,7 @@ function FileDropComponent({ onDataExtracted }) {
     return (
         <div {...getRootProps()} className="filedrop">
             <input {...getInputProps()} />
-            <h4 className="upload-label">Upload Story</h4>
+            <h4 className="upload-label">{fileName ? fileName : 'Upload File'}</h4>
         </div>
     );
 }

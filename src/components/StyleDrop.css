@@ -1,0 +1,42 @@
+.styles-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.style-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    background-color: #3498db;
+    color: #fff;
+    border: 2px solid #2980b9;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+
+    max-width: 5vw;
+
+    font-size: 1.5vh;
+
+    &:hover {
+        background-color: #2980b9;
+    }
+
+    .style-image {
+        height: auto;
+        width: 4vw;
+    }
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .styles-container {
+        flex-direction: column;
+        /* Stack items vertically on smaller screens */
+        align-items: center;
+        /* Center items in the container */
+    }
+}

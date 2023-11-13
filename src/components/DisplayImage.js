@@ -22,26 +22,37 @@ function DisplayImage({ image, pdf }) {
 
 
     // loop through each summary and generate each image
-    // useEffect(() => {
-    //     const generateImages = async () => {
-    //         const images = [];
-    //         for (let i = 0; i < 3; i++) {
-    //             let prompt = pdf.summaries[i];
-    //             if (prompt !== '') {
-    //                 const image = await generate(prompt);
-    //                 images.push(image);
-    //                 setAiImages([...images]); // Update state after each image is generated
-    //             } else {
-    //                 images.push(null);
-    //             }
-    //         }
-    //         setPdfLoaded(true);
-    //     };
+    useEffect(() => {
+        const generateImages = async () => {
+            const generatedImages = [];
     
-    //     if (pdf && pdf.summaries && pdf.summaries.length > 0) {
-    //         generateImages();
-    //     }
-    // }, [pdf]);
+            for (let i = 0; i < pages; i++) {
+                let prompt = pdf.summaries[i];
+    
+                if (prompt !== '') {
+                    const image = await generate(prompt);
+                    generatedImages.push(image);
+    
+                    // Update state after each image is generated
+                    setAiImages(prevImages => [...prevImages, image]);
+                } else {
+                    generatedImages.push(null);
+    
+                    // Update state after each image is generated (even if it's null)
+                    setAiImages(prevImages => [...prevImages, null]);
+                }
+            }
+    
+            // Update state once after all images are generated
+            setPdfLoaded(true);
+        };
+    
+        if (pdf && pdf.summaries && pdf.summaries.length > 0) {
+            generateImages();
+        }
+    }, [pdf]);
+    
+    
 
 
     // allow users to flip through the story
@@ -70,7 +81,7 @@ function DisplayImage({ image, pdf }) {
         <CContainer className="displayImage">
 
             <div className="firstpage" onClick={() => prevPage()}>
-                <img src={`data:image/png;base64,${pdf?.images?.[pageNumber]}`} alt="Base64 Image" />
+                {pdf?.images ? <img className="pdf" src={`data:image/png;base64,${pdf?.images?.[pageNumber]}`} alt="Base64 Image" draggable="false" /> : null}
             </div>
 
             <div className="secondpage" onClick={() => nextPage()}>
