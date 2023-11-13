@@ -11,7 +11,7 @@ import base64
 from PIL import Image
 import requests
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, UploadFile
 from fastapi.responses import JSONResponse
 
 from extract import read
@@ -114,7 +114,7 @@ async def upload_pdf(file: UploadFile):
         # Read the file content into memory
         file_content = await file.read()
 
-        rawtext, summaries = read(file_content)
+        rawtext, summaries, images = read(file_content)
 
         # Once processing is done, you can discard the file content
         del file_content
@@ -123,9 +123,11 @@ async def upload_pdf(file: UploadFile):
             "message": "File uploaded and processed successfully",
             "rawtext": rawtext,
             "summaries": summaries,
+            "images": images,
         }
 
         return JSONResponse(content=response_content, status_code=200)
+    
     except Exception as e:
         print(f"Error processing the file: {e}")
         return JSONResponse(content={"message": "An error occurred while processing the file"}, status_code=500)

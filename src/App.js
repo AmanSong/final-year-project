@@ -10,7 +10,7 @@ function App() {
 
   const handleProps = (propsData) => {
     const { image, text } = propsData;
-
+    console.log(propsData)
     setPDF(text);
     updateGeneratedImage(image);
   };

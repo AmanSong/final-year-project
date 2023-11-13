@@ -2,7 +2,7 @@ import fitz
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize, word_tokenize
-from fastapi import FastAPI, Response
+import base64
 
 # make sure to download before running
 # nltk.download('punkt')
@@ -10,6 +10,7 @@ from fastapi import FastAPI, Response
 
 def read(file_content):
     text = []
+    images = []
 
     # Open the PDF using PyMuPDF
     document = fitz.open(stream=file_content, filetype="pdf")
@@ -18,18 +19,23 @@ def read(file_content):
     for page_num in range(len(document)):
         page = document[page_num]
         page_text = page.get_text()
+
+        # Extract image from each page and convert to base64
+        pixmap = page.get_pixmap()
+        image_data = pixmap.tobytes()
+        image_base64 = base64.b64encode(image_data).decode('utf-8')
+        images.append(image_base64)
+
         text.append(page_text)
 
     document.close()
 
     page_summaries = summarize_pages(text, num_sentences=1)
 
-    return text, page_summaries
+    
 
-    # for page_num, summary in enumerate(page_summaries, start=1):
-    #     print(f"Page {page_num} Summary:")
-    #     print(summary)
-    #     print("\n-------------")
+    return text, page_summaries, images
+
 
 def summarize_pages(text, num_sentences=1):
 

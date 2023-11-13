@@ -22,26 +22,26 @@ function DisplayImage({ image, pdf }) {
 
 
     // loop through each summary and generate each image
-    useEffect(() => {
-        if (pdf && pdf.summaries && pdf.summaries.length > 0) {
-          const generateImages = async () => {
-            const images = [];
-            for (let i = 0; i <= 10; i++) {
-              let prompt = pdf.summaries[i];
-              if(prompt != '') {
-                const image = await generate(prompt);
-                images[i] = image;
-              } else {
-                images[i] = null
-              }
-              
-            }
-            setAiImages(images);
-            setPdfLoaded(true);
-          };
-          generateImages();
-        }
-      }, [pdf]);
+    // useEffect(() => {
+    //     const generateImages = async () => {
+    //         const images = [];
+    //         for (let i = 0; i < 3; i++) {
+    //             let prompt = pdf.summaries[i];
+    //             if (prompt !== '') {
+    //                 const image = await generate(prompt);
+    //                 images.push(image);
+    //                 setAiImages([...images]); // Update state after each image is generated
+    //             } else {
+    //                 images.push(null);
+    //             }
+    //         }
+    //         setPdfLoaded(true);
+    //     };
+    
+    //     if (pdf && pdf.summaries && pdf.summaries.length > 0) {
+    //         generateImages();
+    //     }
+    // }, [pdf]);
 
 
     // allow users to flip through the story
@@ -70,9 +70,7 @@ function DisplayImage({ image, pdf }) {
         <CContainer className="displayImage">
 
             <div className="firstpage" onClick={() => prevPage()}>
-                {paragraphs.map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
-                ))}
+                <img src={`data:image/png;base64,${pdf?.images?.[pageNumber]}`} alt="Base64 Image" />
             </div>
 
             <div className="secondpage" onClick={() => nextPage()}>

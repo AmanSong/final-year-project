@@ -10,17 +10,9 @@ function SidePanel({ props }) {
 
   const [visible, setVisible] = useState(true);
 
-  const [prompt, updatePrompt] = useState('');
   const [model, updateModel] = useState('');
   const [dropFileData, setDropFileData] = useState();
 
-  const generate = async (prompt) => {
-    const result = await axios.get(`http://127.0.0.1:8000/?prompt=${prompt}`);
-    props({
-      image: result.data,   
-      text: dropFileData   
-    });
-  };
 
   const chooseModel = async (e) => {
     try {
@@ -60,7 +52,7 @@ function SidePanel({ props }) {
 
       <div className="SidePanel" style={{ display: visible ? 'block' : 'none' }}>
 
-        <CContainer className="inputContainer">
+        {/* <CContainer className="inputContainer">
           <CForm className="form">
             <CFormInput
               type="text"
@@ -70,13 +62,13 @@ function SidePanel({ props }) {
             />
           </CForm>
           <CButton className="generateButton" onClick={(e) => generate(prompt)}>Generate</CButton>
-        </CContainer>
+        </CContainer> */}
+
+        <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
 
         <div className="selectModal-container">
           <SelectModel selectedModel={updateModel}></SelectModel>
         </div>
-
-        <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
 
       </div>
     </div>
