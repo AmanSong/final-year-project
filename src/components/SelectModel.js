@@ -11,7 +11,7 @@ function SelectModel({ selectedModel }) {
 
     return (
         <CDropdown className="dropdown">
-            <CDropdownToggle className="dropdown-toggle">Dropdown button</CDropdownToggle>
+            <CDropdownToggle className="dropdown-toggle">Select Model</CDropdownToggle>
             <CDropdownMenu className="drop-menu">
                 <CDropdownItem className="drop-item" onClick={() => dropdownSelect('stable-diffusion-xl-base-1.0')}>stable-diffusion-xl-base-1.0</CDropdownItem>
                 <CDropdownItem className="drop-item" onClick={() => dropdownSelect('CompVis/stable-diffusion-v1-4')}>CompVis/stable-diffusion-v1-4</CDropdownItem>

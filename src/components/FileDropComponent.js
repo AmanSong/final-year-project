@@ -1,5 +1,6 @@
 import { React, useCallback, useState } from "react"
 import { useDropzone } from "react-dropzone";
+import { CButton, CCollapse, CCard, CCardBody } from "@coreui/react";
 import axios from "axios";
 import "./FileDrop.css"
 
@@ -35,10 +36,21 @@ function FileDropComponent({ onDataExtracted }) {
         accept: '.pdf',
     });
 
+    const [visible, setVisible] = useState(false)
+
     return (
-        <div {...getRootProps()} className="filedrop">
-            <input {...getInputProps()} />
-            <h4 className="upload-label">{fileName ? fileName : 'Upload File'}</h4>
+        <div>
+            <CButton className="styledrop-button" onClick={() => setVisible(!visible)} aria-expanded={visible} aria-controls="collapseWidthExample">Upload</CButton>
+            <CCollapse  visible={visible}>
+                <CCard id="upload-drop-container">
+                    <CCardBody>
+                        <div {...getRootProps()} className="filedrop">
+                            <input {...getInputProps()} />
+                            <h4 className="upload-label">{fileName ? fileName : 'Upload File'}</h4>
+                        </div>
+                    </CCardBody>
+                </CCard>
+            </CCollapse>
         </div>
     );
 }

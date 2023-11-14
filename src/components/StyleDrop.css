@@ -1,7 +1,7 @@
 .styles-container {
     display: flex;
     justify-content: space-around;
-    padding: 20px;
+    padding: 2vh;
     flex-wrap: wrap;
 }
 
@@ -10,16 +10,18 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 10px;
+    padding: 1vh;
     background-color: #3498db;
     color: #fff;
     border: 2px solid #2980b9;
-    border-radius: 8px;
+    border-radius: 1vh;
     transition: background-color 0.3s ease;
 
-    max-width: 5vw;
+    margin: .2vh;
 
-    font-size: 1.5vh;
+    max-width: 4vw;
+
+    font-size: 1.2vh;
 
     &:hover {
         background-color: #2980b9;
@@ -27,8 +29,34 @@
 
     .style-image {
         height: auto;
-        width: 4vw;
+        width: 3vw;
     }
+}
+
+.styledrop-button {
+    background-color: #3498db;
+
+    width: 15vw !important;
+    color: #fff;
+    border: 2px solid #2980b9;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      background-color: #2980b9;
+    }
+}
+
+#collaspe-card {
+    margin-top: 0;
+    background-color: #c8d7e0;
+
+    width: 14.8vw;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 /* Media query for smaller screens */

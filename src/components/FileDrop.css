@@ -1,6 +1,6 @@
 .filedrop {
     background-color: rgba(199, 242, 255, 0.76);
-    height: 15vh;
+    height: 10vh;
     border-radius: 15px;
     border: 2px rgb(0, 0, 0) solid;
     cursor: pointer;
@@ -19,4 +19,13 @@
     text-align: center;
     font-size: 1.2em;
     color: #2c3e50;
+}
+
+#upload-drop-container {
+    background-color: #becbd8;
+    width: 100%;
+    
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }

@@ -65,10 +65,14 @@ function SidePanel({ props }) {
           <CButton className="generateButton" onClick={(e) => generate(prompt)}>Generate</CButton>
         </CContainer> */}
 
-      
-        <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
 
-        <StyleDrop></StyleDrop>
+        <div className="upload-container">
+          <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
+        </div>
+
+        <div className="styleSelect-container">
+          <StyleDrop></StyleDrop>
+        </div>
 
         <div className="selectModal-container">
           <SelectModel selectedModel={updateModel}></SelectModel>

@@ -1,7 +1,7 @@
 .SidePanel {
     background-color: rgba(151, 151, 151, 0.74);
     height: 94vh;
-    width: 20vw;
+    width: 17vw;
     padding: 2.5%;
     float: left;
     display: block;
@@ -9,17 +9,19 @@
 
 .inputContainer {
     background-color: aliceblue;
-    min-height: 15vh; 
+    min-height: 15vh;
     border: 1px black solid;
     border-radius: 5px;
     padding: 2%;
     margin-bottom: 5vh;
 }
+
 .form {
     text-align: center;
 }
+
 .generateButton {
-    height: 15%; 
+    height: 15%;
     width: 100%;
     margin: auto;
     margin-top: 1vh;
@@ -27,5 +29,19 @@
 }
 
 .selectModal-container {
-    margin-bottom: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.styleSelect-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
