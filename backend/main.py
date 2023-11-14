@@ -59,21 +59,37 @@ def select_model(request_data: ModelRequest):
 
     return {"SelectedModel": SelectedModel}
 
+class ModelRequest(BaseModel):
+    style: str
+
+style = ''
+@app.post("/style")
+def set_style(style_choice: ModelRequest):
+    global style
+    if style_choice.style == '':
+        print('nothing')
+    style = style_choice.style
+    print(f"New style: {style}")
 
 # function generate
-@app.get("/")
+@app.post("/")
 def generate(prompt: str):
     if(SelectedModel == 'stable-diffusion-xl-base-1.0'):
         def stability_ai(payload):
             response = requests.post(API_URL, headers=headers, json=payload)
             return response.content
 
-        # Make a request to the Hugging Face model using the provided text prompt
-        image_bytes = stability_ai({
-            "inputs": prompt,
-        })
-
         try:
+            if style != '':
+                prompt_with_style = f"{prompt}, {style}"
+            else:
+                prompt_with_style = prompt
+
+            print(f"using {prompt_with_style}")
+
+            # Make a request to the Hugging Face model using the provided text prompt
+            image_bytes = stability_ai({"inputs": str(prompt_with_style)})
+
             # Try to open the image with PIL
             image = Image.open(BytesIO(image_bytes))
 
@@ -83,9 +99,9 @@ def generate(prompt: str):
             imgstr = base64.b64encode(buffer.getvalue())
 
             return Response(content=imgstr, media_type="image/png")
-
+        
         except Exception as e:
-            return f"Error: {e}"
+            return f"Error generating image: {e}"
         
     elif(SelectedModel == 'CompVis/stable-diffusion-v1-4'):
         print('using CompVis')

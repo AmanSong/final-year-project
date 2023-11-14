@@ -68,3 +68,11 @@
         /* Center items in the container */
     }
 }
+
+.highlighted {
+    background-color: #1c5d88;
+
+    &:hover {
+        background-color: #1c5d88;
+      }
+}

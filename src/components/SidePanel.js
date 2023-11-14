@@ -10,11 +10,26 @@ import StyleDrop from "./StyleDrop";
 function SidePanel({ props }) {
 
   const [visible, setVisible] = useState(true);
-
   const [model, updateModel] = useState('');
   const [dropFileData, setDropFileData] = useState();
 
+  // set the uploaded file from dropFileData
+  const setFile = () => {
+    setDropFileData((prevDropFileData) => {
+      props({
+        text: prevDropFileData
+      });
+      console.log('worked', prevDropFileData);
+      return prevDropFileData;
+    });
+  }
 
+  const sendFile = () => {
+    setFile();
+  }
+
+
+  // to allow for changing of ai models from backend
   const chooseModel = async (e) => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/selectModel", {
@@ -29,21 +44,9 @@ function SidePanel({ props }) {
       console.error("Error sending data:", error);
     }
   }
-
   useEffect(() => {
     chooseModel();
   }, [model]);
-
-  const setFile = () => {
-    props({
-      text: dropFileData
-    });
-    console.log('worked', dropFileData)
-  }
-
-  useEffect(() => {
-    setFile();
-  }, [dropFileData]);
 
   return (
 
@@ -52,18 +55,6 @@ function SidePanel({ props }) {
       <button className="sidebar-button" onClick={() => setVisible(!visible)}>|||</button>
 
       <div className="SidePanel" style={{ display: visible ? 'block' : 'none' }}>
-
-        {/* <CContainer className="inputContainer">
-          <CForm className="form">
-            <CFormInput
-              type="text"
-              label="Enter Prompt"
-              value={prompt}
-              onChange={(e) => updatePrompt(e.target.value)}
-            />
-          </CForm>
-          <CButton className="generateButton" onClick={(e) => generate(prompt)}>Generate</CButton>
-        </CContainer> */}
 
 
         <div className="upload-container">
@@ -77,6 +68,10 @@ function SidePanel({ props }) {
         <div className="selectModal-container">
           <SelectModel selectedModel={updateModel}></SelectModel>
         </div>
+
+        <CContainer className="submit-button-container">
+          <CButton onClick={() => sendFile()} className="submit-button">Submit</CButton>
+        </CContainer>
 
       </div>
     </div>

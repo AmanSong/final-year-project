@@ -41,8 +41,6 @@
 .drop-item {
     width: 100%;
     padding: 10px;
-    /* Increased padding for better spacing */
-    border-bottom: 1px solid #2980b9;
     transition: background-color 0.3s ease, color 0.3s ease;
 
     &:last-child {

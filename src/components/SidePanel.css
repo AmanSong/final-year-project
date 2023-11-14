@@ -5,6 +5,8 @@
     padding: 2.5%;
     float: left;
     display: block;
+
+    overflow-y: auto;
 }
 
 .inputContainer {
@@ -44,4 +46,28 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.submit-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit-button {
+    width: 15vw;
+    font-size: 16px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    border: 2px solid #2980b9;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    margin-top: 20vh;
+
+    &:hover {
+        background-color: #2980b9;
+    }
 }

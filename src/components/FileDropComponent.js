@@ -43,7 +43,7 @@ function FileDropComponent({ onDataExtracted }) {
             <CButton className="styledrop-button" onClick={() => setVisible(!visible)} aria-expanded={visible} aria-controls="collapseWidthExample">Upload</CButton>
             <CCollapse  visible={visible}>
                 <CCard id="upload-drop-container">
-                    <CCardBody>
+                    <CCardBody id="upload-drop-card">
                         <div {...getRootProps()} className="filedrop">
                             <input {...getInputProps()} />
                             <h4 className="upload-label">{fileName ? fileName : 'Upload File'}</h4>
