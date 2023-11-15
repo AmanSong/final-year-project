@@ -130,7 +130,7 @@ async def upload_pdf(file: UploadFile):
         # Read the file content into memory
         file_content = await file.read()
 
-        rawtext, summaries, images = read(file_content)
+        rawtext, prompts, images = read(file_content)
 
         # Once processing is done, you can discard the file content
         del file_content
@@ -138,7 +138,7 @@ async def upload_pdf(file: UploadFile):
         response_content = {
             "message": "File uploaded and processed successfully",
             "rawtext": rawtext,
-            "summaries": summaries,
+            "summaries": prompts,
             "images": images,
         }
 

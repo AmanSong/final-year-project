@@ -57,17 +57,18 @@
 .submit-button {
     width: 15vw;
     font-size: 16px;
-    background-color: #3498db;
+    background-color: #1eaa8c;
     color: #fff;
     border: none;
     border-radius: 4px;
-    border: 2px solid #2980b9;
+    border: 2px solid rgb(41, 163, 185);
     cursor: pointer;
     transition: background-color 0.3s ease;
 
     margin-top: 20vh;
 
     &:hover {
-        background-color: #2980b9;
+        background-color: #68d3bc;
+        border: 2px solid rgb(41, 163, 185);
     }
 }

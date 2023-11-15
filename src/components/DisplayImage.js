@@ -14,7 +14,7 @@ function DisplayImage({ pdf }) {
             const result = await axios.post(`http://127.0.0.1:8000/?prompt=${prompt}`);
             return result.data;
         } catch (error) {
-            console.error("Error generating image:", error);
+            console.error("Something went wrong: ", error);
             return null; // or handle the error appropriately
         }
     };
@@ -29,10 +29,10 @@ function DisplayImage({ pdf }) {
         const generateImages = async () => {
             const generatedImages = [];
         
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 3; i++) {
                 let prompt = pdf.summaries[i];
         
-                console.log('generating images');
+                console.log('generating images', i);
         
                 if (prompt !== '') {
                     const image = await generate(prompt);

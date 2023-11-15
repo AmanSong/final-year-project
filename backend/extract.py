@@ -32,8 +32,6 @@ def read(file_content):
 
     page_summaries = summarize_pages(text, num_sentences=1)
 
-    
-
     return text, page_summaries, images
 
 
