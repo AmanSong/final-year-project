@@ -5,7 +5,7 @@ import FileDropComponent from "./FileDropComponent";
 import SelectModel from "./SelectModel";
 import "./SidePanel.css"
 import StyleDrop from "./StyleDrop";
-
+import { CNav, CNavItem, CNavLink, CTabPane, CTabContent } from "@coreui/react";
 
 function SidePanel({ props }) {
 
@@ -48,6 +48,9 @@ function SidePanel({ props }) {
     chooseModel();
   }, [model]);
 
+
+  const [activeKey, setActiveKey] = useState(1)
+
   return (
 
     <div className="SidePanel-Container">
@@ -58,21 +61,51 @@ function SidePanel({ props }) {
 
       <div className="SidePanel" style={{ display: visible ? 'block' : 'none' }}>
 
-        <div className="upload-container">
-          <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
-        </div>
+        <CNav variant="tabs">
+          <CButton
+            active={activeKey === 1}
 
-        <div className="styleSelect-container">
-          <StyleDrop></StyleDrop>
-        </div>
+            className="tab-button"
+            aria-selected={activeKey === 1}
+            onClick={() => setActiveKey(1)}
+          >
+            Illustrate
+          </CButton>
+          <CButton
+            active={activeKey === 2}
+            className="tab-button"
+            aria-selected={activeKey === 2}
+            onClick={() => setActiveKey(2)}
+          >
+            Create
+          </CButton>
+        </CNav>
 
-        <div className="selectModal-container">
-          <SelectModel selectedModel={updateModel}></SelectModel>
-        </div>
+        <CTabContent>
 
-        <CContainer className="submit-button-container">
-          <CButton onClick={() => sendFile()} className="submit-button">Submit</CButton>
-        </CContainer>
+          <CTabPane className="tab-content" visible={activeKey === 1}>
+            <div className="upload-container">
+              <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
+            </div>
+
+            <div className="styleSelect-container">
+              <StyleDrop></StyleDrop>
+            </div>
+
+            <div className="selectModal-container">
+              <SelectModel selectedModel={updateModel}></SelectModel>
+            </div>
+
+            <CContainer className="submit-button-container">
+              <CButton onClick={() => sendFile()} className="submit-button">Submit</CButton>
+            </CContainer>
+          </CTabPane>
+
+          <CTabPane className="tab-content"  visible={activeKey === 2}>
+            TO BE DONE
+          </CTabPane>
+
+        </CTabContent>
 
       </div>
     </div>

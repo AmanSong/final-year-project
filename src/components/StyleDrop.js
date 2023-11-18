@@ -43,7 +43,7 @@ function StyleDrop() {
 
     return (
         <div className="styles-container">
-            <CButton className="styledrop-button" onClick={() => setVisible(!visible)}>Styles</CButton>
+            <CButton className="styledrop-button" onClick={() => setVisible(!visible)}>Select image style</CButton>
             <CCollapse id="style-collaspe" visible={visible}>
                 <CCard>
                     <CCardBody id="collaspe-card">

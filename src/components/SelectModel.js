@@ -27,7 +27,7 @@ function SelectModel({ selectedModel }) {
 
     return (
         <div>
-            <CButton className="styledrop-button" onClick={() => setVisible(!visible)}>Styles</CButton>
+            <CButton className="styledrop-button" onClick={() => setVisible(!visible)}>Select AI Model</CButton>
             <CCollapse id="model-collaspe" visible={visible}>
                 <CCard>
                     <CButton

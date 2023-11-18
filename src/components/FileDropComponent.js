@@ -40,7 +40,7 @@ function FileDropComponent({ onDataExtracted }) {
 
     return (
         <div>
-            <CButton className="styledrop-button" onClick={() => setVisible(!visible)} aria-expanded={visible} aria-controls="collapseWidthExample">Upload</CButton>
+            <CButton className="styledrop-button" onClick={() => setVisible(!visible)} aria-expanded={visible} aria-controls="collapseWidthExample">Upload PDF Story</CButton>
             <CCollapse  visible={visible}>
                 <CCard id="upload-drop-container">
                     <CCardBody id="upload-drop-card">

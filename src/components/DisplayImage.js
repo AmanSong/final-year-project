@@ -7,6 +7,7 @@ function DisplayImage({ pdf }) {
 
     const [pageNumber, setPageNumber] = useState(0);
     const [aiImages, setAiImages] = useState([]);
+    const [isGenerating, setIsGenerating] = useState(false);
 
     // api to generate images
     const generate = async (prompt) => {
@@ -25,7 +26,7 @@ function DisplayImage({ pdf }) {
     let paragraphs;
 
     const generateImages = async () => {
-
+        setIsGenerating(true)
         for (let i = 0; i < 25; i++) {
             let prompt = pdf.summaries[i];
 
@@ -50,9 +51,12 @@ function DisplayImage({ pdf }) {
                 });
             }
         }
+
+        setIsGenerating(false)
     };
 
     useEffect(() => {
+
         if (pdf && pdf.summaries && pdf.summaries.length > 0) {
             generateImages();
         }
@@ -100,7 +104,7 @@ function DisplayImage({ pdf }) {
                     ></CImage>
                 ) :
                     <div className="loading-spinner">
-                        Loading...
+                        {isGenerating ? 'Loading...': null}
                     </div>
                 }
             </div>
