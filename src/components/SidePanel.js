@@ -52,10 +52,11 @@ function SidePanel({ props }) {
 
     <div className="SidePanel-Container">
 
-      <button className="sidebar-button" onClick={() => setVisible(!visible)}>|||</button>
+      <button className="sidebar-button" onClick={() => setVisible(!visible)}>
+        |||
+      </button>
 
       <div className="SidePanel" style={{ display: visible ? 'block' : 'none' }}>
-
 
         <div className="upload-container">
           <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>

@@ -37,12 +37,19 @@ models_dir = "models"
 # to tell code to utilise GPU
 device = "cuda"
 
-# API for the stability ai model
-API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
+# API for the stability ai model, currently seems to be down as of 15/11/2023
+stabilityai = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
+
+# API for the CompVis api, fast but low quality
+compvis = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4"
+
+# pixel art, works as of 15/11/23 and fast
+pixel_art = "https://api-inference.huggingface.co/models/nerijs/pixel-art-xl"
+
 headers = {"Authorization": f"Bearer {auth_token}"}
 
 # selected model (stabilityAi is default)
-SelectedModel = 'stable-diffusion-xl-base-1.0'
+SelectedModel = compvis
 
 class ModelRequest(BaseModel):
     model: str
@@ -55,6 +62,8 @@ def select_model(request_data: ModelRequest):
     if model == 'stable-diffusion-xl-base-1.0':
         SelectedModel = model
     elif model == 'CompVis/stable-diffusion-v1-4':
+        SelectedModel = model
+    elif model == "pixel-art-xl":
         SelectedModel = model
 
     return {"SelectedModel": SelectedModel}
@@ -71,12 +80,19 @@ def set_style(style_choice: ModelRequest):
     style = style_choice.style
     print(f"New style: {style}")
 
+    
 # function generate
 @app.post("/")
 def generate(prompt: str):
     if(SelectedModel == 'stable-diffusion-xl-base-1.0'):
+
+        # change url for stability ai
+        API_URL = stabilityai
+
         def stability_ai(payload):
             response = requests.post(API_URL, headers=headers, json=payload)
+            print(response)
+            print(payload)
             return response.content
 
         try:
@@ -88,7 +104,9 @@ def generate(prompt: str):
             print(f"using {prompt_with_style}")
 
             # Make a request to the Hugging Face model using the provided text prompt
-            image_bytes = stability_ai({"inputs": str(prompt_with_style)})
+            image_bytes = stability_ai({
+	            "inputs": prompt_with_style,
+            })
 
             # Try to open the image with PIL
             image = Image.open(BytesIO(image_bytes))
@@ -104,22 +122,75 @@ def generate(prompt: str):
             return f"Error generating image: {e}"
         
     elif(SelectedModel == 'CompVis/stable-diffusion-v1-4'):
-        print('using CompVis')
-        # model name and to download and use
-        model_id = "CompVis/stable-diffusion-v1-4"
-        pipe = StableDiffusionPipeline.from_pretrained(model_id, revision="fp16", torch_dtype=torch.float16, use_auth_token=auth_token, cache_dir=models_dir)
-        pipe.to(device)
+        # change url for stability ai
+        API_URL = compvis
 
-        print(prompt)
-        with autocast(device): 
-            image = pipe(prompt, guidance_scale=8.5).images[0]
+        def comp_vis(payload):
+            response = requests.post(API_URL, headers=headers, json=payload)
+            print(response)
+            print(payload)
+            return response.content
 
-        buffer = BytesIO()
-        image.save(buffer, format="PNG")
-        imgstr = base64.b64encode(buffer.getvalue())
+        try:
+            if style != '':
+                prompt_with_style = f"{prompt}, {style}"
+            else:
+                prompt_with_style = prompt
 
-        return Response(content=imgstr, media_type="image/png")
+            print(f"using {prompt_with_style}")
 
+            # Make a request to the Hugging Face model using the provided text prompt
+            image_bytes = comp_vis({
+	            "inputs": prompt_with_style,
+            })
+
+            # Try to open the image with PIL
+            image = Image.open(BytesIO(image_bytes))
+
+            # Convert the PIL Image to base64 format
+            buffer = BytesIO()
+            image.save(buffer, format="PNG")
+            imgstr = base64.b64encode(buffer.getvalue())
+
+            return Response(content=imgstr, media_type="image/png")
+        
+        except Exception as e:
+            return f"Error generating image: {e}"
+    elif(SelectedModel == "pixel-art-xl"):
+        # change url for pixel art model
+        API_URL = pixel_art
+
+        def pixel_art_xl(payload):
+            response = requests.post(API_URL, headers=headers, json=payload)
+            print(response)
+            print(payload)
+            return response.content
+
+        try:
+            if style != '':
+                prompt_with_style = f"{prompt}, {style}"
+            else:
+                prompt_with_style = prompt
+
+            print(f"using {prompt_with_style}")
+
+            # Make a request to the Hugging Face model using the provided text prompt
+            image_bytes = pixel_art_xl({
+	            "inputs": prompt_with_style,
+            })
+
+            # Try to open the image with PIL
+            image = Image.open(BytesIO(image_bytes))
+
+            # Convert the PIL Image to base64 format
+            buffer = BytesIO()
+            image.save(buffer, format="PNG")
+            imgstr = base64.b64encode(buffer.getvalue())
+
+            return Response(content=imgstr, media_type="image/png")
+        
+        except Exception as e:
+            return f"Error generating image: {e}"
 
 @app.post("/upload-pdf")
 async def upload_pdf(file: UploadFile):
@@ -147,3 +218,20 @@ async def upload_pdf(file: UploadFile):
     except Exception as e:
         print(f"Error processing the file: {e}")
         return JSONResponse(content={"message": "An error occurred while processing the file"}, status_code=500)
+
+# code for using local model using GPU
+# print('using CompVis')
+#         # model name and to download and use
+#         model_id = "CompVis/stable-diffusion-v1-4"
+#         pipe = StableDiffusionPipeline.from_pretrained(model_id, revision="fp16", torch_dtype=torch.float16, use_auth_token=auth_token, cache_dir=models_dir)
+#         pipe.to(device)
+
+#         print(prompt)
+#         with autocast(device): 
+#             image = pipe(prompt, guidance_scale=8.5).images[0]
+
+#         buffer = BytesIO()
+#         image.save(buffer, format="PNG")
+#         imgstr = base64.b64encode(buffer.getvalue())
+
+#         return Response(content=imgstr, media_type="image/png")

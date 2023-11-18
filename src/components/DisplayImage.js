@@ -15,7 +15,7 @@ function DisplayImage({ pdf }) {
             return result.data;
         } catch (error) {
             console.error("Something went wrong: ", error);
-            return null; // or handle the error appropriately
+            return null;
         }
     };
 
@@ -24,29 +24,35 @@ function DisplayImage({ pdf }) {
     const page = pdf?.rawtext?.[pageNumber];
     let paragraphs;
 
-    // loop through each summary and generate each image
-    useEffect(() => {
-        const generateImages = async () => {
-            const generatedImages = [];
-        
-            for (let i = 0; i < 3; i++) {
-                let prompt = pdf.summaries[i];
-        
-                console.log('generating images', i);
-        
-                if (prompt !== '') {
-                    const image = await generate(prompt);
-                    console.log("Generated image:", image);
-                    generatedImages.push(image);
-                } else {
-                    generatedImages.push(null);
-                }
-            }
-        
-            // Update state once after all images are generated
-            setAiImages(generatedImages);
-        };
+    const generateImages = async () => {
 
+        for (let i = 0; i < 25; i++) {
+            let prompt = pdf.summaries[i];
+
+            console.log('generating images', i);
+
+            if (prompt !== '') {
+                const image = await generate(prompt);
+                console.log("Generated image:", image);
+
+                // Update state with the new image as soon as it is generated
+                setAiImages((prevImages) => {
+                    const newImages = [...prevImages];
+                    newImages[i] = image;
+                    return newImages;
+                });
+            } else {
+                // Update state with null for empty prompts
+                setAiImages((prevImages) => {
+                    const newImages = [...prevImages];
+                    newImages[i] = null;
+                    return newImages;
+                });
+            }
+        }
+    };
+
+    useEffect(() => {
         if (pdf && pdf.summaries && pdf.summaries.length > 0) {
             generateImages();
         }
@@ -92,7 +98,11 @@ function DisplayImage({ pdf }) {
                             // Handle the error or set a placeholder image
                         }}
                     ></CImage>
-                ) : null}
+                ) :
+                    <div className="loading-spinner">
+                        Loading...
+                    </div>
+                }
             </div>
 
         </CContainer>

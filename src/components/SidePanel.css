@@ -72,3 +72,18 @@
         border: 2px solid rgb(41, 163, 185);
     }
 }
+
+.sidebar-button {
+    background-color: rgb(80, 136, 209);
+    color: #fff;
+    border: none;
+    border-radius: 1px;
+    height: 3vh;
+    width: 3vh;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-button:hover {
+    background-color: rgb(107, 158, 224);
+}
