@@ -1,0 +1,25 @@
+.story-displayImage {
+    background-color: rgb(224, 224, 224);
+    height: 94vh;
+    width: 150vh;
+    display: flex;
+
+    user-select: none;
+}
+
+.story-firstpage {
+    width: 50%;
+    background-color: rgb(235, 240, 238);
+    
+}
+
+.story-secondpage {
+    width: 50%;
+    background-color: rgb(223, 227, 247);
+}
+
+.image {
+    padding: 1%;
+    width: 100%;
+    height: auto;
+}

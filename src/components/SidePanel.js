@@ -1,17 +1,19 @@
-import { CButton, CContainer, CForm, CFormInput, CImage, CSidebar } from "@coreui/react";
+import { CButton, CContainer } from "@coreui/react";
 import { React, useState, useEffect } from "react"
 import axios from "axios";
 import FileDropComponent from "./FileDropComponent";
 import SelectModel from "./SelectModel";
 import "./SidePanel.css"
 import StyleDrop from "./StyleDrop";
-import { CNav, CNavItem, CNavLink, CTabPane, CTabContent } from "@coreui/react";
+import { CNav, CTabPane, CTabContent } from "@coreui/react";
+import StoryGeneration from "./StoryGeneration";
 
 function SidePanel({ props }) {
 
   const [visible, setVisible] = useState(true);
   const [model, updateModel] = useState('');
   const [dropFileData, setDropFileData] = useState();
+  const [activeKey, setActiveKey] = useState(1)
 
   // set the uploaded file from dropFileData
   const setFile = () => {
@@ -27,7 +29,6 @@ function SidePanel({ props }) {
   const sendFile = () => {
     setFile();
   }
-
 
   // to allow for changing of ai models from backend
   const chooseModel = async (e) => {
@@ -48,8 +49,12 @@ function SidePanel({ props }) {
     chooseModel();
   }, [model]);
 
+  useEffect(() => {
+    props({
+      display: activeKey
+    });
+  }, [activeKey])
 
-  const [activeKey, setActiveKey] = useState(1)
 
   return (
 
@@ -102,7 +107,7 @@ function SidePanel({ props }) {
           </CTabPane>
 
           <CTabPane className="tab-content"  visible={activeKey === 2}>
-            TO BE DONE
+            <StoryGeneration></StoryGeneration>
           </CTabPane>
 
         </CTabContent>

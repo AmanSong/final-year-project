@@ -79,7 +79,8 @@
     border: none;
     border-radius: 1px;
     height: 3vh;
-    width: 3vh;
+    width: 1.75vw;
+    font-size: 1.5vh;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }

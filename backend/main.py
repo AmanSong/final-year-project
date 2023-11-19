@@ -218,6 +218,26 @@ async def upload_pdf(file: UploadFile):
     except Exception as e:
         print(f"Error processing the file: {e}")
         return JSONResponse(content={"message": "An error occurred while processing the file"}, status_code=500)
+    
+
+@app.post("/story")
+def generate(prompt: str):
+    API_URL = "https://api-inference.huggingface.co/models/gpt2"
+
+    def query(payload):
+        response = requests.post(API_URL, headers=headers, json=payload)
+        return response.json()
+
+    story = query({
+        "inputs": prompt,
+        "max_length": 1000,
+    })
+
+    response_content = {
+        "story": story,
+    }
+    return JSONResponse(content=response_content, status_code=200)
+
 
 # code for using local model using GPU
 # print('using CompVis')
