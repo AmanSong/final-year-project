@@ -5,39 +5,30 @@ import axios from "axios";
 function StoryGeneration() {
 
     const [storyInput, setStoryInput] = useState('');
-    const [generatedText, setGeneratedText] = useState('');
-    const [fullStory, setFullStory] = useState('');
+    const [story, setStory] = useState('')
 
     // api to generate story
-    // const generateStory = async (prompt) => {
-    //     try {
-    //         const result = await axios.post(`http://127.0.0.1:8000/story/?prompt=${prompt}`);
-    //         return result.data;
-    //     } catch (error) {
-    //         console.error("Something went wrong: ", error);
-    //         return null;
-    //     }
-    // };
+    const generateStory = async (prompt) => {
+        try {
+          const response = await axios.post("http://127.0.0.1:8000/story", {
+            story_prompt : prompt
+          }, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          return response.data
+        } catch (error) {
+          console.error("Error sending data:", error);
+        }
+      }
 
-    // let Final = storyInput;
-
-    // const submitStory = async () => {
-    // //   for (let i = 0; i < 5; i++) {
-    //     const result = await generateStory(Final);
-    //     const generatedText = result.story[0].generated_text;
+    const submitStory = async () => {
+        const result = await generateStory(storyInput)
+        setStory(result.generated_story)
+        console.log(story)
+    };
     
-    //     // Start with the new generated text in each iteration
-    //     Final = generatedText;
-    
-    //     console.log(Final);
-    // //   }
-    
-    //   console.log('Final Result:', Final);
-    // };
-    
-    
-    
-
     return (
         <div>
             <CForm>
@@ -51,9 +42,8 @@ function StoryGeneration() {
             </CForm>
 
             <CContainer className="submit-story">
-                <CButton onClick={submitStory}>Submit</CButton>
+                <CButton onClick={() => submitStory()}>Submit</CButton>
             </CContainer>
-
             <p></p>
         </div>
     );

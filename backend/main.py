@@ -15,6 +15,7 @@ from fastapi import FastAPI, UploadFile
 from fastapi.responses import JSONResponse
 
 from extract import read
+from story import generateStory
 
 app = FastAPI()
 
@@ -220,23 +221,23 @@ async def upload_pdf(file: UploadFile):
         return JSONResponse(content={"message": "An error occurred while processing the file"}, status_code=500)
     
 
+class ModelRequest(BaseModel):
+    story_prompt: str
+
 @app.post("/story")
-def generate(prompt: str):
-    API_URL = "https://api-inference.huggingface.co/models/gpt2"
+def generate(request: ModelRequest):
+    try:
+        generatedStory = generateStory(request.story_prompt)
 
-    def query(payload):
-        response = requests.post(API_URL, headers=headers, json=payload)
-        return response.json()
+        response_content = {
+            "message": "Story generated succesfully",
+            "generated_story": generatedStory
+        }
 
-    story = query({
-        "inputs": prompt,
-        "max_length": 1000,
-    })
-
-    response_content = {
-        "story": story,
-    }
-    return JSONResponse(content=response_content, status_code=200)
+        return JSONResponse(content=response_content, status_code=200)
+    except Exception as e:
+        print(f"Error processing the file: {e}")
+        return JSONResponse(content={"message": "An error occured while generating the story"}, status_code=500)
 
 
 # code for using local model using GPU

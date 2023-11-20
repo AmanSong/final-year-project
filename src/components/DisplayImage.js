@@ -23,7 +23,7 @@ function DisplayImage({ pdf }) {
     // grab the raw text
     const pages = pdf?.rawtext?.length;
     const page = pdf?.rawtext?.[pageNumber];
-    let paragraphs;
+    //let paragraphs;
 
     const generateImages = async () => {
         setIsGenerating(true)
@@ -64,11 +64,11 @@ function DisplayImage({ pdf }) {
 
 
     // allow users to flip through the story
-    if (page) {
-        paragraphs = page.split('\n');
-    } else {
-        paragraphs = [];
-    }
+    // if (page) {
+    //     paragraphs = page.split('\n');
+    // } else {
+    //     paragraphs = [];
+    // }
 
     const nextPage = () => {
         // turn next page but prevent from going if there is no more pages
