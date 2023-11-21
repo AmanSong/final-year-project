@@ -1,0 +1,28 @@
+.story-tab {
+    background-color: aliceblue;
+    padding: 5%;
+}
+
+.form-input {
+    text-align: center;
+    background-color: rgb(231, 231, 231);
+    padding: 2%;
+}
+
+.submit-story {
+    text-align: center;
+    margin-top: 10%;
+}
+
+.submit-story button {
+    background-color: #9834db;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-story button:hover {
+    background-color: #7920a2;
+}

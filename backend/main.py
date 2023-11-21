@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import JSONResponse
 
-from extract import read
+from extract import read, summarize_pages
 from story import generateStory
 
 app = FastAPI()
@@ -229,9 +229,12 @@ def generate(request: ModelRequest):
     try:
         generatedStory = generateStory(request.story_prompt)
 
+        imagePrompt = summarize_pages(generatedStory)
+
         response_content = {
             "message": "Story generated succesfully",
-            "generated_story": generatedStory
+            "generated_story": generatedStory,
+            "imagePrompt": imagePrompt,
         }
 
         return JSONResponse(content=response_content, status_code=200)

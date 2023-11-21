@@ -7,6 +7,16 @@
     user-select: none;
 }
 
+.story-text {
+    width: 90%;
+    padding: 2%;
+    justify-content: center;
+    margin: auto;
+    margin-top: 5%;
+    font-size: 1.7vh;
+    background-color: rgb(245, 242, 239);
+}
+
 .story-firstpage {
     width: 50%;
     background-color: rgb(235, 240, 238);

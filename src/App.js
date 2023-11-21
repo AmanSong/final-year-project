@@ -12,12 +12,13 @@ function App() {
   const [generatedImage, updateGeneratedImage] = useState(null);
   const [PDF, setPDF] = useState(null);
   const [Display, SetDisplay] = useState(1);
-  const [story, setStory] = useState('');
+  const [story, setStory] = useState();
 
   const handleProps = (propsData) => {
     const { image, text, display, story } = propsData;
     console.log(propsData)
     console.log(display)
+    console.log(story)
     SetDisplay(display)
     setPDF(text);
     updateGeneratedImage(image);

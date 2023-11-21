@@ -35,7 +35,7 @@ function DisplayImage({ pdf }) {
 
     const generateImages = async () => {
         setIsGenerating(true)
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 20; i++) {
             let prompt = pdf.summaries[i];
 
             console.log('generating images', i);
