@@ -35,6 +35,7 @@ function DisplayStory({ story }) {
         if (Story && Story.imagePrompt && Story.imagePrompt[0]) {
             let prompt = Story.imagePrompt[0];
             const image = await generate(prompt);
+            console.log(image)
             setImages(image);
         }
     };
@@ -45,65 +46,6 @@ function DisplayStory({ story }) {
         }
     }, [Story])
 
-    // const generateImages = async () => {
-    //     setIsGenerating(true)
-    //     for (let i = 0; i < 25; i++) {
-    //         let prompt = pdf.summaries[i];
-
-    //         console.log('generating images', i);
-
-    //         if (prompt !== '') {
-    //             const image = await generate(prompt);
-    //             console.log("Generated image:", image);
-
-    //             // Update state with the new image as soon as it is generated
-    //             setAiImages((prevImages) => {
-    //                 const newImages = [...prevImages];
-    //                 newImages[i] = image;
-    //                 return newImages;
-    //             });
-    //         } else {
-    //             // Update state with null for empty prompts
-    //             setAiImages((prevImages) => {
-    //                 const newImages = [...prevImages];
-    //                 newImages[i] = null;
-    //                 return newImages;
-    //             });
-    //         }
-    //     }
-
-    //     setIsGenerating(false)
-    // };
-
-    // useEffect(() => {
-    //     if (pdf && pdf.summaries && pdf.summaries.length > 0) {
-    //         generateImages();
-    //     }
-    // }, [pdf]);
-
-
-    // // allow users to flip through the story
-    // if (page) {
-    //     paragraphs = page.split('\n');
-    // } else {
-    //     paragraphs = [];
-    // }
-
-    // const nextPage = () => {
-    //     // turn next page but prevent from going if there is no more pages
-    //     if (pageNumber == pages) {
-    //         return
-    //     }
-    //     setPageNumber(pageNumber + 1)
-    // }
-
-    // const prevPage = () => {
-    //     if (pageNumber === 0) {
-    //         return
-    //     }
-    //     setPageNumber(pageNumber - 1)
-    // }
-    console.log(images)
     return (
         <CContainer className="story-displayImage">
 
