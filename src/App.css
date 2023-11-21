@@ -34,3 +34,7 @@
 ::-webkit-scrollbar-track {
   background-color: #f1f1f1;
 }
+
+.display-container {
+  margin-right: 2.5vw;
+}

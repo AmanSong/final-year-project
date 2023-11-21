@@ -8,6 +8,14 @@ function DisplayImage({ pdf }) {
     const [pageNumber, setPageNumber] = useState(0);
     const [aiImages, setAiImages] = useState([]);
     const [isGenerating, setIsGenerating] = useState(false);
+    const [PDF, SetPDF] = useState();
+
+    useEffect(() => {
+        // store pdf in local state to prevent losing images
+        if (pdf) {
+            SetPDF(pdf);
+        }
+    }, [pdf]);
 
     // api to generate images
     const generate = async (prompt) => {
@@ -27,7 +35,7 @@ function DisplayImage({ pdf }) {
 
     const generateImages = async () => {
         setIsGenerating(true)
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 2; i++) {
             let prompt = pdf.summaries[i];
 
             console.log('generating images', i);
@@ -84,12 +92,11 @@ function DisplayImage({ pdf }) {
         }
         setPageNumber(pageNumber - 1)
     }
-
     return (
         <CContainer className="displayImage">
 
             <div className="firstpage" onClick={() => prevPage()}>
-                {pdf?.images ? <img className="pdf" src={`data:image/png;base64,${pdf?.images?.[pageNumber]}`} alt="Base64 Image" draggable="false" /> : null}
+                {PDF?.images ? <img className="pdf" src={`data:image/png;base64,${PDF?.images?.[pageNumber]}`} alt="Base64 Image" draggable="false" /> : null}
             </div>
 
             <div className="secondpage" onClick={() => nextPage()}>
@@ -104,7 +111,7 @@ function DisplayImage({ pdf }) {
                     ></CImage>
                 ) :
                     <div className="loading-spinner">
-                        {isGenerating ? 'Loading...': null}
+                        {isGenerating ? 'Loading...' : null}
                     </div>
                 }
             </div>

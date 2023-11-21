@@ -12,14 +12,16 @@ function App() {
   const [generatedImage, updateGeneratedImage] = useState(null);
   const [PDF, setPDF] = useState(null);
   const [Display, SetDisplay] = useState(1);
+  const [story, setStory] = useState('');
 
   const handleProps = (propsData) => {
-    const { image, text, display } = propsData;
+    const { image, text, display, story } = propsData;
     console.log(propsData)
     console.log(display)
     SetDisplay(display)
     setPDF(text);
     updateGeneratedImage(image);
+    setStory(story);
   };
 
   return (
@@ -32,10 +34,13 @@ function App() {
       <div className="components">
         <SidePanel props={handleProps}></SidePanel>
 
-        {Display === 1 ? 
-        <DisplayImage image={generatedImage} pdf={PDF}></DisplayImage> 
-        :
-        <DisplayStory></DisplayStory>}
+        <div className="display-container" style={{ display: Display === 1 ? 'block' : 'none' }}>
+          <DisplayImage image={generatedImage} pdf={PDF}></DisplayImage>
+        </div>
+
+        <div className="display-container" style={{ display: Display === 2 ? 'block' : 'none' }}>
+          <DisplayStory story={story}></DisplayStory>
+        </div>
       </div>
 
     </div>

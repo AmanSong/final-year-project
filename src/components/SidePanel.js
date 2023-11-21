@@ -14,12 +14,14 @@ function SidePanel({ props }) {
   const [model, updateModel] = useState('');
   const [dropFileData, setDropFileData] = useState();
   const [activeKey, setActiveKey] = useState(1)
+  const [getStory, setGetStory] = useState('')
 
   // set the uploaded file from dropFileData
   const setFile = () => {
     setDropFileData((prevDropFileData) => {
       props({
-        text: prevDropFileData
+        text: prevDropFileData,
+        display: activeKey
       });
       console.log('worked', prevDropFileData);
       return prevDropFileData;
@@ -55,6 +57,17 @@ function SidePanel({ props }) {
     });
   }, [activeKey])
 
+
+  const handle_story_props = (propsData) => {
+    const { story} = propsData;
+    setGetStory(story)
+  }
+  useEffect(() => {
+    props({
+      display: activeKey,
+      story: getStory
+    }, [getStory]);
+  })
 
   return (
 
@@ -107,7 +120,7 @@ function SidePanel({ props }) {
           </CTabPane>
 
           <CTabPane className="tab-content"  visible={activeKey === 2}>
-            <StoryGeneration></StoryGeneration>
+            <StoryGeneration story_props={handle_story_props}></StoryGeneration>
           </CTabPane>
 
         </CTabContent>

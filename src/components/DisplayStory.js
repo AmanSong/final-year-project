@@ -3,7 +3,7 @@ import { React, useState, useEffect } from "react"
 import axios from "axios";
 import './DisplayStory.css'
 
-function DisplayStory() {
+function DisplayStory({story}) {
 
     const [pageNumber, setPageNumber] = useState(0);
     const [aiImages, setAiImages] = useState([]);
@@ -83,7 +83,7 @@ function DisplayStory() {
         <CContainer className="story-displayImage">
 
             <div className="story-firstpage">
-
+                {story}
             </div>
 
             <div className="story-secondpage">
