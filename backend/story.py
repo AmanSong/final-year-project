@@ -17,18 +17,23 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
 def generateStory(input_prompt):
+    print(input_prompt)
     prompt = input_prompt
 
     # Tokenize the prompt using tokenizer
-    input_ids = tokenizer.encode(prompt, return_tensors="pt")
+    input_ids = tokenizer.encode(prompt, return_tensors="pt").to(device)
 
     # Generate text with the model using tokenized prompt, how long to generate
-    output = model.generate(input_ids, max_length=100, num_beams=5, num_return_sequences=1, no_repeat_ngram_size=2)
+    generated_text = model.generate(
+                                input_ids,
+                                do_sample = True, 
+                                max_length = 300,
+                                #temperature = 0.8,
+                                top_k = 50, 
+                                top_p = 0.85,
+                                #num_return_sequences=1
+    )
 
-    # Decode the generated output
-    generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
+    decoded_text = [tokenizer.decode(sequence, skip_special_tokens=True) for sequence in generated_text]
 
-    # Print the generated story
-    return generated_text
-
-
+    return decoded_text

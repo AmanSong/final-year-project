@@ -3,7 +3,15 @@ import { React, useState, useEffect } from "react"
 import axios from "axios";
 import './DisplayStory.css'
 
-function DisplayStory({story}) {
+function DisplayStory({ story }) {
+
+    const [Story, SetStory] = useState('')
+
+    useEffect(() => {
+        SetStory(story?.[0])
+    }, [story])
+
+    const paragraphs = Story.split('\n\n');
 
     const [pageNumber, setPageNumber] = useState(0);
     const [aiImages, setAiImages] = useState([]);
@@ -78,16 +86,20 @@ function DisplayStory({story}) {
     //     }
     //     setPageNumber(pageNumber - 1)
     // }
-
+    console.log(Story)
     return (
         <CContainer className="story-displayImage">
 
             <div className="story-firstpage">
-                {story}
+                {paragraphs.map((paragraph, index) => (
+                    <p key={index}>
+                        {paragraph}
+                    </p>
+                ))}
             </div>
 
             <div className="story-secondpage">
-                
+
             </div>
 
         </CContainer>
