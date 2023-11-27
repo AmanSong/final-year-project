@@ -49,7 +49,7 @@ pixel_art = "https://api-inference.huggingface.co/models/nerijs/pixel-art-xl"
 
 headers = {"Authorization": f"Bearer {auth_token}"}
 
-# selected model (stabilityAi is default)
+# selected model (compvis is default)
 SelectedModel = compvis
 
 class ModelRequest(BaseModel):
@@ -67,6 +67,7 @@ def select_model(request_data: ModelRequest):
     elif model == "pixel-art-xl":
         SelectedModel = model
 
+    print(f'Selected Model: {SelectedModel}')
     return {"SelectedModel": SelectedModel}
 
 class ModelRequest(BaseModel):
@@ -86,6 +87,8 @@ def set_style(style_choice: ModelRequest):
 @app.post("/")
 def generate(prompt: str):
     if(SelectedModel == 'stable-diffusion-xl-base-1.0'):
+
+        print('Using stable')
 
         # change url for stability ai
         API_URL = stabilityai
@@ -123,6 +126,9 @@ def generate(prompt: str):
             return f"Error generating image: {e}"
         
     elif(SelectedModel == 'CompVis/stable-diffusion-v1-4'):
+
+        print('Using CompVis')
+
         # change url for stability ai
         API_URL = compvis
 
@@ -158,6 +164,8 @@ def generate(prompt: str):
         except Exception as e:
             return f"Error generating image: {e}"
     elif(SelectedModel == "pixel-art-xl"):
+        print('Using pixel')
+
         # change url for pixel art model
         API_URL = pixel_art
 

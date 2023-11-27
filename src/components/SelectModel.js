@@ -9,21 +9,30 @@ function SelectModel({ selectedModel }) {
     const [highlight, setHighlight] = useState(false)
     const [selected, SetSelected] = useState('CompVis/stable-diffusion-v1-4')
 
-    useEffect(() => {
-        setHighlight(true); 
-    }, []);
-
     const dropdownSelect = (value) => {
-        if (value === selected) {
-            setHighlight(false);
-            SetSelected('');
-        } else {
-            // Toggle highlight when the same style button is clicked
-            setHighlight(true);
-            SetSelected(value);
-        }
-        selectedModel(value)
+        // Toggle highlight when the same style button is clicked
+        SetSelected((prevSelected) => (prevSelected === value ? '' : value));
     };
+    
+    // Automatically call selectedModel when the component mounts or selected model changes
+    useEffect(() => {
+        // Get the selected model from local storage
+        const storedModel = localStorage.getItem('selectedModel');
+    
+        if (storedModel) {
+            SetSelected(storedModel);
+            selectedModel(storedModel);
+        }
+    }, []); // The empty dependency array ensures this effect runs only once, on mount
+    
+    // Update local storage and call selectedModel when the selected model changes
+    useEffect(() => {
+        if (selected) {
+            localStorage.setItem('selectedModel', selected);
+            selectedModel(selected);
+            setHighlight(true)
+        }
+    }, [selected]);
 
     return (
         <div>
