@@ -9,7 +9,7 @@ import DisplayStory from "./components/DisplayStory";
 
 function App() {
 
-  const [generatedImage, updateGeneratedImage] = useState(null);
+  //const [generatedImage, updateGeneratedImage] = useState(null);
   const [PDF, setPDF] = useState(null);
   const [Display, SetDisplay] = useState(1);
   const [story, setStory] = useState();
@@ -19,9 +19,10 @@ function App() {
     console.log(propsData)
     console.log(display)
     console.log(story)
+    //console.log(generatedImage)
     SetDisplay(display)
     setPDF(text);
-    updateGeneratedImage(image);
+    //updateGeneratedImage(image);
     setStory(story);
   };
 
@@ -36,7 +37,7 @@ function App() {
         <SidePanel props={handleProps}></SidePanel>
 
         <div className="display-container" style={{ display: Display === 1 ? 'block' : 'none' }}>
-          <DisplayImage image={generatedImage} pdf={PDF}></DisplayImage>
+          <DisplayImage pdf={PDF}></DisplayImage>
         </div>
 
         <div className="display-container" style={{ display: Display === 2 ? 'block' : 'none' }}>

@@ -59,7 +59,7 @@ function SidePanel({ props }) {
 
 
   const handle_story_props = (propsData) => {
-    const { story} = propsData;
+    const { story } = propsData;
     setGetStory(story)
   }
   useEffect(() => {

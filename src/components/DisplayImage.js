@@ -1,4 +1,4 @@
-import { CContainer, CImage } from "@coreui/react";
+import { CButton, CContainer, CImage } from "@coreui/react";
 import { React, useState, useEffect } from "react"
 import axios from "axios";
 import './DisplayImage.css'
@@ -10,12 +10,18 @@ function DisplayImage({ pdf }) {
     const [isGenerating, setIsGenerating] = useState(false);
     const [PDF, SetPDF] = useState();
 
+    // grab the raw text
+    const pages = PDF?.rawtext?.length;
+    const page = PDF?.rawtext?.[pageNumber];
+
     useEffect(() => {
         // store pdf in local state to prevent losing images
         if (pdf) {
             SetPDF(pdf);
+            console.log(pdf)
         }
     }, [pdf]);
+
 
     // api to generate images
     const generate = async (prompt) => {
@@ -28,15 +34,10 @@ function DisplayImage({ pdf }) {
         }
     };
 
-    // grab the raw text
-    const pages = pdf?.rawtext?.length;
-    const page = pdf?.rawtext?.[pageNumber];
-    //let paragraphs;
-
     const generateImages = async () => {
         setIsGenerating(true)
-        for (let i = 0; i < 20; i++) {
-            let prompt = pdf.summaries[i];
+        for (let i = 0; i < pages; i++) {
+            let prompt = PDF.summaries[i];
 
             console.log('generating images', i);
 
@@ -64,29 +65,22 @@ function DisplayImage({ pdf }) {
     };
 
     useEffect(() => {
-
-        if (pdf && pdf.summaries && pdf.summaries.length > 0) {
+        if (PDF && PDF.summaries && PDF.summaries.length > 0) {
             generateImages();
         }
-    }, [pdf]);
+    }, [PDF]);
 
-
-    // allow users to flip through the story
-    // if (page) {
-    //     paragraphs = page.split('\n');
-    // } else {
-    //     paragraphs = [];
-    // }
 
     const nextPage = () => {
         // turn next page but prevent from going if there is no more pages
-        if (pageNumber == pages) {
+        if (pageNumber === pages-1) {
             return
         }
         setPageNumber(pageNumber + 1)
     }
 
     const prevPage = () => {
+        // turn next page but prevent from going if there is no more pages
         if (pageNumber === 0) {
             return
         }
@@ -114,6 +108,7 @@ function DisplayImage({ pdf }) {
                         {isGenerating ? 'Loading...' : null}
                     </div>
                 }
+                <CButton className="stopButton">Stop</CButton>
             </div>
 
         </CContainer>
