@@ -1,5 +1,5 @@
 import { CButton, CContainer, CImage } from "@coreui/react";
-import { React, useState, useEffect } from "react"
+import { React, useState, useEffect, useRef  } from "react"
 import axios from "axios";
 import './DisplayImage.css'
 
@@ -35,11 +35,11 @@ function DisplayImage({ pdf }) {
     };
 
     const generateImages = async () => {
-        setIsGenerating(true)
         for (let i = 0; i < pages; i++) {
             let prompt = PDF.summaries[i];
 
             console.log('generating images', i);
+            console.log(isGenerating)
 
             if (prompt !== '') {
                 const image = await generate(prompt);
@@ -60,16 +60,21 @@ function DisplayImage({ pdf }) {
                 });
             }
         }
-
-        setIsGenerating(false)
     };
 
+    // to call set is generating to true to allow generation
     useEffect(() => {
         if (PDF && PDF.summaries && PDF.summaries.length > 0) {
-            generateImages();
+            setIsGenerating(true)
         }
     }, [PDF]);
 
+    // to begin genration of images depending on if its set to true or not
+    useEffect(() => {
+        if(isGenerating === true) {
+            generateImages();
+        }
+    }, [isGenerating])
 
     const nextPage = () => {
         // turn next page but prevent from going if there is no more pages
@@ -86,6 +91,12 @@ function DisplayImage({ pdf }) {
         }
         setPageNumber(pageNumber - 1)
     }
+
+    const stopGenerate = () => {
+        setIsGenerating(false)
+        console.log('stopping')
+    }
+
     return (
         <CContainer className="displayImage">
 
@@ -108,8 +119,8 @@ function DisplayImage({ pdf }) {
                         {isGenerating ? 'Loading...' : null}
                     </div>
                 }
-                <CButton className="stopButton">Stop</CButton>
             </div>
+            <CButton onClick={() => stopGenerate()} className="stopButton">Stop</CButton>
 
         </CContainer>
     );
