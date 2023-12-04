@@ -43,6 +43,10 @@ function DisplayImage({ pdf }) {
 
             if (prompt !== '') {
                 const image = await generate(prompt);
+                if(image === null || image.includes('Error generating image') ) {
+                    alert('Model seems to be down!')
+                    break;
+                }
                 console.log("Generated image:", image);
 
                 // Update state with the new image as soon as it is generated
@@ -120,7 +124,6 @@ function DisplayImage({ pdf }) {
                     </div>
                 }
             </div>
-            <CButton onClick={() => stopGenerate()} className="stopButton">Stop</CButton>
 
         </CContainer>
     );

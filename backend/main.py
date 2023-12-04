@@ -47,6 +47,9 @@ compvis = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-
 # pixel art, works as of 15/11/23 and fast
 pixel_art = "https://api-inference.huggingface.co/models/nerijs/pixel-art-xl"
 
+# Waifu diffusion, a model that seems to be trained on anime style art
+waifu_diffusion = "https://api-inference.huggingface.co/models/hakurei/waifu-diffusion"
+
 headers = {"Authorization": f"Bearer {auth_token}"}
 
 # selected model (compvis is default)
@@ -65,6 +68,8 @@ def select_model(request_data: ModelRequest):
     elif model == 'CompVis/stable-diffusion-v1-4':
         SelectedModel = model
     elif model == "pixel-art-xl":
+        SelectedModel = model
+    elif model == "waifu-diffusion":
         SelectedModel = model
 
     print(f'Selected Model: {SelectedModel}')
@@ -163,6 +168,7 @@ def generate(prompt: str):
         
         except Exception as e:
             return f"Error generating image: {e}"
+        
     elif(SelectedModel == "pixel-art-xl"):
         print('Using pixel')
 
@@ -185,6 +191,44 @@ def generate(prompt: str):
 
             # Make a request to the Hugging Face model using the provided text prompt
             image_bytes = pixel_art_xl({
+	            "inputs": prompt_with_style,
+            })
+
+            # Try to open the image with PIL
+            image = Image.open(BytesIO(image_bytes))
+
+            # Convert the PIL Image to base64 format
+            buffer = BytesIO()
+            image.save(buffer, format="PNG")
+            imgstr = base64.b64encode(buffer.getvalue())
+
+            return Response(content=imgstr, media_type="image/png")
+        
+        except Exception as e:
+            return f"Error generating image: {e}"
+        
+    elif(SelectedModel == "waifu-diffusion"):
+        print('Using waifu')
+
+        # change url for pixel art model
+        API_URL = waifu_diffusion
+
+        def waifuDiffusion(payload):
+            response = requests.post(API_URL, headers=headers, json=payload)
+            print(response)
+            print(payload)
+            return response.content
+
+        try:
+            if style != '':
+                prompt_with_style = f"{prompt}, {style}"
+            else:
+                prompt_with_style = prompt
+
+            print(f"using {prompt_with_style}")
+
+            # Make a request to the Hugging Face model using the provided text prompt
+            image_bytes = waifuDiffusion({
 	            "inputs": prompt_with_style,
             })
 

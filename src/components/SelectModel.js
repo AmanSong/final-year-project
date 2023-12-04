@@ -57,6 +57,12 @@ function SelectModel({ selectedModel }) {
                         Pixel-Art-XL <br></br>
                         -fast, good quality, no style needed-
                     </CButton>
+                    <CButton
+                        onClick={() => dropdownSelect('waifu-diffusion')}
+                        className={`model-button ${highlight && selected === 'waifu-diffusion' ? 'highlighted' : ''}`}>
+                        Waifu-Diffusion <br></br>
+                        -fast, low quality, can produce broken images-
+                    </CButton>
                 </CCard>
             </CCollapse>
         </div>
