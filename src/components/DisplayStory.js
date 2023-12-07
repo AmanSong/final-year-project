@@ -31,6 +31,7 @@ function DisplayStory({ story }) {
         }
     };
 
+    // generate each image for the generated story
     const generateImage = async () => {
         if (Story && Story.imagePrompt && Story.imagePrompt[0]) {
             let prompt = Story.imagePrompt[0];
@@ -40,6 +41,7 @@ function DisplayStory({ story }) {
         }
     };
 
+    // if a story has been generated, call the generateImage function
     useEffect(() => {
         if (Story) {
             generateImage()
@@ -49,6 +51,7 @@ function DisplayStory({ story }) {
     return (
         <CContainer className="story-displayImage">
 
+            {/* Display the generated text */}
             <div className="story-firstpage">
                 <div className="story-text">
                     {paragraphs.map((paragraph, index) => (
@@ -58,7 +61,8 @@ function DisplayStory({ story }) {
                     ))}
                 </div>
             </div>
-
+            
+            {/* display the generated image */}
             <div className="story-secondpage">
                 {images && images.length > 0 ? (
                     <CImage

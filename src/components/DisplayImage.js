@@ -34,15 +34,19 @@ function DisplayImage({ pdf }) {
         }
     };
 
+    // this is code to generate images for each page
     const generateImages = async () => {
         for (let i = 0; i < pages; i++) {
+            // get the prompt generated
             let prompt = PDF.summaries[i];
 
             console.log('generating images', i);
             console.log(isGenerating)
 
+            // if prompt is not empty, call the api to generate image
             if (prompt !== '') {
                 const image = await generate(prompt);
+                // check if the image returned has an error, meaning API is down or unavailable
                 if(image === null || image.includes('Error generating image') ) {
                     alert('Model seems to be down!')
                     break;
@@ -73,7 +77,7 @@ function DisplayImage({ pdf }) {
         }
     }, [PDF]);
 
-    // to begin genration of images depending on if its set to true or not
+    // to begin generation of images depending on if its set to true or not
     useEffect(() => {
         if(isGenerating === true) {
             generateImages();
@@ -96,14 +100,16 @@ function DisplayImage({ pdf }) {
         setPageNumber(pageNumber - 1)
     }
 
-    const stopGenerate = () => {
-        setIsGenerating(false)
-        console.log('stopping')
-    }
+    // tried to stop generating image
+    // const stopGenerate = () => {
+    //     setIsGenerating(false)
+    //     console.log('stopping')
+    // }
 
     return (
         <CContainer className="displayImage">
 
+            {/* this is to display the PDF pages that was uploaded */}
             <div className="firstpage" onClick={() => prevPage()}>
                 {PDF?.images ? <img className="pdf" src={`data:image/png;base64,${PDF?.images?.[pageNumber]}`} alt="Base64 Image" draggable="false" /> : null}
             </div>
@@ -119,6 +125,7 @@ function DisplayImage({ pdf }) {
                         }}
                     ></CImage>
                 ) :
+                    // display Loading while isGenerating is true
                     <div className="loading-spinner">
                         {isGenerating ? 'Loading...' : null}
                     </div>

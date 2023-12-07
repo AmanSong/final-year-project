@@ -17,9 +17,11 @@ from fastapi.responses import JSONResponse
 from extract import read, summarize_pages
 from story import generateStory
 
+# create FastAPI instances
 app = FastAPI()
 
 # allow for requests between server and application
+# this is really bad to do but this is just prototyping
 app.add_middleware(
     CORSMiddleware, 
     allow_credentials=True, 
@@ -58,6 +60,7 @@ SelectedModel = compvis
 class ModelRequest(BaseModel):
     model: str
 
+# endpoint for selecting model
 @app.post("/selectModel")
 def select_model(request_data: ModelRequest):
     global SelectedModel
@@ -75,6 +78,9 @@ def select_model(request_data: ModelRequest):
     print(f'Selected Model: {SelectedModel}')
     return {"SelectedModel": SelectedModel}
 
+
+
+# endpoint for selecting styles
 class ModelRequest(BaseModel):
     style: str
 
@@ -245,6 +251,7 @@ def generate(prompt: str):
         except Exception as e:
             return f"Error generating image: {e}"
 
+# endpoint for uploaded
 @app.post("/upload-pdf")
 async def upload_pdf(file: UploadFile):
     try:
@@ -272,13 +279,14 @@ async def upload_pdf(file: UploadFile):
         print(f"Error processing the file: {e}")
         return JSONResponse(content={"message": "An error occurred while processing the file"}, status_code=500)
     
-
+# endpoint for creating stories
 class ModelRequest(BaseModel):
     story_prompt: str
 
 @app.post("/story")
 def generate(request: ModelRequest):
     try:
+        # use story.py to generate story
         generatedStory = generateStory(request.story_prompt)
 
         imagePrompt = summarize_pages(generatedStory)

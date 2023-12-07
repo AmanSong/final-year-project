@@ -8,6 +8,7 @@ function FileDropComponent({ onDataExtracted }) {
 
     const [fileName, setFileName] = useState('');
 
+    // this is the drop file component using the react-dropzone library
     const onDrop = useCallback(async (acceptedFiles) => {
         const file = acceptedFiles[0];
         const formData = new FormData();
@@ -31,6 +32,7 @@ function FileDropComponent({ onDataExtracted }) {
         }
     }, []);
 
+    // if a user drops file, accept only PDF and call function
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: '.pdf',
@@ -44,6 +46,7 @@ function FileDropComponent({ onDataExtracted }) {
             <CCollapse  visible={visible}>
                 <CCard id="upload-drop-container">
                     <CCardBody id="upload-drop-card">
+                        {/* Handle user file drops */}
                         <div {...getRootProps()} className="filedrop">
                             <input {...getInputProps()} />
                             <h4 className="upload-label">{fileName ? fileName : 'Upload File'}</h4>

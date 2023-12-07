@@ -5,6 +5,7 @@ import './SelectModel.css'
 
 function SelectModel({ selectedModel }) {
 
+    // these variables are here to just make the buttons highlight when selected
     const [visible, setVisible] = useState(false)
     const [highlight, setHighlight] = useState(false)
     const [selected, SetSelected] = useState('CompVis/stable-diffusion-v1-4')
@@ -23,7 +24,7 @@ function SelectModel({ selectedModel }) {
             SetSelected(storedModel);
             selectedModel(storedModel);
         }
-    }, []); // The empty dependency array ensures this effect runs only once, on mount
+    }, []); // Run once when loaded in
     
     // Update local storage and call selectedModel when the selected model changes
     useEffect(() => {

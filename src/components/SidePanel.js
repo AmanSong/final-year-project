@@ -47,21 +47,26 @@ function SidePanel({ props }) {
       console.error("Error sending data:", error);
     }
   }
+
+  // when a model is chosen, call chooseModel function
   useEffect(() => {
     chooseModel();
   }, [model]);
 
+  // to change the display from illustrative to generative
   useEffect(() => {
     props({
       display: activeKey
     });
   }, [activeKey])
 
-
+  // get story from the props and set it
   const handle_story_props = (propsData) => {
     const { story } = propsData;
     setGetStory(story)
   }
+
+  // when story has been set, change to the illustrative display
   useEffect(() => {
     props({
       display: activeKey,

@@ -26,6 +26,7 @@ function StoryGeneration({ story_props }) {
     }
   }
 
+  // to call function
   const submitStory = async () => {
     const result = await generateStory(storyInput)
     setStory(result)
