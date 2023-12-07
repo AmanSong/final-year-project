@@ -9,6 +9,10 @@ which will be then uploaded to the backend where it will Hugging Face API models
 To run this code, download the required python libraries via pip.
 Make sure to have at least Python 3.11.6 and the do:
 
+suggested to use 
+"pythom -m venv venv"
+To create a python virtual enviorment for the requirements
+
 "pip -r requirements.txt"
 
 This will then download all necessary pip libraries to run the backend code.
