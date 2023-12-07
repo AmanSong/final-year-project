@@ -18,6 +18,11 @@ To create a python virtual enviorment for the requirements
 This will then download all necessary pip libraries to run the backend code.
 This will download libraries such as FastAPI, Uvicorn, PyTorch (If you want to perform manual inference)
 
+Afterwards, you need to run
+"npm install"
+
+This will download all required node modules in order for the app to work
+
 ## Running code
 
 # To start the backend,
