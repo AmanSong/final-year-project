@@ -1,7 +1,8 @@
 .login-page {
     height: 100vh;
     width: 100vw;
-    background-color: rgba(212, 212, 212, 0.781);
+    background-image: url('/public/loginBackground.jpg');
+    background-size: cover;
 }
 
 .login-area {
@@ -9,12 +10,14 @@
     justify-content: center;
     margin: auto;
     flex-wrap: wrap;
-    background-color: aliceblue;
+    background-color: rgba(206, 247, 237, 0.575);
+    backdrop-filter: blur(5px);
     width: 60%;
     height: 100%;
 }
 
 .login-form {
+    background-color: aliceblue;
     max-width: 400px;
     margin: auto;
     padding: 20px;
@@ -51,5 +54,9 @@
 }
 
 .login-form button:hover {
-    background-color: #2980b9;
+    background-color: #58a4d6;
+}
+
+.signup-button {
+    background-color: rgb(28, 172, 121) !important;
 }
