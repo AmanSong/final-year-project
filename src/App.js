@@ -1,4 +1,4 @@
-import { React, useState } from "react"
+import { React, useState, useEffect } from "react"
 import { CHeader } from '@coreui/react';
 import './App.css';
 import '@coreui/coreui/dist/css/coreui.min.css'
@@ -6,6 +6,7 @@ import SidePanel from "./components/SidePanel";
 import DisplayImage from "./components/DisplayImage";
 import DisplayStory from "./components/DisplayStory";
 
+import supabase from "./config/SupabaseClient";
 
 function App() {
 
@@ -13,6 +14,8 @@ function App() {
   const [PDF, setPDF] = useState(null);
   const [Display, SetDisplay] = useState(1);
   const [story, setStory] = useState();
+
+  const [currentUser, setCurrentUser] = useState('');
 
   const handleProps = (propsData) => {
     const { image, text, display, story } = propsData;
@@ -26,11 +29,20 @@ function App() {
     setStory(story);
   };
 
+  useEffect(() => {
+    const getUserName = async () => {
+      const { data: user, error } = await supabase.auth.getUser();
+      setCurrentUser(user.user.user_metadata.user_name)
+    }
+    getUserName();
+  }, [])
+
   return (
     <div className="App">
 
       <CHeader className="main-header">
         <h2 id="p-title">Final Year Project</h2>
+        <h4>Good to see you, { currentUser }</h4>
       </CHeader>
 
       <div className="components">
