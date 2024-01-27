@@ -5,6 +5,10 @@
     background-size: cover;
 }
 
+.login-title {
+    font-size: 4vh;
+}
+
 .login-area {
     display: flex;
     justify-content: center;
@@ -17,39 +21,52 @@
 }
 
 .login-form {
-    background-color: aliceblue;
-    max-width: 400px;
+    justify-content: center;
     margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    
+    background-color: aliceblue;
+    max-width: 40vw;
+    max-height: 60vh;
+    margin: auto;
+    padding: 2%;
+    border: 1% solid #ccc;
+    border-radius: 1%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .login-form label {
     display: block;
-    margin-bottom: 10px;
+    font-size: 1.75vh;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 .login-form input {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    padding: .5%;
+    margin-bottom: 5%;
+    background-color: #f0f9ff;
+}
+
+.login-form input:focus {
+    width: 100%;
+    padding: .5%;
+    margin-bottom: 5%;
+    background-color: #e0f3ff;
 }
 
 .login-form div {
-    margin-bottom: 20px;
+    margin-bottom: 1%;
 }
 
 .login-form button {
-    padding: 10px 20px;
-    margin-right: 10px;
+    font-size: 1.5vh;
+    padding: 2.5% 2.5%;
+    margin-right: 5%;
     background-color: #3498db;
     color: #fff;
     border: none;
-    border-radius: 3px;
+    border-radius: 1%;
     cursor: pointer;
 }
 

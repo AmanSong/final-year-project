@@ -7,6 +7,7 @@ import DisplayImage from "./components/DisplayImage";
 import DisplayStory from "./components/DisplayStory";
 
 import supabase from "./config/SupabaseClient";
+import UserMenu from "./components/UserMenu";
 
 function App() {
 
@@ -41,8 +42,8 @@ function App() {
     <div className="App">
 
       <CHeader className="main-header">
-        <h2 id="p-title">Final Year Project</h2>
-        <h4>Good to see you, { currentUser }</h4>
+        <h4 id="p-title">Good to see you, {currentUser}</h4><UserMenu />
+        
       </CHeader>
 
       <div className="components">

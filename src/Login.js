@@ -85,12 +85,13 @@ function Login() {
 
     return (
         <div className="login-page">
+            
             <div className="login-area">
                 {signingUp ?
 
                     <CForm className="login-form">
 
-                        <div>
+                        <div className="login-title">
                             <h4>Sign Up</h4>
                         </div>
 
@@ -143,7 +144,7 @@ function Login() {
                     :
                     <CForm className="login-form">
 
-                        <div>
+                        <div className="login-title">
                             <h4>Welcome, please login or sign up</h4>
                         </div>
 

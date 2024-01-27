@@ -1,0 +1,14 @@
+.menu-section {
+    position: relative;
+}
+
+.menu-dropdown {
+    position: absolute;
+    z-index: 99;
+    top: 100%;
+    right: 0;
+
+    width: 15vw;
+    margin-top: .5vh;
+    background-color: #e2eef0;
+}
