@@ -11,6 +11,8 @@
 
 .main-header {
   height: 6vh;
+  border-width: 0 !important;
+  background-color: rgb(171, 219, 247) !important;
 }
 #p-title {
   font-size: 3vh;

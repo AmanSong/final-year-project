@@ -36,13 +36,18 @@ function UserMenu() {
         signingOut();
     }
 
+    function ViewStories() {
+        navigate('/main/savedStories');
+    }
+
     return (
         <div className='menu-section'>
             <CButton className='menu-button' onClick={() => setMenuVisible(!menuVisible)}>{currentUser}</CButton>
             <CCollapse visible={menuVisible}>
                 <CCard className='menu-dropdown'>
-                    <CCardBody >
-                        <CButton onClick={() => SignOut()}>Sign Out</CButton>
+                    <CCardBody className='menu-buttons'>
+                        <CButton className='saved-stories-button' onClick={() => ViewStories()}>View Saved Stories</CButton>
+                        <CButton className='signout-button' onClick={() => SignOut()}>Sign Out</CButton>
                     </CCardBody>
                 </CCard>
             </CCollapse>
