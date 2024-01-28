@@ -1,3 +1,19 @@
-html {
+.saved-stories-section {
+    width: 100vW;
+    height: 100vh;
     background-color: aliceblue;
+    overflow: hidden;
+}
+
+.saved-stories {
+    background-color: rgb(219, 219, 219);
+    height: 100vh;
+    width: 55vw;
+    margin: auto;
+}
+
+.test {
+    text-align: center;
+    padding: 2%;
+    background-color: rgb(255, 212, 212);
 }

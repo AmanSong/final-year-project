@@ -45,3 +45,16 @@
     background-color: rgb(62, 194, 255);
     margin-bottom: 5%;
 }
+
+.create-stories-button {
+    width: 100%;
+    border-color: rgba(0, 0, 0, 0);
+    background-color: rgb(132, 220, 255);
+    margin-bottom: 5%;
+}
+.create-stories-button:hover  {
+    width: 100%;
+    border-color: rgba(0, 0, 0, 0);
+    background-color: rgb(62, 194, 255);
+    margin-bottom: 5%;
+}

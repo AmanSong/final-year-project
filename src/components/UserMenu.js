@@ -40,12 +40,17 @@ function UserMenu() {
         navigate('/main/savedStories');
     }
 
+    function CreateStories() {
+        navigate('/main');
+    }
+
     return (
         <div className='menu-section'>
             <CButton className='menu-button' onClick={() => setMenuVisible(!menuVisible)}>{currentUser}</CButton>
             <CCollapse visible={menuVisible}>
                 <CCard className='menu-dropdown'>
                     <CCardBody className='menu-buttons'>
+                        <CButton className='create-stories-button' onClick={() => CreateStories()}>Create and Illustrate</CButton>
                         <CButton className='saved-stories-button' onClick={() => ViewStories()}>View Saved Stories</CButton>
                         <CButton className='signout-button' onClick={() => SignOut()}>Sign Out</CButton>
                     </CCardBody>
