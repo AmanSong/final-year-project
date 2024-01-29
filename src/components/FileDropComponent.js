@@ -4,6 +4,9 @@ import { CButton, CCollapse, CCard, CCardBody } from "@coreui/react";
 import axios from "axios";
 import "./FileDrop.css"
 
+import CIcon from '@coreui/icons-react';
+import * as icon from '@coreui/icons';
+
 function FileDropComponent({ onDataExtracted }) {
 
     const [fileName, setFileName] = useState('');
@@ -49,7 +52,7 @@ function FileDropComponent({ onDataExtracted }) {
                         {/* Handle user file drops */}
                         <div {...getRootProps()} className="filedrop">
                             <input {...getInputProps()} />
-                            <h4 className="upload-label">{fileName ? fileName : 'Upload File'}</h4>
+                            <h4 className="upload-label">{fileName ? fileName : <CIcon icon={icon.cilArrowThickFromBottom} size="xxl"/>}</h4>
                         </div>
                     </CCardBody>
                 </CCard>

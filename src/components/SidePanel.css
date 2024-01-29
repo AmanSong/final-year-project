@@ -1,5 +1,5 @@
 .SidePanel {
-    background-color: rgba(151, 151, 151, 0.74);
+    background-color: rgba(117, 154, 205, 0.74);
     height: 94vh;
     width: 17vw;
     padding: 2.5%;
@@ -34,6 +34,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 .upload-container {
@@ -66,6 +67,7 @@
     transition: background-color 0.3s ease;
 
     margin-top: 20vh;
+    margin-bottom: 1vh;
 
     &:hover {
         background-color: #68d3bc;
@@ -93,7 +95,8 @@
 .tab-content {
     background-color: rgba(223, 231, 238, 0.144);
     margin-top: 5%;
-    padding: 1%;
+    padding: 2%;
+
 }
 
 .CNav {

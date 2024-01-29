@@ -36,7 +36,7 @@ function App() {
       setCurrentUser(user.user.user_metadata.user_name)
     }
     getUserName();
-  }, [])
+  }, []);
 
   return (
     <div className="App">
@@ -56,6 +56,7 @@ function App() {
         <div className="display-container" style={{ display: Display === 2 ? 'block' : 'none' }}>
           <DisplayStory story={story}></DisplayStory>
         </div>
+        
       </div>
 
     </div>

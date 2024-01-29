@@ -1,12 +1,16 @@
 .menu-section {
     position: relative;
+    margin-top: -.9vh;
 }
 
 .menu-button {
     background-color: rgb(111, 127, 142);
     text-align: center;
-    height: 4vh;
+    height: 5vh;
+    width: 5vh;
     font-size: 2vh;
+    border-radius: 50%;
+    line-height: 5vh; /* Vertically center the text */
 }
 
 .menu-dropdown {
@@ -32,36 +36,36 @@
 .signout-button {
     width: 100%;
     border-color: rgba(0, 0, 0, 0);
-    background-color: rgb(255, 204, 204);
+    background-color: rgb(255, 145, 145);
 }
 .signout-button:hover  {
     width: 100%;
     border-color: rgba(0, 0, 0, 0);
-    background-color: rgb(255, 176, 176);
+    background-color: rgb(255, 98, 98);
 }
 
 .saved-stories-button {
     width: 100%;
     border-color: rgba(0, 0, 0, 0);
-    background-color: rgb(132, 220, 255);
+    background-color: rgb(143, 255, 87);
     margin-bottom: 5%;
 }
 .saved-stories-button:hover  {
     width: 100%;
     border-color: rgba(0, 0, 0, 0);
-    background-color: rgb(62, 194, 255);
+    background-color: rgb(104, 255, 62);
     margin-bottom: 5%;
 }
 
 .create-stories-button {
     width: 100%;
     border-color: rgba(0, 0, 0, 0);
-    background-color: rgb(132, 220, 255);
+    background-color: rgb(99, 211, 255);
     margin-bottom: 5%;
 }
 .create-stories-button:hover  {
     width: 100%;
     border-color: rgba(0, 0, 0, 0);
-    background-color: rgb(62, 194, 255);
+    background-color: rgb(49, 190, 255);
     margin-bottom: 5%;
 }

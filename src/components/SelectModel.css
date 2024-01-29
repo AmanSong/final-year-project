@@ -1,7 +1,4 @@
-/* Add these styles to your existing CSS or in a separate style file */
-
 .styledrop-button {
-    /* Add your styles for the main button here */
     background-color: #3498db;
     color: #fff;
     padding: 10px;
@@ -10,7 +7,6 @@
 }
 
 .model-button {
-    /* Add your styles for the model buttons here */
     background-color: #20a6c7;
     color: #ffffff;
     padding: 10px;
@@ -24,12 +20,10 @@
 }
 
 .model-button.highlighted {
-    /* Add styles for the highlighted state */
     background-color: #123491;
     color: #fff;
 }
 
-/* Optionally, you can add transitions for a smoother effect */
 .model-button {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
