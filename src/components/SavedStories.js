@@ -6,6 +6,7 @@ import { CHeader, CForm, CFormTextarea, CButton, CImage } from '@coreui/react';
 import UserMenu from "./UserMenu";
 import axios from "axios";
 import { decode } from 'base64-arraybuffer'
+import { v4 as uuid } from "uuid";
 
 
 function SavedStories() {
@@ -13,22 +14,47 @@ function SavedStories() {
     // always make sure user is still authenticated
     const [currentUser, setCurrentUser] = useState('');
     const [currentUserName, setCurrentUserName] = useState('');
+    const [userId, setUserId] = useState('');
+    const [userImages, setUserImages] = useState([])
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        const getUserName = async () => {
-            const { data: user, error } = await supabase.auth.getUser();
+        const fetchData = async () => {
+            try {
+                const { data: user, error } = await supabase.auth.getUser();
 
-            if (error) {
-                console.log("Error fecthing user");
+                if (error) {
+                    console.log("Error fetching user");
+                    return;
+                }
+
+                setCurrentUser(user);
+                setCurrentUserName(user.user.user_metadata.user_name);
+                setUserId(user.user.id);
+
+                // Fetch images only if userId is available
+                if (user.user.id) {
+                    const { data, error: imageError } = await supabase
+                        .storage
+                        .from('illustrated-stories')
+                        .list(user.user.id + "/");
+
+                    if (imageError) {
+                        console.error('Error fetching images:', imageError.message);
+                        return;
+                    }
+
+                    setUserImages(data);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error.message);
             }
-            setCurrentUser(user);
-            setCurrentUserName(user.user.user_metadata.user_name);
-            console.log(currentUser);
-        }
-        getUserName();
-    }, [])
+        };
+
+        fetchData();
+    }, []); // Empty dependency array to ensure this runs only once on mount
+
 
     // const addDataForCurrentUser = async () => {
     //     if (currentUser) {
@@ -65,7 +91,6 @@ function SavedStories() {
             alert(prompt);
             const result = await axios.post(`http://127.0.0.1:8000/?prompt=${prompt}`);
             console.log(result)
-            const userId = currentUser.user.id;
 
             // Use the base64-encoded image directly
             const image = result.data;
@@ -76,7 +101,7 @@ function SavedStories() {
             const { data, error } = await supabase
                 .storage
                 .from('illustrated-stories')
-                .upload(userId + "/" + "image.png", binaryData, {
+                .upload(userId + "/" + uuid(), binaryData, {
                     // Specify the content type as 'image/png' since it's a PNG image
                     contentType: 'image/png',
                 });
@@ -103,10 +128,7 @@ function SavedStories() {
         }
     };
 
-    useEffect(() => {
-
-    })
-
+    console.log(userImages)
 
     return (
         <div className="saved-stories-section">
@@ -129,14 +151,18 @@ function SavedStories() {
                     <CButton className="style-button" onClick={() => generate(prompt)}>Submit</CButton>
                 </div>
 
-                <CImage
-                    className="image"
-                    src={`data:image/png;base64,${image}`}
-                    onError={(e) => {
-                        console.error("Error loading image:", e);
-                        // Handle the error or set a placeholder image
-                    }}
-                ></CImage>
+                <div className="image-container">
+                    {userImages.slice(1).map((image) => (
+                        <div key={image.name} className="image-item">
+                            <img
+                                src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/illustrated-stories/${userId}/${image.name}`}
+                                alt={image.name}
+                                className="image-thumbnail"
+                            />
+                        </div>
+                    ))}
+                </div>
+
 
             </div>
         </div>

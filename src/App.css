@@ -1,6 +1,7 @@
 .App {
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
   background-color: rgb(168, 168, 168);
 }
 
@@ -13,7 +14,9 @@
   height: 6vh;
   border-width: 0 !important;
   background-color: rgb(171, 219, 247) !important;
+  display: flex;
 }
+
 #p-title {
   font-size: 3vh;
 }

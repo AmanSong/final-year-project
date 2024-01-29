@@ -42,8 +42,8 @@ function App() {
     <div className="App">
 
       <CHeader className="main-header">
-        <h4 id="p-title">Good to see you, {currentUser}</h4><UserMenu />
-
+        <h4 id="p-title">Good to see you, {currentUser}</h4>
+        <UserMenu />
       </CHeader>
 
       <div className="components">
