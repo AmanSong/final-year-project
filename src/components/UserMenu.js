@@ -1,8 +1,10 @@
-import { React, useState, useEffect } from 'react'
+import { React, useState, useEffect, useCallback } from 'react'
 import supabase from '../config/SupabaseClient';
 import { useNavigate } from 'react-router-dom';
-import { CButton, CCollapse, CCard, CCardBody } from '@coreui/react';
+import { CButton, CCollapse, CCard, CCardBody, CImage } from '@coreui/react';
 import './UserMenu.css'
+import { useDropzone } from "react-dropzone";
+import { decode } from 'base64-arraybuffer'
 
 import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
@@ -10,21 +12,46 @@ import * as icon from '@coreui/icons';
 function UserMenu() {
 
     const [currentUser, setCurrentUser] = useState('');
+    const [userPicture, setUserPicture] = useState([]);
     const [menuVisible, setMenuVisible] = useState(false)
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        const getUserName = async () => {
-            const { data: user, error } = await supabase.auth.getUser();
+        const getUserDetails = async () => {
+            try {
+                const { data: user, error: userError } = await supabase.auth.getUser();
 
-            if (error) {
-                console.log("Error fecthing user");
+                if (userError) {
+                    console.error("Error fetching user:", userError.message);
+                    return;
+                }
+
+                if (user && user.user.id) {
+                    setCurrentUser(user.user.id);
+
+                    // Fetch user images
+                    const { data: images, error: imageError } = await supabase
+                        .storage
+                        .from('user-profile-picture')
+                        .list(currentUser + "/");
+
+                    if (imageError) {
+                        console.error('Error fetching images:', imageError.message);
+                        return;
+                    }
+
+                    setUserPicture(images[0]);
+                }
+            } catch (error) {
+                console.error('Error fetching user details:', error.message);
             }
-            setCurrentUser(user.user.user_metadata.user_name);
-        }
-        getUserName();
-    }, [])
+        };
+
+        getUserDetails();
+    }, []); 
+
+
 
     function SignOut() {
         const signingOut = async () => {
@@ -47,15 +74,51 @@ function UserMenu() {
         navigate('/main');
     }
 
+    const onDrop = useCallback(async (acceptedImage) => {
+        const image = acceptedImage[0];
+        const contentType = image.type === 'image/png' ? 'image/png' : 'image/jpeg';
+        try {
+            // Upload file to Supabase Bucket
+            const { data, error } = await supabase
+                .storage
+                .from('user-profile-picture')
+                .upload(currentUser + "/" + 'profilePic', image, {
+                    contentType: contentType,
+            });
+
+        } catch (error) {
+            console.error('Error uploading the file:', error);
+        }
+    }, [currentUser]);
+    const { open } = useDropzone({
+        onDrop,
+        accept: '.png .jpg',
+    });
+    function changeProfilePic() {
+        open();
+    }
+
     return (
         <div className='menu-section'>
-            <CButton className='menu-button' onClick={() => setMenuVisible(!menuVisible)}></CButton>
+            <CButton className='menu-button' onClick={() => setMenuVisible(!menuVisible)}>
+                <img src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/profilePic`} alt="Button Icon" />
+            </CButton>
             <CCollapse visible={menuVisible}>
                 <CCard className='menu-dropdown'>
+                    <CCard className='profile-picture'>
+                        <CImage
+                            className="image"
+                            src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/profilePic`}
+                            onClick={() => changeProfilePic()}
+                            onError={(e) => {
+                                console.error("Error loading image:", e);
+                            }}
+                        ></CImage>
+                    </CCard>
                     <CCardBody className='menu-buttons'>
                         <CButton className='create-stories-button' onClick={() => CreateStories()}>Create and Illustrate</CButton>
                         <CButton className='saved-stories-button' onClick={() => ViewStories()}>View Saved Stories</CButton>
-                        <CButton className='signout-button' onClick={() => SignOut()}>Sign Out      <CIcon icon={icon.cilAccountLogout}/></CButton>
+                        <CButton className='signout-button' onClick={() => SignOut()}>Sign Out      <CIcon icon={icon.cilAccountLogout} /></CButton>
                     </CCardBody>
                 </CCard>
             </CCollapse>

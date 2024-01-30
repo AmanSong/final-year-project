@@ -10,7 +10,6 @@ import StoryGeneration from "./StoryGeneration";
 
 function SidePanel({ props }) {
 
-  const [visible, setVisible] = useState(true);
   const [model, updateModel] = useState('');
   const [dropFileData, setDropFileData] = useState();
   const [activeKey, setActiveKey] = useState(1)
@@ -78,11 +77,7 @@ function SidePanel({ props }) {
 
     <div className="SidePanel-Container">
 
-      <button className="sidebar-button" onClick={() => setVisible(!visible)}>
-        |||
-      </button>
-
-      <div className="SidePanel" style={{ display: visible ? 'block' : 'none' }}>
+      <div className="SidePanel">
 
         <CNav variant="tabs">
           <CButton
@@ -124,7 +119,7 @@ function SidePanel({ props }) {
             </CContainer>
           </CTabPane>
 
-          <CTabPane className="tab-content"  visible={activeKey === 2}>
+          <CTabPane className="tab-content" visible={activeKey === 2}>
             <StoryGeneration story_props={handle_story_props}></StoryGeneration>
           </CTabPane>
 

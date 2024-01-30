@@ -11,6 +11,13 @@
     font-size: 2vh;
     border-radius: 50%;
     line-height: 5vh; /* Vertically center the text */
+    overflow: hidden;
+    padding: 0;
+}
+.menu-button img {
+    display: block;
+    height: 100%;  
+    width: 100%;
 }
 
 .menu-dropdown {

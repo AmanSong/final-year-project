@@ -94,6 +94,7 @@ function SavedStories() {
 
             // Use the base64-encoded image directly
             const image = result.data;
+            console.log(image)
             const binaryData = decode(image);
             setImage(image)
 
@@ -104,7 +105,7 @@ function SavedStories() {
                 .upload(userId + "/" + uuid(), binaryData, {
                     // Specify the content type as 'image/png' since it's a PNG image
                     contentType: 'image/png',
-                });
+            });
 
             // add data to link to test data table
             const newData = {

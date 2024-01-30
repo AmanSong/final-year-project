@@ -9,9 +9,9 @@
 .model-button {
     background-color: #20a6c7;
     color: #ffffff;
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #bdc3c7;
+    padding: 5%;
+    margin: 2% 0;
+    border: .5px solid #1c0327;
     cursor: pointer;
 
     &:hover {
@@ -26,4 +26,9 @@
 
 .model-button {
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#model-collaspe {
+    background-color: #c8d7e0;
+    width: 17rem;
 }

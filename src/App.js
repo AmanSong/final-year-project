@@ -15,8 +15,8 @@ function App() {
   const [PDF, setPDF] = useState(null);
   const [Display, SetDisplay] = useState(1);
   const [story, setStory] = useState();
-
   const [currentUser, setCurrentUser] = useState('');
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
 
   const handleProps = (propsData) => {
     const { image, text, display, story } = propsData;
@@ -47,16 +47,22 @@ function App() {
       </CHeader>
 
       <div className="components">
-        <SidePanel props={handleProps}></SidePanel>
 
-        <div className="display-container" style={{ display: Display === 1 ? 'block' : 'none' }}>
-          <DisplayImage pdf={PDF}></DisplayImage>
+        <div style={{ display: isSidePanelOpen ? 'block' : 'none' }}>
+          <SidePanel  props={handleProps}></SidePanel>
+        </div>
+        <button className="side-panel-button" onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}></button>
+
+        <div className="display">
+          <div className="display-container" style={{ display: Display === 1 ? 'block' : 'none' }}>
+            <DisplayImage pdf={PDF}></DisplayImage>
+          </div>
+
+          <div className="display-container" style={{ display: Display === 2 ? 'block' : 'none' }}>
+            <DisplayStory story={story}></DisplayStory>
+          </div>
         </div>
 
-        <div className="display-container" style={{ display: Display === 2 ? 'block' : 'none' }}>
-          <DisplayStory story={story}></DisplayStory>
-        </div>
-        
       </div>
 
     </div>

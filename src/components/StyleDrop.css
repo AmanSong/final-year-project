@@ -11,32 +11,40 @@
     align-items: center;
     text-align: center;
     padding: 1vh;
-    background-color: #3498db;
+    background-color: #637fdb;
     color: #fff;
-    border: 2px solid #2980b9;
+    border: .5px solid #b9297d;
     border-radius: 1vh;
     transition: background-color 0.3s ease;
 
     margin: .2vh;
-
-    max-width: 4vw;
-
-    font-size: 1.2vh;
+    width: 5rem;
+    height: 6rem;
+    font-size: .75rem;
 
     &:hover {
-        background-color: #2980b9;
+        background-color: #293fb9;
     }
 
     .style-image {
         height: auto;
-        width: 3vw;
+        width: 100%;
     }
 }
 
+.style-button.high-lighted {
+    background-color: #761c88;
+    
+    &:hover {
+        background-color: #4c125f;
+    }
+}
+
+/* for the main buttons for some reason */
 .styledrop-button {
     background-color: #3498db;
 
-    width: 15vw !important;
+    width: 17rem !important;
     color: #fff;
     border: 2px solid #2980b9;
     border-radius: 8px;
@@ -53,26 +61,10 @@
     margin-top: 0;
     background-color: #c8d7e0;
 
-    width: 14.8vw;
+    width: 17rem;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 
-/* Media query for smaller screens */
-@media (max-width: 768px) {
-    .styles-container {
-        flex-direction: column;
-        /* Stack items vertically on smaller screens */
-        align-items: center;
-        /* Center items in the container */
-    }
-}
 
-.highlighted {
-    background-color: #1c5d88;
-
-    &:hover {
-        background-color: #1c5d88;
-      }
-}

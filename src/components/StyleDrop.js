@@ -49,32 +49,32 @@ function StyleDrop() {
                     <CCardBody id="collaspe-card">
                         <CButton
                             onClick={() => setStyle('anime, anime style, anime art')}
-                            className={`style-button ${highlight && selectedStyle === 'anime, anime style, anime art, high quality' ? 'highlighted' : ''}`}>
+                            className={`style-button ${highlight && selectedStyle === 'anime, anime style, anime art' ? 'high-lighted' : ''}`}>
                             <img src="/style_anime.png" alt="Button" className="style-image" />
                             Anime
                         </CButton>
                         <CButton onClick={() => setStyle('artistic, artisic style, artwork')}
-                            className={`style-button ${highlight && selectedStyle === 'artistic, artisic style, artwork, high quality' ? 'highlighted' : ''}`}>
+                            className={`style-button ${highlight && selectedStyle === 'artistic, artisic style, artwork' ? 'high-lighted' : ''}`}>
                             <img src="/style_artistic.png" alt="Button" className="style-image" />
                             Artistic
                         </CButton>
                         <CButton onClick={() => setStyle('realistic, photography, 4k')}
-                            className={`style-button ${highlight && selectedStyle === 'realistic, photography, 4k, high quality' ? 'highlighted' : ''}`}>
+                            className={`style-button ${highlight && selectedStyle === 'realistic, photography, 4k' ? 'high-lighted' : ''}`}>
                             <img src="/style_realistic.png" alt="Button" className="style-image" />
                             Realistic
                         </CButton>
                         <CButton onClick={() => setStyle('painting, painting style, artwork')}
-                            className={`style-button ${highlight && selectedStyle === 'painting, painting style, artwork, high quality' ? 'highlighted' : ''}`}>
+                            className={`style-button ${highlight && selectedStyle === 'painting, painting style, artwork' ? 'high-lighted' : ''}`}>
                             <img src="/style_painting.png" alt="Button" className="style-image" />
                             Painting
                         </CButton>
                         <CButton onClick={() => setStyle('drawing, pencil, handdrawn, art')}
-                            className={`style-button ${highlight && selectedStyle === 'drawing, pencil, handdrawn, art, high quality' ? 'highlighted' : ''}`}>
+                            className={`style-button ${highlight && selectedStyle === 'drawing, pencil, handdrawn, art' ? 'high-lighted' : ''}`}>
                             <img src="/style_pencil.png" alt="Button" className="style-image" />
                             Pencil
                         </CButton>
                         <CButton onClick={() => setStyle('cartoon style, cartoons, comic style')}
-                            className={`style-button ${highlight && selectedStyle === 'cartoon style, cartoons, comic style, high quality' ? 'highlighted' : ''}`}>
+                            className={`style-button ${highlight && selectedStyle === 'cartoon style, cartoons, comic style' ? 'high-lighted' : ''}`}>
                             <img src="/style_cartoon.png" alt="Button" className="style-image" />
                             Cartoon
                         </CButton>

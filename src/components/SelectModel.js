@@ -38,8 +38,8 @@ function SelectModel({ selectedModel }) {
     return (
         <div>
             <CButton className="styledrop-button" onClick={() => setVisible(!visible)}>Select AI Model</CButton>
-            <CCollapse id="model-collaspe" visible={visible}>
-                <CCard>
+            <CCollapse  visible={visible}>
+                <CCard id="model-collaspe">
                     <CButton
                         onClick={() => dropdownSelect('CompVis/stable-diffusion-v1-4')}
                         className={`model-button ${highlight && selected === 'CompVis/stable-diffusion-v1-4' ? 'highlighted' : ''}`}>

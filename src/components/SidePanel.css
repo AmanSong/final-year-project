@@ -1,7 +1,7 @@
 .SidePanel {
-    background-color: rgba(117, 154, 205, 0.74);
-    height: 94vh;
-    width: 17vw;
+    background-color: rgba(73, 134, 221, 0.74);
+    height: 100vh;
+    width: 20rem;
     padding: 2.5%;
     float: left;
     display: block;
@@ -93,10 +93,10 @@
 
 /* Styling for the tab navigation */
 .tab-content {
-    background-color: rgba(223, 231, 238, 0.144);
-    margin-top: 5%;
+    background-color: rgba(3, 4, 5, 0.144);
+    margin-top: 1vh;
+    margin-bottom: 5vh;
     padding: 2%;
-
 }
 
 .CNav {

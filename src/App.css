@@ -7,24 +7,31 @@
 
 .Main {
   padding: 0;
-  display: flex; 
+  display: flex;
 }
 
 .main-header {
-  height: 6vh;
+  position: absolute;
+  height: 3rem;
   border-width: 0 !important;
   background-color: rgb(171, 219, 247) !important;
   display: flex;
 }
 
 #p-title {
-  font-size: 3vh;
+  font-size: 1.5rem;
 }
 
 .components {
+  margin: auto;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
+}
+
+.display {
+  margin: auto;
+  display: flex;
+  align-items: center;
 }
 
 ::-webkit-scrollbar {
@@ -42,4 +49,19 @@
 
 .display-container {
   margin-right: 2.5vw;
+}
+
+.side-panel-button {
+  width: 0.1rem;
+  height: 10rem;
+  background-color: #3498db;
+  border: none;
+  cursor: pointer;
+  transition: left 0.3s ease;
+
+  margin-bottom: 5rem;
+}
+
+.side-panel-button:hover {
+  background-color: rgb(21, 132, 206)
 }
