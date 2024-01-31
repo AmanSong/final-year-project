@@ -5,7 +5,7 @@ import { CButton, CCollapse, CCard, CCardBody, CImage } from '@coreui/react';
 import './UserMenu.css'
 import { useDropzone } from "react-dropzone";
 import { decode } from 'base64-arraybuffer'
-
+import { v4 as uuid } from "uuid";
 import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
 
@@ -27,7 +27,7 @@ function UserMenu() {
                     return;
                 }
 
-                if (user && user.user.id) {
+                if (user.user.id) {
                     setCurrentUser(user.user.id);
 
                     // Fetch user images
@@ -41,7 +41,7 @@ function UserMenu() {
                         return;
                     }
 
-                    setUserPicture(images[0]);
+                    setUserPicture(images[1].name);
                 }
             } catch (error) {
                 console.error('Error fetching user details:', error.message);
@@ -49,7 +49,11 @@ function UserMenu() {
         };
 
         getUserDetails();
-    }, []); 
+    }, [currentUser]);  // Dependency array updated to include currentUser
+
+    useEffect(() => {
+        console.log('User picture updated:', userPicture);
+    }, [userPicture]);
 
 
 
@@ -82,9 +86,9 @@ function UserMenu() {
             const { data, error } = await supabase
                 .storage
                 .from('user-profile-picture')
-                .upload(currentUser + "/" + 'profilePic', image, {
+                .upload(currentUser + "/" + uuid(), image, {
                     contentType: contentType,
-            });
+                });
 
         } catch (error) {
             console.error('Error uploading the file:', error);
@@ -101,14 +105,14 @@ function UserMenu() {
     return (
         <div className='menu-section'>
             <CButton className='menu-button' onClick={() => setMenuVisible(!menuVisible)}>
-                <img src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/profilePic`} alt="Button Icon" />
+                <img src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/${userPicture}`} alt="Button Icon" />
             </CButton>
             <CCollapse visible={menuVisible}>
                 <CCard className='menu-dropdown'>
                     <CCard className='profile-picture'>
                         <CImage
                             className="image"
-                            src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/profilePic`}
+                            src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/${userPicture}`}
                             onClick={() => changeProfilePic()}
                             onError={(e) => {
                                 console.error("Error loading image:", e);
