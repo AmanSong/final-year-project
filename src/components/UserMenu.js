@@ -109,17 +109,19 @@ function UserMenu() {
             </CButton>
             <CCollapse visible={menuVisible}>
                 <CCard className='menu-dropdown'>
-                    <CCard className='profile-picture'>
-                        <CImage
-                            className="image"
-                            src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/${userPicture}`}
-                            onClick={() => changeProfilePic()}
-                            onError={(e) => {
-                                console.error("Error loading image:", e);
-                            }}
-                        ></CImage>
-                    </CCard>
+
                     <CCardBody className='menu-buttons'>
+                        <CCard className='profile-picture'>
+                            <CImage
+                                className="pfp-image"
+                                src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/${userPicture}`}
+                                onClick={() => changeProfilePic()}
+                                onError={(e) => {
+                                    console.error("Error loading image:", e);
+                                }}
+                            ></CImage>
+                        </CCard>
+                        
                         <CButton className='create-stories-button' onClick={() => CreateStories()}>Create and Illustrate</CButton>
                         <CButton className='saved-stories-button' onClick={() => ViewStories()}>View Saved Stories</CButton>
                         <CButton className='signout-button' onClick={() => SignOut()}>Sign Out      <CIcon icon={icon.cilAccountLogout} /></CButton>
