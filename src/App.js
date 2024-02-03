@@ -49,7 +49,7 @@ function App() {
       <div className="components">
 
         <div style={{ display: isSidePanelOpen ? 'block' : 'none' }}>
-          <SidePanel  props={handleProps}></SidePanel>
+          <SidePanel props={handleProps}></SidePanel>
         </div>
         <button className="side-panel-button" onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}></button>
 

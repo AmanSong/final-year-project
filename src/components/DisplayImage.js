@@ -1,6 +1,7 @@
 import { CButton, CContainer, CImage } from "@coreui/react";
-import { React, useState, useEffect, useRef  } from "react"
+import { React, useState, useEffect, useRef } from "react"
 import axios from "axios";
+import { pdfjs } from "react-pdf";
 import './DisplayImage.css'
 
 function DisplayImage({ pdf }) {
@@ -9,6 +10,8 @@ function DisplayImage({ pdf }) {
     const [aiImages, setAiImages] = useState([]);
     const [isGenerating, setIsGenerating] = useState(false);
     const [PDF, SetPDF] = useState();
+
+    const [pdfUrl, setPdfUrl] = useState(null);
 
     // grab the raw text
     const pages = PDF?.rawtext?.length;
@@ -22,7 +25,6 @@ function DisplayImage({ pdf }) {
         }
     }, [pdf]);
 
-
     // api to generate images
     const generate = async (prompt) => {
         try {
@@ -34,41 +36,56 @@ function DisplayImage({ pdf }) {
         }
     };
 
+    const create = async (Text, Images) => {
+        try {
+            const response = await axios.post("http://127.0.0.1:8000/createPDF", {
+                text: Text,
+                images: Images
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                responseType: 'arraybuffer'
+            });
+            console.log(response);
+
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            setPdfUrl(url);
+
+        } catch (error) {
+            console.error("Error sending data:", error);
+        }
+    }
+
     // this is code to generate images for each page
     const generateImages = async () => {
-        for (let i = 0; i < pages; i++) {
-            // get the prompt generated
-            let prompt = PDF.summaries[i];
+        try {
+            const newAiImages = [];
+            for (let i = 0; i <= 10; i++) {
+                let prompt = PDF.summaries[i];
 
-            console.log('generating images', i);
-            console.log(isGenerating)
+                console.log('generating images', i);
+                console.log(isGenerating)
 
-            // if prompt is not empty, call the api to generate image
-            if (prompt !== '') {
-                const image = await generate(prompt);
-                // check if the image returned has an error, meaning API is down or unavailable
-                if(image === null || image.includes('Error generating image') ) {
-                    alert('Model seems to be down!')
-                    break;
+                if (prompt !== '') {
+                    const image = await generate(prompt);
+                    if (image === null || image.includes('Error generating image')) {
+                        alert('Model seems to be down!');
+                        break;
+                    }
+                    console.log("Generated image:");
+                    newAiImages.push(image);
                 }
-                console.log("Generated image:", image);
-
-                // Update state with the new image as soon as it is generated
-                setAiImages((prevImages) => {
-                    const newImages = [...prevImages];
-                    newImages[i] = image;
-                    return newImages;
-                });
-            } else {
-                // Update state with null for empty prompts
-                setAiImages((prevImages) => {
-                    const newImages = [...prevImages];
-                    newImages[i] = null;
-                    return newImages;
-                });
             }
+
+            setAiImages(newAiImages);
+            create(PDF.rawtext, newAiImages);
+        } catch (error) {
+            console.error("Error in generateImages:", error);
         }
     };
+
 
     // to call set is generating to true to allow generation
     useEffect(() => {
@@ -79,38 +96,40 @@ function DisplayImage({ pdf }) {
 
     // to begin generation of images depending on if its set to true or not
     useEffect(() => {
-        if(isGenerating === true) {
+        if (isGenerating === true) {
             generateImages();
         }
     }, [isGenerating])
 
-    const nextPage = () => {
-        // turn next page but prevent from going if there is no more pages
-        if (pageNumber === pages-1) {
-            return
-        }
-        setPageNumber(pageNumber + 1)
-    }
+    // const nextPage = () => {
+    //     // turn next page but prevent from going if there is no more pages
+    //     if (pageNumber === pages - 1) {
+    //         return
+    //     }
+    //     setPageNumber(pageNumber + 1)
+    // }
 
-    const prevPage = () => {
-        // turn next page but prevent from going if there is no more pages
-        if (pageNumber === 0) {
-            return
-        }
-        setPageNumber(pageNumber - 1)
-    }
-
-    // tried to stop generating image
-    // const stopGenerate = () => {
-    //     setIsGenerating(false)
-    //     console.log('stopping')
+    // const prevPage = () => {
+    //     // turn next page but prevent from going if there is no more pages
+    //     if (pageNumber === 0) {
+    //         return
+    //     }
+    //     setPageNumber(pageNumber - 1)
     // }
 
     return (
         <CContainer className="displayImage">
 
+            {pdfUrl && (
+                <iframe
+                    title="PDF Viewer"
+                    src={pdfUrl}
+                    style={{ width: '100%', height: '95%', border: 'none' }}
+                />
+            )}
+
             {/* this is to display the PDF pages that was uploaded */}
-            <div className="firstpage" onClick={() => prevPage()}>
+            {/* <div className="firstpage" onClick={() => prevPage()}>
                 {PDF?.images ? <img className="pdf" src={`data:image/png;base64,${PDF?.images?.[pageNumber]}`} alt="Base64 Image" draggable="false" /> : null}
             </div>
 
@@ -130,7 +149,7 @@ function DisplayImage({ pdf }) {
                         {isGenerating ? 'Loading...' : null}
                     </div>
                 }
-            </div>
+            </div> */}
 
         </CContainer>
     );

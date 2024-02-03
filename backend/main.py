@@ -4,6 +4,7 @@ import torch
 from torch import autocast
 from diffusers import StableDiffusionPipeline
 from fastapi import FastAPI, Response
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from io import BytesIO
@@ -13,9 +14,10 @@ import requests
 from dotenv import load_dotenv
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import JSONResponse
-
+import tempfile
 from extract import read, summarize_pages
 from story import generateStory
+from createPDF import create_PDF
 
 # create FastAPI instances
 app = FastAPI()
@@ -302,6 +304,28 @@ def generate(request: ModelRequest):
         print(f"Error processing the file: {e}")
         return JSONResponse(content={"message": "An error occured while generating the story"}, status_code=500)
 
+# endpoint to create PDF
+class ModelRequest(BaseModel):
+    text: list[str]
+    images: list[str]
+
+@app.post("/createPDF")
+def create(request: ModelRequest):
+    try:
+        pdf_buffer = create_PDF(request.text, request.images)
+
+        # Create a temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
+            pdf_buffer.seek(0)
+            temp_file.write(pdf_buffer.read())
+            temp_file.seek(0)
+
+        # Return the temporary file as a FileResponse
+        return FileResponse(temp_file.name, media_type="application/pdf", filename="generated_pdf.pdf")
+
+    except Exception as e:
+        print(f"Error processing the file: {e}")
+        return JSONResponse(content={"message": "An error occured while generating the story"}, status_code=500)
 
 # code for using local model using GPU
 # print('using CompVis')

@@ -62,23 +62,3 @@ def summarize_pages(text, num_sentences=1):
         summaries.append(summary)
 
     return summaries
-
-# testing out using LLM to create better prompts
-
-# if __name__ == "__main__":
-#     # Load environment variables from the .env file
-#     load_dotenv()
-#     auth_token = os.getenv('hugging_face_api_token')
-
-#     API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-base"
-#     headers = {"Authorization": f"Bearer {auth_token}"}
-
-#     def prompt_extract(payload):
-#         response = requests.post(API_URL, headers=headers, json=payload)
-#         return response.json()
-
-#     output = prompt_extract({
-#         "inputs": "Generate a prompt for image generation using this text: The ferocious dragon roars great flames down the village",
-#     })
-
-#     print(output)

@@ -44,7 +44,7 @@ function UserMenu() {
                     setUserPicture(images[1].name);
                 }
             } catch (error) {
-                console.error('Error fetching user details:', error.message);
+                console.error('Error fetching user details:');
             }
         };
 
@@ -96,7 +96,10 @@ function UserMenu() {
     }, [currentUser]);
     const { open } = useDropzone({
         onDrop,
-        accept: '.png .jpg',
+        accept: {
+            'image/png': ['.png'], 
+            'image/jpeg': ['.jpg', '.jpeg'] 
+        },
     });
     function changeProfilePic() {
         open();
@@ -117,7 +120,7 @@ function UserMenu() {
                                 src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/${userPicture}`}
                                 onClick={() => changeProfilePic()}
                                 onError={(e) => {
-                                    console.error("Error loading image:", e);
+                                    console.error("Error loading image:");
                                 }}
                             ></CImage>
                         </CCard>

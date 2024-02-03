@@ -38,7 +38,9 @@ function FileDropComponent({ onDataExtracted }) {
     // if a user drops file, accept only PDF and call function
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
-        accept: '.pdf',
+        accept: {
+            'application/pdf': ['.pdf'], 
+        },
     });
 
     const [visible, setVisible] = useState(false)
