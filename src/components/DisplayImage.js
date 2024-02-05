@@ -4,14 +4,14 @@ import axios from "axios";
 import { pdfjs } from "react-pdf";
 import './DisplayImage.css'
 
-function DisplayImage({ pdf }) {
+function DisplayImage({ pdf, storyTitle }) {
 
     const [pageNumber, setPageNumber] = useState(0);
     const [aiImages, setAiImages] = useState([]);
     const [isGenerating, setIsGenerating] = useState(false);
     const [PDF, SetPDF] = useState();
-
     const [pdfUrl, setPdfUrl] = useState(null);
+    const [Title, setStoryTitle] = useState(null);
 
     // grab the raw text
     const pages = PDF?.rawtext?.length;
@@ -21,7 +21,7 @@ function DisplayImage({ pdf }) {
         // store pdf in local state to prevent losing images
         if (pdf) {
             SetPDF(pdf);
-            console.log(pdf)
+            setStoryTitle(storyTitle);
         }
     }, [pdf]);
 
@@ -36,11 +36,12 @@ function DisplayImage({ pdf }) {
         }
     };
 
-    const create = async (Text, Images) => {
+    const create = async (Text, Images, Title) => {
         try {
             const response = await axios.post("http://127.0.0.1:8000/createPDF", {
                 text: Text,
-                images: Images
+                images: Images,
+                title: Title
             }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,7 +63,7 @@ function DisplayImage({ pdf }) {
     const generateImages = async () => {
         try {
             const newAiImages = [];
-            for (let i = 0; i <= 10; i++) {
+            for (let i = 0; i <= 5; i++) {
                 let prompt = PDF.summaries[i];
 
                 console.log('generating images', i);
@@ -80,7 +81,7 @@ function DisplayImage({ pdf }) {
             }
 
             setAiImages(newAiImages);
-            create(PDF.rawtext, newAiImages);
+            create(PDF.rawtext, newAiImages, Title);
         } catch (error) {
             console.error("Error in generateImages:", error);
         }

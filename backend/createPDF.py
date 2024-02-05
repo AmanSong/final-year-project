@@ -4,6 +4,8 @@ from io import BytesIO
 import base64
 import tempfile
 
+from frontCover import createCover 
+
 def base64_to_file(base64_string, file_extension=".png"):
     try:
         # Decode the base64 string
@@ -19,11 +21,11 @@ def base64_to_file(base64_string, file_extension=".png"):
         print(f"Error converting base64 to temporary file: {e}")
         return None
 
-
-def create_PDF(raw_text, images):
+def create_PDF(raw_text, images, title):
     try:
         # get length of images
         amount = len(images)
+        print(amount)
         array_images = []
 
         # Convert images to file format
@@ -50,13 +52,19 @@ def create_PDF(raw_text, images):
         # Calculate the center of the page
         center_x = letter[0] / 2
 
+        # Get the dimensions of the image and the page
+        page_width, page_height = letter
+
         # Filter out empty pages
         filtered_pages = [page for page in raw_text if page.strip()]
 
-        # Draw title
-        title = filtered_pages[0]
-        title_lines = title.split('\n')
-        title_font_size = 18
+        # Draw front cover
+        cover_img = createCover(title)
+        cover_img_temp = base64_to_file(cover_img)
+        pdf.drawImage(cover_img_temp, 0, 0, width=page_width, height=page_height)
+
+        title_lines = title.split(' ')
+        title_font_size = 60
         pdf.setFont("Helvetica-Bold", title_font_size)
 
         # Calculate total height for the title
@@ -73,27 +81,17 @@ def create_PDF(raw_text, images):
             pdf.drawString(x_position, y_position, line)
             y_position -= title_font_size
 
+        # move to new page after creating cover
         pdf.showPage()
 
         # Move down for text
-        y_position = letter[1] - margin - title_font_size
+        y_position = letter[1] - margin - 20
 
-        # Get the dimensions of the image and the page
-        page_width, page_height = letter
 
-        count = 0
-
-        for page in filtered_pages[1:]:
+        for page in filtered_pages:
             try:
-                
-                if count == amount:
-                    break
-
                 # Split text into lines
                 lines = page.split('\n')
-
-                pdf.drawImage(array_images[count], 0, 0, width=page_width, height=page_height)
-                count += 1
 
                 for line in lines:
                     # Calculate the x position to center the text
@@ -107,6 +105,7 @@ def create_PDF(raw_text, images):
                     if y_position <= margin:
                         pdf.showPage()
                         y_position = letter[1] - margin
+
             except Exception:
                 print(f"Error processing page")
 

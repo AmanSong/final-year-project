@@ -17,15 +17,18 @@ function App() {
   const [story, setStory] = useState();
   const [currentUser, setCurrentUser] = useState('');
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
+  const [storyTitle, setStoryTitle] = useState();
 
   const handleProps = (propsData) => {
-    const { image, text, display, story } = propsData;
+    const { image, text, display, story, title } = propsData;
     console.log(propsData)
     console.log(display)
     console.log(story)
+    console.log(title)
     //console.log(generatedImage)
     SetDisplay(display)
     setPDF(text);
+    setStoryTitle(title);
     //updateGeneratedImage(image);
     setStory(story);
   };
@@ -55,7 +58,7 @@ function App() {
 
         <div className="display">
           <div className="display-container" style={{ display: Display === 1 ? 'block' : 'none' }}>
-            <DisplayImage pdf={PDF}></DisplayImage>
+            <DisplayImage pdf={PDF} storyTitle={storyTitle}></DisplayImage>
           </div>
 
           <div className="display-container" style={{ display: Display === 2 ? 'block' : 'none' }}>

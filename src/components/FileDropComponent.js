@@ -1,6 +1,6 @@
 import { React, useCallback, useState } from "react"
 import { useDropzone } from "react-dropzone";
-import { CButton, CCollapse, CCard, CCardBody } from "@coreui/react";
+import { CButton, CCollapse, CCard, CCardBody, CFormInput } from "@coreui/react";
 import axios from "axios";
 import "./FileDrop.css"
 

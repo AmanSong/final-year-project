@@ -1,4 +1,4 @@
-import { CButton, CContainer } from "@coreui/react";
+import { CButton, CContainer, CFormInput } from "@coreui/react";
 import { React, useState, useEffect } from "react"
 import axios from "axios";
 import FileDropComponent from "./FileDropComponent";
@@ -15,12 +15,21 @@ function SidePanel({ props }) {
   const [activeKey, setActiveKey] = useState(1)
   const [getStory, setGetStory] = useState('')
 
+  // Define a state variable to store the input value
+  const [storyTitle, setStoryTitle] = useState('');
+
+  // Event handler for input change
+  const handleStoryInput = (event) => {
+    setStoryTitle(event.target.value);
+  };
+
   // set the uploaded file from dropFileData
   const setFile = () => {
     setDropFileData((prevDropFileData) => {
       props({
         text: prevDropFileData,
-        display: activeKey
+        display: activeKey,
+        title: storyTitle
       });
       console.log('worked', prevDropFileData);
       return prevDropFileData;
@@ -104,6 +113,15 @@ function SidePanel({ props }) {
           <CTabPane className="tab-content" visible={activeKey === 1}>
             <div className="upload-container">
               <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
+            </div>
+
+            <div className="storyTitleDiv">
+              <CFormInput
+                className="storyTitleInput"
+                type="text"
+                placeholder="Title of Story"
+                value={storyTitle}
+                onChange={handleStoryInput} />
             </div>
 
             <div className="styleSelect-container">

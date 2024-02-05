@@ -308,11 +308,12 @@ def generate(request: ModelRequest):
 class ModelRequest(BaseModel):
     text: list[str]
     images: list[str]
+    title: str
 
 @app.post("/createPDF")
 def create(request: ModelRequest):
     try:
-        pdf_buffer = create_PDF(request.text, request.images)
+        pdf_buffer = create_PDF(request.text, request.images, request.title)
 
         # Create a temporary file
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
