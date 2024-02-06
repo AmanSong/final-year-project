@@ -1,7 +1,6 @@
 import { CButton, CContainer, CImage } from "@coreui/react";
 import { React, useState, useEffect, useRef } from "react"
 import axios from "axios";
-import { pdfjs } from "react-pdf";
 import './DisplayImage.css'
 
 function DisplayImage({ pdf, storyTitle }) {
