@@ -3,12 +3,18 @@ from reportlab.pdfgen import canvas
 from io import BytesIO
 import base64
 import tempfile
-
-from reportlab.lib.units import inch
-from reportlab.lib.colors import black
-from PIL import Image
+import os
+from reportlab.lib.colors import Color
 
 from frontCover import createCover 
+
+def delete_temp_files(file_paths):
+    for file_path in file_paths:
+        try:
+            os.remove(file_path)
+            print(f"Temporary file deleted: {file_path}")
+        except Exception as e:
+            print(f"Error deleting temporary file {file_path}: {e}")
 
 def base64_to_file(base64_string, file_extension=".png"):
     try:
@@ -46,7 +52,6 @@ def create_PDF(raw_text, images, title):
 
         line_height = 15
         margin = 50
-        letter_height = letter[1]
 
         # Calculate the center of the page
         center_x = letter[0] / 2
@@ -67,7 +72,7 @@ def create_PDF(raw_text, images, title):
         pdf.setFont("Times-Roman", title_font_size)
 
         # Calculate the y position to center the title
-        y_position = letter[1] - margin 
+        y_position = letter[1] - 150
 
         for line in title_lines:
             # Calculate the x position to center the text
@@ -103,7 +108,14 @@ def create_PDF(raw_text, images, title):
                     text_width = pdf.stringWidth(line, "Times-Roman", line_height)
                     x_position = center_x - (text_width / 2)
 
+                    pdf.setFillColorRGB(1, 1, 1, 0.25) #choose fill colour
+
+                    # avoid drawing with when no line
+                    if line.strip():
+                        pdf.rect(x_position, y_position, text_width + 5, line_height, stroke=0, fill=1)
+
                     # finally draw the text
+                    pdf.setFillColorRGB(0, 0, 0, 1)
                     pdf.drawString(x_position, y_position, line)
                     y_position -= line_height
 
@@ -117,6 +129,9 @@ def create_PDF(raw_text, images, title):
 
         pdf.showPage()
         pdf.save()
+
+        # make sure to handle temp file path deletion
+        delete_temp_files(array_images)
 
         return pdf_buffer
 

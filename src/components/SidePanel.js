@@ -8,7 +8,7 @@ import StyleDrop from "./StyleDrop";
 import { CNav, CTabPane, CTabContent } from "@coreui/react";
 import StoryGeneration from "./StoryGeneration";
 
-function SidePanel({ props }) {
+function SidePanel({ handleProps }) {
 
   const [model, updateModel] = useState('');
   const [dropFileData, setDropFileData] = useState();
@@ -26,12 +26,13 @@ function SidePanel({ props }) {
   // set the uploaded file from dropFileData
   const setFile = () => {
     setDropFileData((prevDropFileData) => {
-      props({
+      const newData = {
         text: prevDropFileData,
         display: activeKey,
         title: storyTitle
-      });
-      console.log('worked', prevDropFileData);
+      };
+      handleProps(newData); // Use handleProps directly as a prop
+      console.log('worked', newData);
       return prevDropFileData;
     });
   }
@@ -63,7 +64,7 @@ function SidePanel({ props }) {
 
   // to change the display from illustrative to generative
   useEffect(() => {
-    props({
+    handleProps({
       display: activeKey
     });
   }, [activeKey])
@@ -76,7 +77,7 @@ function SidePanel({ props }) {
 
   // when story has been set, change to the illustrative display
   useEffect(() => {
-    props({
+    handleProps({
       display: activeKey,
       story: getStory
     }, [getStory]);

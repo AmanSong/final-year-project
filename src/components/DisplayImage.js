@@ -5,16 +5,10 @@ import './DisplayImage.css'
 
 function DisplayImage({ pdf, storyTitle }) {
 
-    const [pageNumber, setPageNumber] = useState(0);
-    const [aiImages, setAiImages] = useState([]);
     const [isGenerating, setIsGenerating] = useState(false);
     const [PDF, SetPDF] = useState();
     const [pdfUrl, setPdfUrl] = useState(null);
     const [Title, setStoryTitle] = useState(null);
-
-    // grab the raw text
-    const pages = PDF?.rawtext?.length;
-    const page = PDF?.rawtext?.[pageNumber];
 
     useEffect(() => {
         // store pdf in local state to prevent losing images
@@ -78,9 +72,8 @@ function DisplayImage({ pdf, storyTitle }) {
                     newAiImages.push(image);
                 }
             }
-
-            setAiImages(newAiImages);
             create(PDF.rawtext, newAiImages, Title);
+            setIsGenerating(false);
         } catch (error) {
             console.error("Error in generateImages:", error);
         }
@@ -101,22 +94,6 @@ function DisplayImage({ pdf, storyTitle }) {
         }
     }, [isGenerating])
 
-    // const nextPage = () => {
-    //     // turn next page but prevent from going if there is no more pages
-    //     if (pageNumber === pages - 1) {
-    //         return
-    //     }
-    //     setPageNumber(pageNumber + 1)
-    // }
-
-    // const prevPage = () => {
-    //     // turn next page but prevent from going if there is no more pages
-    //     if (pageNumber === 0) {
-    //         return
-    //     }
-    //     setPageNumber(pageNumber - 1)
-    // }
-
     return (
         <CContainer className="displayImage">
 
@@ -127,29 +104,6 @@ function DisplayImage({ pdf, storyTitle }) {
                     style={{ width: '100%', height: '95%', border: 'none' }}
                 />
             )}
-
-            {/* this is to display the PDF pages that was uploaded */}
-            {/* <div className="firstpage" onClick={() => prevPage()}>
-                {PDF?.images ? <img className="pdf" src={`data:image/png;base64,${PDF?.images?.[pageNumber]}`} alt="Base64 Image" draggable="false" /> : null}
-            </div>
-
-            <div className="secondpage" onClick={() => nextPage()}>
-                {aiImages[pageNumber] ? (
-                    <CImage
-                        className="image"
-                        src={`data:image/png;base64,${aiImages[pageNumber]}`}
-                        onError={(e) => {
-                            console.error("Error loading image:", e);
-                            // Handle the error or set a placeholder image
-                        }}
-                    ></CImage>
-                ) :
-                    // display Loading while isGenerating is true
-                    <div className="loading-spinner">
-                        {isGenerating ? 'Loading...' : null}
-                    </div>
-                }
-            </div> */}
 
         </CContainer>
     );

@@ -25,11 +25,11 @@ function App() {
     console.log(display)
     console.log(story)
     console.log(title)
-    //console.log(generatedImage)
+    console.log(text)
+
     SetDisplay(display)
     setPDF(text);
     setStoryTitle(title);
-    //updateGeneratedImage(image);
     setStory(story);
   };
 
@@ -52,7 +52,7 @@ function App() {
       <div className="components">
 
         <div style={{ display: isSidePanelOpen ? 'block' : 'none' }}>
-          <SidePanel props={handleProps}></SidePanel>
+          <SidePanel handleProps={handleProps}></SidePanel>
         </div>
         <button className="side-panel-button" onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}></button>
 
