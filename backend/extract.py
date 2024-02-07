@@ -2,10 +2,6 @@ import fitz
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize, word_tokenize
-import base64
-import requests
-import os
-from dotenv import load_dotenv
 
 # make sure to download before running
 # nltk.download('punkt')
@@ -16,29 +12,35 @@ def read(file_content):
     text = []
     images = []
 
-    # Open the PDF using PyMuPDF
-    document = fitz.open(stream=file_content, filetype="pdf")
+    try:
+        # Open the PDF using PyMuPDF
+        document = fitz.open(stream=file_content, filetype="pdf")
 
-    # Iterate through the PDF pages and extract text
-    for page_num in range(len(document)):
-        page = document[page_num]
-        page_text = page.get_text()
+        # Iterate through the PDF pages and extract text
+        for page_num in range(len(document)):
+            page = document[page_num]
+            page_text = page.get_text()
 
-        # Extract image from each page and convert to base64
-        pixmap = page.get_pixmap()
-        image_data = pixmap.tobytes()
-        image_base64 = base64.b64encode(image_data).decode('utf-8')
-        images.append(image_base64)
+            # add each page of text to the array
+            text.append(page_text)
 
-        text.append(page_text)
+            # not needed for time being
+            # Extract image from each page and convert to base64
+            # pixmap = page.get_pixmap()
+            # image_data = pixmap.tobytes()
+            # image_base64 = base64.b64encode(image_data).decode('utf-8')
+            # images.append(image_base64)
 
-    document.close()
+        document.close()
+
+    except Exception as error:
+        print(f"Error during PDF extraction: {error}")
 
     page_summaries = summarize_pages(text, num_sentences=1)
 
     return text, page_summaries, images
 
-# function to extract prompts for iage generation
+# function to extract prompts for image generation
 def summarize_pages(text, num_sentences=1):
 
     summaries = []

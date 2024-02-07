@@ -4,6 +4,10 @@ from io import BytesIO
 import base64
 import tempfile
 
+from reportlab.lib.units import inch
+from reportlab.lib.colors import black
+from PIL import Image
+
 from frontCover import createCover 
 
 def base64_to_file(base64_string, file_extension=".png"):
@@ -20,7 +24,7 @@ def base64_to_file(base64_string, file_extension=".png"):
     except Exception as e:
         print(f"Error converting base64 to temporary file: {e}")
         return None
-
+    
 def create_PDF(raw_text, images, title):
     try:
         # get length of images
@@ -40,14 +44,9 @@ def create_PDF(raw_text, images, title):
         # Rest of your code remains unchanged
         pdf = canvas.Canvas(pdf_buffer, pagesize=letter)
 
-        # Set font and font size
-        pdf.setFont("Helvetica", 12)
-
-        # Set line height
-        line_height = 14
-
-        # Set margin
+        line_height = 15
         margin = 50
+        letter_height = letter[1]
 
         # Calculate the center of the page
         center_x = letter[0] / 2
@@ -65,49 +64,56 @@ def create_PDF(raw_text, images, title):
 
         title_lines = title.split(' ')
         title_font_size = 60
-        pdf.setFont("Helvetica-Bold", title_font_size)
-
-        # Calculate total height for the title
-        title_height = len(title_lines) * title_font_size
+        pdf.setFont("Times-Roman", title_font_size)
 
         # Calculate the y position to center the title
-        y_position = letter[1] - margin - title_height
+        y_position = letter[1] - margin 
 
         for line in title_lines:
             # Calculate the x position to center the text
-            text_width = pdf.stringWidth(line, "Helvetica-Bold", title_font_size)
+            text_width = pdf.stringWidth(line, "Times-Roman", title_font_size)
             x_position = center_x - (text_width / 2)
 
             pdf.drawString(x_position, y_position, line)
             y_position -= title_font_size
 
-        # move to new page after creating cover
-        pdf.showPage()
 
-        # Move down for text
-        y_position = letter[1] - margin - 20
-
-
-        for page in filtered_pages:
+        for i in range(len(filtered_pages)):
             try:
+                page = filtered_pages[i]
                 # Split text into lines
-                lines = page.split('\n')
+                sentences = page.split('\n')
 
-                for line in lines:
+                # Move down for text
+                y_position = letter[1] - margin
+
+                # new page for image
+                pdf.showPage()
+
+                pdf.setFont("Times-Roman", line_height)
+
+                try:
+                    image_path = array_images[i]
+                    pdf.drawImage(image_path, 0, 0, width=page_width, height=page_height)
+                except Exception:
+                    pass
+
+                for line in sentences:
                     # Calculate the x position to center the text
-                    text_width = pdf.stringWidth(line, "Helvetica", 12)
+                    text_width = pdf.stringWidth(line, "Times-Roman", line_height)
                     x_position = center_x - (text_width / 2)
 
+                    # finally draw the text
                     pdf.drawString(x_position, y_position, line)
                     y_position -= line_height
 
                     # Check if the text goes beyond the page, create a new page
                     if y_position <= margin:
                         pdf.showPage()
-                        y_position = letter[1] - margin
+                        y_position = letter[1] - line_height
 
             except Exception:
-                print(f"Error processing page")
+                print(f"Error processing page {i + 1}")
 
         pdf.showPage()
         pdf.save()

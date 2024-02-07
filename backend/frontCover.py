@@ -26,7 +26,7 @@ def createCover(title):
 
         # Make a request to the Hugging Face model using the provided text prompt
         image_bytes = stability_ai({
-            "inputs": "Book cover, beautiful, high quality, best selling " + title,
+            "inputs": "Book cover, beautiful, high quality, best selling, no text " + title,
         })
 
         # Try to open the image with PIL
