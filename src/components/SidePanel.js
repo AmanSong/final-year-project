@@ -29,7 +29,8 @@ function SidePanel({ handleProps }) {
       const newData = {
         text: prevDropFileData,
         display: activeKey,
-        title: storyTitle
+        title: storyTitle,
+        generate: true
       };
       handleProps(newData); // Use handleProps directly as a prop
       console.log('worked', newData);

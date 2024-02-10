@@ -1,38 +1,60 @@
 .displayImage {
-    background-color: aliceblue;
     height: 100vh;
-    width: 125vh;
+    width: 120vh;
     display: flex;
-
-    user-select: none;
+    background-color: rgba(240, 248, 255, 0.123);
+    padding-left: 2%;
 }
 
-.firstpage {
-    width: 50%;
-    background-color: antiquewhite;
-    
-}
-
-.secondpage {
-    position: relative;
-    width: 50%;
-    background-color: wheat;
-}
-
-.pdf {
-    padding: 1%;
+.progress-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    height: 100%;
-}
-.image {
-    padding: 1%;
-    width: 100%;
-    height: auto;
+    height: 90%;
 }
 
-.stopButton {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin: 1%
+.progress {
+    height: 2rem;
+    width: 75%;
+}
+
+.progress-bar {
+    text-align: center;
+}
+
+.empty_pdf {
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    text-align: center;
+    padding: 5%;
+    width: 60%;
+    border-radius: 10px;
+    margin-top: 25vh;
+    color: aliceblue;
+    background-color: rgba(0, 0, 0, 0.5); 
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); 
+}
+
+.displayPDF {
+    background-image: url('/public/empty_pdf.jpg');
+    background-size: cover;
+}
+
+.save-pdf-button {
+    text-align: center;
+    width: 5rem;
+    height: 2.5rem;
+    margin: .5%;
+
+    background-color: rgb(143, 223, 196);
+    border-color: aliceblue;
+}
+
+.save-pdf-button:hover {
+    background-color: rgb(95, 228, 183);
+    border-color: aliceblue;
 }

@@ -11,7 +11,6 @@ import UserMenu from "./components/UserMenu";
 
 function App() {
 
-  //const [generatedImage, updateGeneratedImage] = useState(null);
   const [PDF, setPDF] = useState(null);
   const [Display, SetDisplay] = useState(1);
   const [story, setStory] = useState();
@@ -20,13 +19,7 @@ function App() {
   const [storyTitle, setStoryTitle] = useState();
 
   const handleProps = (propsData) => {
-    const { image, text, display, story, title } = propsData;
-    console.log(propsData)
-    console.log(display)
-    console.log(story)
-    console.log(title)
-    console.log(text)
-
+    const { image, text, display, story, title, generate } = propsData;
     SetDisplay(display)
     setPDF(text);
     setStoryTitle(title);

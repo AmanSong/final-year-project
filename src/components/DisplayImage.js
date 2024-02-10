@@ -1,20 +1,28 @@
-import { CButton, CContainer, CImage } from "@coreui/react";
-import { React, useState, useEffect, useRef } from "react"
+import { CProgress, CProgressBar, CContainer, CCloseButton, CButton } from "@coreui/react";
+import { React, useState, useEffect } from "react"
 import axios from "axios";
 import './DisplayImage.css'
+import supabase from "../config/SupabaseClient";
 
 function DisplayImage({ pdf, storyTitle }) {
 
     const [isGenerating, setIsGenerating] = useState(false);
     const [PDF, SetPDF] = useState();
     const [pdfUrl, setPdfUrl] = useState(null);
+    const [pdfBlob, setPdfBlob] = useState(null)
     const [Title, setStoryTitle] = useState(null);
 
+    // give a default value for 5 images to generate
+    const [amountToGen, setAmountToGen] = useState(5);
+    const [progressValue, setProgressValue] = useState(0);
+
+    const [forceUpdate, setForceUpdate] = useState(false);
+
     useEffect(() => {
-        // store pdf in local state to prevent losing images
         if (pdf) {
             SetPDF(pdf);
             setStoryTitle(storyTitle);
+            setForceUpdate(prevState => !prevState);
         }
     }, [pdf]);
 
@@ -44,8 +52,12 @@ function DisplayImage({ pdf, storyTitle }) {
             console.log(response);
 
             const blob = new Blob([response.data], { type: 'application/pdf' });
+            setPdfBlob(blob)
             const url = URL.createObjectURL(blob);
             setPdfUrl(url);
+
+            setProgressValue(100);
+            setIsGenerating(false);
 
         } catch (error) {
             console.error("Error sending data:", error);
@@ -56,7 +68,7 @@ function DisplayImage({ pdf, storyTitle }) {
     const generateImages = async () => {
         try {
             const newAiImages = [];
-            for (let i = 0; i <= 5; i++) {
+            for (let i = 0; i <= amountToGen; i++) {
                 let prompt = PDF.summaries[i];
 
                 console.log('generating images', i);
@@ -69,11 +81,11 @@ function DisplayImage({ pdf, storyTitle }) {
                         break;
                     }
                     console.log("Generated image:");
+                    setProgressValue((i / amountToGen) * 90);
                     newAiImages.push(image);
                 }
             }
             create(PDF.rawtext, newAiImages, Title);
-            setIsGenerating(false);
         } catch (error) {
             console.error("Error in generateImages:", error);
         }
@@ -84,8 +96,9 @@ function DisplayImage({ pdf, storyTitle }) {
     useEffect(() => {
         if (PDF && PDF.summaries && PDF.summaries.length > 0) {
             setIsGenerating(true)
+            setProgressValue(0);
         }
-    }, [PDF]);
+    }, [PDF, forceUpdate]);
 
     // to begin generation of images depending on if its set to true or not
     useEffect(() => {
@@ -94,18 +107,78 @@ function DisplayImage({ pdf, storyTitle }) {
         }
     }, [isGenerating])
 
+
+    // function to save the generated pdf
+    const SavePDF = async () => {
+        if (!pdfUrl) {
+            alert("No pdf to save!")
+            return
+        }
+
+        // retrive current user data
+        const { data: user, error: userError } = await supabase.auth.getUser();
+        if (userError) {
+            console.error('Error fetching user:', userError.message);
+            return;
+        }
+
+        if (user.user.id) {
+            // Create a FormData object and append the pdf
+            const formData = new FormData();
+            formData.append('file', pdfBlob, `${Title}.pdf`);
+
+            // Upload the file to Supabase Storage
+            const { data, error } = await supabase
+                .storage
+                .from('illustrated-stories')
+                .upload(user.user.id + "/" + Title, pdfBlob, {
+                    contentType: 'pdf'
+                });
+
+            if (error) {
+                console.error('Error uploading PDF:', error.message);
+                return;
+            }
+
+            console.log('PDF uploaded successfully:', data);
+        }
+        else {
+            console.log('Error authenticating user')
+        }
+    }
+
     return (
         <CContainer className="displayImage">
+            <CContainer className="displayPDF">
+                {isGenerating ? (
+                    <CContainer className="progress-container">
+                        <CProgress className="progress" color="info" variant="striped" animated value={progressValue}>
+                            {progressValue < 80 ? (
+                                <CProgressBar className="progress-bar">Generating Images!</CProgressBar>
+                            ) : (
+                                <CProgressBar className="progress-bar">Almost Done!</CProgressBar>
+                            )}
+                        </CProgress>
+                    </CContainer>
+                ) : (
+                    pdfUrl ? (
+                        <iframe
+                            title="PDF Viewer"
+                            src={pdfUrl}
+                            style={{ width: '100%', height: '95%', border: 'none' }}
+                        />
+                    ) : (
+                        <div className="empty_pdf">
+                            Your illustrated story will be here...
+                        </div>
+                    )
+                )}
+            </CContainer>
 
-            {pdfUrl && (
-                <iframe
-                    title="PDF Viewer"
-                    src={pdfUrl}
-                    style={{ width: '100%', height: '95%', border: 'none' }}
-                />
-            )}
+            <CButton className="save-pdf-button" onClick={() => SavePDF()}>SAVE</CButton>
 
         </CContainer>
+
     );
 }
 

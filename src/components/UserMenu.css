@@ -43,6 +43,13 @@
     width: 15vw;
     margin-top: .5vh;
     background-color: #999999cb;
+
+    opacity: 0;
+}
+
+.menu-dropdown.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 .menu-buttons {
