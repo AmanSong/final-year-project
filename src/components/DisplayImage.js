@@ -1,4 +1,4 @@
-import { CProgress, CProgressBar, CContainer, CCloseButton, CButton } from "@coreui/react";
+import { CProgress, CProgressBar, CContainer, CSpinner, CButton } from "@coreui/react";
 import { React, useState, useEffect } from "react"
 import axios from "axios";
 import './DisplayImage.css'
@@ -17,6 +17,7 @@ function DisplayImage({ pdf, storyTitle }) {
     const [progressValue, setProgressValue] = useState(0);
 
     const [forceUpdate, setForceUpdate] = useState(false);
+    const [saving, setSaving] = useState(false);
 
     useEffect(() => {
         if (pdf) {
@@ -111,8 +112,8 @@ function DisplayImage({ pdf, storyTitle }) {
     // function to save the generated pdf
     const SavePDF = async () => {
         if (!pdfUrl) {
-            alert("No pdf to save!")
-            return
+            alert("No pdf to save!");
+            return;
         }
 
         // retrive current user data
@@ -123,29 +124,36 @@ function DisplayImage({ pdf, storyTitle }) {
         }
 
         if (user.user.id) {
-            // Create a FormData object and append the pdf
-            const formData = new FormData();
-            formData.append('file', pdfBlob, `${Title}.pdf`);
+            setSaving(true);
 
-            // Upload the file to Supabase Storage
-            const { data, error } = await supabase
-                .storage
-                .from('illustrated-stories')
-                .upload(user.user.id + "/" + Title, pdfBlob, {
-                    contentType: 'pdf'
-                });
+            try {
+                // Create a FormData object and append the pdf
+                const formData = new FormData();
+                formData.append('file', pdfBlob, `${Title}.pdf`);
 
-            if (error) {
-                console.error('Error uploading PDF:', error.message);
-                return;
+                // Upload the file to Supabase Storage
+                const { data, error } = await supabase
+                    .storage
+                    .from('illustrated-stories')
+                    .upload(user.user.id + "/" + Title, pdfBlob, {
+                        contentType: 'pdf'
+                    });
+
+                if (error) {
+                    console.error('Error uploading PDF:', error.message);
+                    return;
+                }
+
+                console.log('PDF uploaded successfully:', data);
+            } finally {
+                // Set saving to false after the operation is complete
+                setSaving(false);
             }
-
-            console.log('PDF uploaded successfully:', data);
-        }
-        else {
-            console.log('Error authenticating user')
+        } else {
+            console.log('Error authenticating user');
         }
     }
+
 
     return (
         <CContainer className="displayImage">
@@ -173,6 +181,13 @@ function DisplayImage({ pdf, storyTitle }) {
                         </div>
                     )
                 )}
+                {saving
+                    ?
+                    <div className="save-spinner">
+                        <CSpinner className="spinner" />
+                    </div>
+                    :
+                    null}
             </CContainer>
 
             <CButton className="save-pdf-button" onClick={() => SavePDF()}>SAVE</CButton>

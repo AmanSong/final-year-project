@@ -58,3 +58,13 @@
     background-color: rgb(95, 228, 183);
     border-color: aliceblue;
 }
+
+.save-spinner {
+    text-align: center;
+    color: white;
+}
+
+.spinner {
+    width: 6rem;
+    height: 6rem;
+}

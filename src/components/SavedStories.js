@@ -5,9 +5,10 @@ import { CHeader, CButton } from '@coreui/react';
 import UserMenu from "./UserMenu";
 import { pdfjs } from 'react-pdf';
 import { Document, Page } from 'react-pdf';
-
+import DisplaySaved from "./DisplaySaved";
 import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
+
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.js',
@@ -22,6 +23,10 @@ function SavedStories() {
     const [userId, setUserId] = useState('');
     const [userStories, setStories] = useState([]);
     const [thumbnails, setThumbnails] = useState([]);
+    const [loadingThumbnails, setLoadingThumbnails] = useState(Array(userStories.length).fill(true));
+    const [openViewer, setOpenViewer] = useState(false);
+    const [selectedPDF, setSelectedPDF] = useState(null);
+
 
     const captureThumbnail = async (pdf, index) => {
         try {
@@ -41,10 +46,21 @@ function SavedStories() {
             await page.render(renderContext).promise;
             const thumbnailUrl = canvas.toDataURL('image/jpeg');
 
-            // Store the thumbnail URL in state or use it as needed
-            setThumbnails((prevImages) => [...prevImages, thumbnailUrl]);
+            // Update the thumbnails state with the correct index
+            setThumbnails((prevImages) => {
+                const newThumbnails = [...prevImages];
+                newThumbnails[index] = thumbnailUrl;
+                return newThumbnails;
+            });
         } catch (error) {
             console.error('Error capturing thumbnail:', error.message);
+        } finally {
+            // Set loading to false for the corresponding index
+            setLoadingThumbnails((prevLoading) => {
+                const newLoading = [...prevLoading];
+                newLoading[index] = false;
+                return newLoading;
+            });
         }
     };
 
@@ -104,7 +120,18 @@ function SavedStories() {
 
     console.log(thumbnails);
 
+    const viewPDF = (pdf) => {
+        setOpenViewer(true);
+        setSelectedPDF(pdf);
+    };
+    const closeViewer = () => {
+        setOpenViewer(false);
+        setSelectedPDF(null);
+    };
+
     // npm install react-pdf
+
+    console.log(userStories)
 
     return (
         <div className="saved-stories-section">
@@ -113,16 +140,29 @@ function SavedStories() {
                 <UserMenu />
             </CHeader>
 
+            {openViewer
+                ?
+                <DisplaySaved pdfContent={selectedPDF} closeViewer={closeViewer}></DisplaySaved>
+                :
+                null
+            }
+
             <div className="saved-stories">
-                {userStories.map((story, index) => (
-                    <div key={index}>
-                        <Document file={story.content} onLoadSuccess={(pdf) => captureThumbnail(pdf, index)}>
-                            <div className="pdf-thumbnail-container">
-                                <img className="thumbnail" src={thumbnails[index]}/>
-                            </div>
-                        </Document>
-                    </div>
-                ))}
+                <div className="saved-stories-container">
+                    {userStories.map((story, index) => (
+                        <div key={index}>
+                            <Document file={story.content} onLoadSuccess={(pdf) => captureThumbnail(pdf, index)}>
+                                <div onClick={() => { viewPDF(story.content); setSelectedPDF(story.content); }} className="pdf-thumbnail-container">
+                                    {loadingThumbnails[index] ? (
+                                        <p>Loading Thumbnail...</p>
+                                    ) : (
+                                        <img className="thumbnail" src={thumbnails[index]} alt={`Thumbnail ${index}`} />
+                                    )}
+                                </div>
+                            </Document>
+                        </div>
+                    ))}
+                </div>
             </div>
 
         </div>

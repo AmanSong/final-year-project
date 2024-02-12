@@ -1,0 +1,73 @@
+.display-saved {
+    position: fixed;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 800px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.display-saved embed {
+    width: 100%;
+    height: 80vh;
+    transition: height 0.3s;
+}
+
+.display-saved:fullscreen {
+    width: 100%;
+    height: 100%;
+}
+
+.display-saved:fullscreen embed {
+    height: 100%;
+}
+
+.display-saved-button {
+    display: block;
+    margin: 1%;
+    width: 7%;
+    padding: 1%;
+    background-color: #e796d0;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.display-saved-button:hover {
+    background-color: #c239a6;
+}
+
+.display-fullscreen-button {
+    display: block;
+    margin: 1%;
+    width: 7%;
+    background-color: #6697f1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.display-fullscreen-button:hover {
+    background-color: #156cc8;
+}
+
+.saved-buttons {
+    display: flex;
+    background-color: #98bde4;
+    z-index: 1001;
+}
+.display-saved:fullscreen .saved-buttons {
+    display: none;
+}
