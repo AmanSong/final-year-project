@@ -1,14 +1,14 @@
 import { React, useEffect, useState } from "react"
 import supabase from '../config/SupabaseClient';
 import './SavedStories.css'
-import { CHeader, CButton } from '@coreui/react';
+import { CHeader } from '@coreui/react';
 import UserMenu from "./UserMenu";
 import { pdfjs } from 'react-pdf';
-import { Document, Page } from 'react-pdf';
+import { Document } from 'react-pdf';
 import DisplaySaved from "./DisplaySaved";
 import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
-
+import { useNavigate } from 'react-router-dom';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.js',
@@ -22,11 +22,14 @@ function SavedStories() {
     const [currentUserName, setCurrentUserName] = useState('');
     const [userId, setUserId] = useState('');
     const [userStories, setStories] = useState([]);
+    const [userStoriesDetails, setStoriesDetails] = useState([]);
     const [thumbnails, setThumbnails] = useState([]);
     const [loadingThumbnails, setLoadingThumbnails] = useState(Array(userStories.length).fill(true));
     const [openViewer, setOpenViewer] = useState(false);
     const [selectedPDF, setSelectedPDF] = useState(null);
+    const [selectedPDFdetails, setSelectedPDFdetails] = useState(null);
 
+    const navigate = useNavigate();
 
     const captureThumbnail = async (pdf, index) => {
         try {
@@ -109,6 +112,7 @@ function SavedStories() {
                     );
 
                     setStories(stories.filter(Boolean));
+                    setStoriesDetails(filteredData);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error.message);
@@ -118,31 +122,51 @@ function SavedStories() {
         fetchData();
     }, []);
 
-    console.log(thumbnails);
-
-    const viewPDF = (pdf) => {
+    const viewPDF = (pdf, detail) => {
         setOpenViewer(true);
         setSelectedPDF(pdf);
+        setSelectedPDFdetails(detail);
     };
     const closeViewer = () => {
         setOpenViewer(false);
         setSelectedPDF(null);
     };
 
-    // npm install react-pdf
+    const Delete = async () => {
+        try {
+            const { data, error } = await supabase
+                .storage
+                .from('illustrated-stories')
+                .remove(userId + "/" + selectedPDFdetails.name);
 
-    console.log(userStories)
+            if (error) {
+                console.error('Error deleting story:', error);
+                return;
+            }
+
+            console.log('Deleted successfully');
+        } catch (error) {
+            console.error('Unexpected error during deletion:', error);
+        }
+    }
+
+
+    const Return = () => {
+        navigate('/main')
+    }
+
+    // npm install react-pdf
 
     return (
         <div className="saved-stories-section">
             <CHeader className="main-header">
-                <h4 id="p-title">Good to see you, {currentUserName}</h4>
+                <img onClick={() => Return()} className="logo" src="/logo.png" />
                 <UserMenu />
             </CHeader>
 
             {openViewer
                 ?
-                <DisplaySaved pdfContent={selectedPDF} closeViewer={closeViewer}></DisplaySaved>
+                <DisplaySaved pdfContent={selectedPDF} pdfDetail={selectedPDFdetails} closeViewer={closeViewer} Delete={Delete}></DisplaySaved>
                 :
                 null
             }
@@ -152,7 +176,7 @@ function SavedStories() {
                     {userStories.map((story, index) => (
                         <div key={index}>
                             <Document file={story.content} onLoadSuccess={(pdf) => captureThumbnail(pdf, index)}>
-                                <div onClick={() => { viewPDF(story.content); setSelectedPDF(story.content); }} className="pdf-thumbnail-container">
+                                <div onClick={() => { viewPDF(story.content, userStoriesDetails[index]) }} className="pdf-thumbnail-container">
                                     {loadingThumbnails[index] ? (
                                         <p>Loading Thumbnail...</p>
                                     ) : (

@@ -6,20 +6,28 @@
 .menu-button {
     background-color: rgb(111, 127, 142);
     text-align: center;
-    height: 5vh;
-    width: 5vh;
-    font-size: 2vh;
+    height: 2.9rem;
+    width: 2.9rem;
     border-radius: 50%;
     border: 2px solid rgb(92, 90, 216);
-    line-height: 5vh; /* Vertically center the text */
     overflow: hidden;
     padding: 0;
+    margin: 2%;
 }
 .menu-button img {
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    user-select: none;
     display: block;
     height: 100%;  
     width: 100%;
 }
+
+.user-name {
+    text-align: center;
+    color: rgb(36, 36, 119);
+}
+
 .menu-button:hover {
     background-color: rgb(170, 45, 170);
     text-align: center;

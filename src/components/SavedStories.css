@@ -1,13 +1,13 @@
 .saved-stories-section {
     width: 100vw;
     height: 100vh;
-    background-color: #636363;
+    background-color: rgb(168, 168, 168);
     overflow: hidden;
   }
   
 
 .saved-stories {
-    background-color: #90afba;
+    background-color: #5ad3ff;
     height: 100vh;
     width: 65vw;
     padding: 2.5%;
@@ -16,15 +16,15 @@
 }
 
 .saved-stories-container {
-    background-color: #cfcfcf80;
+    background-color: #fbb8fd80;
     width: 60vw;
     margin: auto;
     padding-bottom: 10vh;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 20rem));
     justify-content: space-around;
     flex-wrap: wrap;
     border-radius: 9px;
-    
 }
 
 .pdf-thumbnail-container {

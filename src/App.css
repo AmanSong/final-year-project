@@ -18,6 +18,13 @@
   display: flex;
 }
 
+.logo {
+  height: 1rem;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 #p-title {
   font-size: 1.5rem;
 }

@@ -5,8 +5,6 @@ import '@coreui/coreui/dist/css/coreui.min.css'
 import SidePanel from "./components/SidePanel";
 import DisplayImage from "./components/DisplayImage";
 import DisplayStory from "./components/DisplayStory";
-
-import supabase from "./config/SupabaseClient";
 import UserMenu from "./components/UserMenu";
 
 function App() {
@@ -26,19 +24,12 @@ function App() {
     setStory(story);
   };
 
-  useEffect(() => {
-    const getUserName = async () => {
-      const { data: user, error } = await supabase.auth.getUser();
-      setCurrentUser(user.user.user_metadata.user_name)
-    }
-    getUserName();
-  }, []);
 
   return (
     <div className="App">
 
       <CHeader className="main-header">
-        <h4 id="p-title">Good to see you, {currentUser}</h4>
+        <img className="logo" src="logo.png"/>
         <UserMenu />
       </CHeader>
 

@@ -1,7 +1,7 @@
 import { React, useState, useEffect, useCallback, useRef } from 'react'
 import supabase from '../config/SupabaseClient';
 import { useNavigate } from 'react-router-dom';
-import { CButton, CCollapse, CCard, CCardBody, CImage } from '@coreui/react';
+import { CButton, CCollapse, CCard, CCardBody, CImage, CCardTitle } from '@coreui/react';
 import './UserMenu.css'
 import { useDropzone } from "react-dropzone";
 import { v4 as uuid } from "uuid";
@@ -13,31 +13,35 @@ function UserMenu() {
     const [currentUser, setCurrentUser] = useState('');
     const [userPicture, setUserPicture] = useState([]);
     const [menuVisible, setMenuVisible] = useState(false);
+    const [currentUserName, setCurrentUserName] = useState('');
     const menuRef = useRef(null);
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const getUserDetails = async () => {
-            try {
-                // Check local storage for cached user details
-                const cachedUserDetails = JSON.parse(localStorage.getItem('userDetails'));
+    // Check local storage for cached user details
+    const cachedUserDetails = JSON.parse(localStorage.getItem('userDetails'));
 
-                if (cachedUserDetails) {
+    useEffect(() => {
+
+        const getUserDetails = async () => {
+
+            try {
+                const { data: user, error: userError } = await supabase.auth.getUser();
+
+                if (userError) {
+                    console.error('Error fetching user:', userError.message);
+                    return;
+                }
+                
+                if (cachedUserDetails.userId === user.user.id) {
                     setCurrentUser(cachedUserDetails.userId);
                     setUserPicture(cachedUserDetails.userPicture);
-                    console.log(cachedUserDetails.userPicture)
+                    setCurrentUserName(cachedUserDetails.user_name);
                 } else {
-
-                    const { data: user, error: userError } = await supabase.auth.getUser();
-
-                    if (userError) {
-                        console.error('Error fetching user:', userError.message);
-                        return;
-                    }
 
                     if (user.user.id) {
                         setCurrentUser(user.user.id);
+                        setCurrentUserName(user.user.user_metadata.user_name)
 
                         // Fetch user images
                         const { data: images, error: imageError } = await supabase
@@ -56,6 +60,7 @@ function UserMenu() {
                         localStorage.setItem('userDetails', JSON.stringify({
                             userId: user.user.id,
                             userPicture: pfp_pic,
+                            userName: user.user.user_metadata.user_name,
                         }));
 
                         setUserPicture(pfp_pic);
@@ -172,6 +177,7 @@ function UserMenu() {
                                     console.error("Error loading image:");
                                 }}
                             ></CImage>
+                            <CCardTitle className='user-name'>{currentUserName}</CCardTitle>
                         </CCard>
 
                         <CButton className='create-stories-button' onClick={() => CreateStories()}>Create and Illustrate</CButton>
