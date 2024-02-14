@@ -16,6 +16,8 @@ function App() {
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
   const [storyTitle, setStoryTitle] = useState();
 
+  const [status, setStatus] = useState();
+  
   const handleProps = (propsData) => {
     const { image, text, display, story, title, generate } = propsData;
     SetDisplay(display)
@@ -24,6 +26,9 @@ function App() {
     setStory(story);
   };
 
+  const handleReturnedStatus = (returnedValue) => {
+    setStatus(returnedValue);
+  };
 
   return (
     <div className="App">
@@ -36,13 +41,13 @@ function App() {
       <div className="components">
 
         <div style={{ display: isSidePanelOpen ? 'block' : 'none' }}>
-          <SidePanel handleProps={handleProps}></SidePanel>
+          <SidePanel handleProps={handleProps} isGenerate={status}></SidePanel>
         </div>
         <button className="side-panel-button" onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}></button>
 
         <div className="display">
           <div className="display-container" style={{ display: Display === 1 ? 'block' : 'none' }}>
-            <DisplayImage pdf={PDF} storyTitle={storyTitle}></DisplayImage>
+            <DisplayImage pdf={PDF} storyTitle={storyTitle} returnStatus={handleReturnedStatus}></DisplayImage>
           </div>
 
           <div className="display-container" style={{ display: Display === 2 ? 'block' : 'none' }}>

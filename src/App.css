@@ -11,11 +11,12 @@
 }
 
 .main-header {
-  position: absolute;
+  position: fixed;
   height: 3rem;
   border-width: 0 !important;
-  background-color: rgb(171, 219, 247) !important;
+  background-color: rgb(126, 208, 255) !important;
   display: flex;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
@@ -23,6 +24,7 @@
   -webkit-user-drag: none;
   -webkit-user-select: none;
   user-select: none;
+  cursor: pointer;
 }
 
 #p-title {

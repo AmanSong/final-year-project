@@ -1,4 +1,5 @@
-import { CButton, CContainer, CFormInput } from "@coreui/react";
+import { CButton, CContainer, CFormInput, CSpinner } from "@coreui/react";
+import { CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter } from '@coreui/react';
 import { React, useState, useEffect } from "react"
 import axios from "axios";
 import FileDropComponent from "./FileDropComponent";
@@ -8,7 +9,7 @@ import StyleDrop from "./StyleDrop";
 import { CNav, CTabPane, CTabContent } from "@coreui/react";
 import StoryGeneration from "./StoryGeneration";
 
-function SidePanel({ handleProps }) {
+function SidePanel({ handleProps, isGenerate }) {
 
   const [model, updateModel] = useState('');
   const [dropFileData, setDropFileData] = useState();
@@ -18,6 +19,8 @@ function SidePanel({ handleProps }) {
   // Define a state variable to store the input value
   const [storyTitle, setStoryTitle] = useState('');
 
+  const [visible, setVisible] = useState(false);
+
   // Event handler for input change
   const handleStoryInput = (event) => {
     setStoryTitle(event.target.value);
@@ -25,6 +28,7 @@ function SidePanel({ handleProps }) {
 
   // set the uploaded file from dropFileData
   const setFile = () => {
+
     setDropFileData((prevDropFileData) => {
       const newData = {
         text: prevDropFileData,
@@ -32,11 +36,19 @@ function SidePanel({ handleProps }) {
         title: storyTitle,
         generate: true
       };
-      handleProps(newData); // Use handleProps directly as a prop
+
+      // Check if storyTitle is not empty
+      if (!prevDropFileData) {
+        setVisible(!visible)
+        return;
+      }
+
+      handleProps(newData);
       console.log('worked', newData);
       return prevDropFileData;
     });
   }
+
 
   const sendFile = () => {
     setFile();
@@ -135,13 +147,32 @@ function SidePanel({ handleProps }) {
             </div>
 
             <CContainer className="submit-button-container">
+              {isGenerate ?
+              <CButton disabled={true} className="submit-button"><CSpinner></CSpinner></CButton>
+              :
               <CButton onClick={() => sendFile()} className="submit-button">Submit</CButton>
+              } 
             </CContainer>
           </CTabPane>
 
           <CTabPane className="tab-content" visible={activeKey === 2}>
             <StoryGeneration story_props={handle_story_props}></StoryGeneration>
           </CTabPane>
+
+          <CModal
+            className="submit-error-modal"
+            alignment="center"
+            visible={visible}
+            onClose={() => setVisible(false)}
+          >
+            <CModalHeader>
+              <CModalTitle>Warning</CModalTitle>
+            </CModalHeader>
+            <CModalBody>
+              Please ensure a story and title is provided!
+            </CModalBody>
+          </CModal>
+
 
         </CTabContent>
 

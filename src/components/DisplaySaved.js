@@ -55,10 +55,10 @@ const DisplaySaved = ({ pdfContent, pdfDetail, closeViewer, Delete }) => {
                     <p>Are you sure you want to delete "{pdfDetail.name}"?</p>
                 </CModalBody>
                 <CModalFooter>
-                    <CButton color="secondary" onClick={() => setDeleteConfirm(false)}>
+                    <CButton className="delete-confirm-button-cancel" onClick={() => setDeleteConfirm(false)}>
                         Cancel
                     </CButton>
-                    <CButton color="primary" onClick={() => deleteAndClose()}>Yes</CButton>
+                    <CButton className="delete-confirm-button-yes" onClick={() => deleteAndClose()}>Yes</CButton>
                 </CModalFooter>
             </CModal>
 

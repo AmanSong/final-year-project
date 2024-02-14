@@ -108,7 +108,7 @@ def create_PDF(raw_text, images, title):
                     text_width = pdf.stringWidth(line, "Times-Roman", line_height)
                     x_position = center_x - (text_width / 2)
 
-                    pdf.setFillColorRGB(1, 1, 1, 0.25) #choose fill colour
+                    pdf.setFillColorRGB(1, 1, 1, 0.5) #choose fill colour
 
                     # avoid drawing with when no line
                     if line.strip():

@@ -1,10 +1,12 @@
 import { CProgress, CProgressBar, CContainer, CSpinner, CButton } from "@coreui/react";
-import { React, useState, useEffect } from "react"
+import { CToast, CToastHeader, CToaster } from '@coreui/react';
+import { React, useState, useEffect, useRef } from "react"
 import axios from "axios";
 import './DisplayImage.css'
 import supabase from "../config/SupabaseClient";
+import { v4 as uuid } from "uuid";
 
-function DisplayImage({ pdf, storyTitle }) {
+function DisplayImage({ pdf, storyTitle, returnStatus }) {
 
     const [isGenerating, setIsGenerating] = useState(false);
     const [PDF, SetPDF] = useState();
@@ -13,11 +15,22 @@ function DisplayImage({ pdf, storyTitle }) {
     const [Title, setStoryTitle] = useState(null);
 
     // give a default value for 5 images to generate
-    const [amountToGen, setAmountToGen] = useState(5);
+    const [amountToGen, setAmountToGen] = useState(2);
     const [progressValue, setProgressValue] = useState(0);
 
     const [forceUpdate, setForceUpdate] = useState(false);
     const [saving, setSaving] = useState(false);
+
+    const [toast, addToast] = useState(0)
+    const toaster = useRef()
+
+    const toastSaved = (
+        <CToast>
+          <CToastHeader closeButton>
+            <div className="fw-bold me-auto">Successfully saved</div>
+          </CToastHeader>
+        </CToast>
+    )
 
     useEffect(() => {
         if (pdf) {
@@ -105,6 +118,10 @@ function DisplayImage({ pdf, storyTitle }) {
     useEffect(() => {
         if (isGenerating === true) {
             generateImages();
+            returnStatus(isGenerating);
+        }
+        if (isGenerating === false) {
+            returnStatus(isGenerating);
         }
     }, [isGenerating])
 
@@ -135,7 +152,7 @@ function DisplayImage({ pdf, storyTitle }) {
                 const { data, error } = await supabase
                     .storage
                     .from('illustrated-stories')
-                    .upload(user.user.id + "/" + Title, pdfBlob, {
+                    .upload(user.user.id + "/" + Title + " " + uuid(), pdfBlob, {
                         contentType: 'pdf'
                     });
 
@@ -144,9 +161,10 @@ function DisplayImage({ pdf, storyTitle }) {
                     return;
                 }
 
+                addToast(toastSaved);
                 console.log('PDF uploaded successfully:', data);
+
             } finally {
-                // Set saving to false after the operation is complete
                 setSaving(false);
             }
         } else {
@@ -181,16 +199,17 @@ function DisplayImage({ pdf, storyTitle }) {
                         </div>
                     )
                 )}
-                {saving
-                    ?
-                    <div className="save-spinner">
-                        <CSpinner className="spinner" />
-                    </div>
-                    :
-                    null}
+
+
+
             </CContainer>
 
-            <CButton className="save-pdf-button" onClick={() => SavePDF()}>SAVE</CButton>
+            {saving ?
+                <CButton className="save-pdf-button" onClick={() => SavePDF()} disabled={true}><CSpinner color="info"/></CButton>
+                :
+                <CButton className="save-pdf-button" onClick={() => SavePDF()} disabled={false}>SAVE</CButton>
+            }
+            <CToaster ref={toaster} push={toast} placement="top-end" />
 
         </CContainer>
 

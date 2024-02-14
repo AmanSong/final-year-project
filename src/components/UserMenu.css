@@ -71,18 +71,18 @@
 .signout-button {
     width: 100%;
     border-color: rgba(0, 0, 0, 0);
-    background-color: rgb(255, 145, 145);
+    background-color: rgb(247, 108, 108);
 }
 .signout-button:hover  {
     width: 100%;
     border-color: rgba(0, 0, 0, 0);
-    background-color: rgb(255, 98, 98);
+    background-color: rgb(250, 138, 138);
 }
 
 .saved-stories-button {
     width: 100%;
     border-color: rgba(0, 0, 0, 0);
-    background-color: rgb(143, 255, 87);
+    background-color: rgb(115, 236, 54);
     margin-bottom: 5%;
 }
 .saved-stories-button:hover  {
@@ -95,13 +95,13 @@
 .create-stories-button {
     width: 100%;
     border-color: rgba(0, 0, 0, 0);
-    background-color: rgb(99, 211, 255);
+    background-color: rgb(65, 192, 243);
     margin-bottom: 5%;
 }
 .create-stories-button:hover  {
     width: 100%;
     border-color: rgba(0, 0, 0, 0);
-    background-color: rgb(49, 190, 255);
+    background-color: rgb(124, 208, 247);
     margin-bottom: 5%;
 }
 

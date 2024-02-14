@@ -1,7 +1,7 @@
-import { React, useEffect, useState } from "react"
+import { React, useEffect, useState, useRef } from "react"
 import supabase from '../config/SupabaseClient';
 import './SavedStories.css'
-import { CHeader } from '@coreui/react';
+import { CHeader, CToast, CToastHeader, CToaster } from '@coreui/react';
 import UserMenu from "./UserMenu";
 import { pdfjs } from 'react-pdf';
 import { Document } from 'react-pdf';
@@ -28,6 +28,18 @@ function SavedStories() {
     const [openViewer, setOpenViewer] = useState(false);
     const [selectedPDF, setSelectedPDF] = useState(null);
     const [selectedPDFdetails, setSelectedPDFdetails] = useState(null);
+
+    const [toast, addToast] = useState(0)
+    const toaster = useRef()
+    const [forceUpdate, setForceUpdate] = useState(false);
+
+    const toastDelete = (
+        <CToast>
+          <CToastHeader closeButton>
+            <div className="fw-bold me-auto">Successfully deleted</div>
+          </CToastHeader>
+        </CToast>
+    )
 
     const navigate = useNavigate();
 
@@ -120,7 +132,7 @@ function SavedStories() {
         };
 
         fetchData();
-    }, []);
+    }, [forceUpdate]);
 
     const viewPDF = (pdf, detail) => {
         setOpenViewer(true);
@@ -145,6 +157,8 @@ function SavedStories() {
             }
 
             console.log('Deleted successfully');
+            addToast(toastDelete)
+            setForceUpdate(prevState => !prevState);
         } catch (error) {
             console.error('Unexpected error during deletion:', error);
         }
@@ -172,6 +186,11 @@ function SavedStories() {
             }
 
             <div className="saved-stories">
+
+                <div className="saved-stories-header">
+                    <h4>Saved Stories</h4>
+                </div>
+
                 <div className="saved-stories-container">
                     {userStories.map((story, index) => (
                         <div key={index}>
@@ -188,6 +207,8 @@ function SavedStories() {
                     ))}
                 </div>
             </div>
+
+            <CToaster ref={toaster} push={toast} placement="top" />
 
         </div>
     );

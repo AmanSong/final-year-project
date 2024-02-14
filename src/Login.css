@@ -11,6 +11,7 @@
 
 .login-area {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     margin: auto;
     flex-wrap: wrap;
@@ -26,17 +27,17 @@
     
     background-color: aliceblue;
     max-width: 40vw;
-    max-height: 60vh;
+    max-height: 20rem;
     margin: auto;
     padding: 2%;
     border: 1% solid #ccc;
-    border-radius: 1%;
+    border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .login-form label {
     display: block;
-    font-size: 1.75vh;
+    font-size: 1rem;
     margin-top: 5%;
     margin-bottom: 5%;
 }
@@ -60,7 +61,7 @@
 }
 
 .login-form button {
-    font-size: 1.5vh;
+    font-size: 1rem;
     padding: 2.5% 2.5%;
     margin-right: 5%;
     background-color: #3498db;
@@ -76,4 +77,21 @@
 
 .signup-button {
     background-color: rgb(28, 172, 121) !important;
+}
+
+.login-logo-section {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    padding-top: 5%;
+
+
+}
+
+.login-logo {
+    height: 2rem;
+    max-width: 40vw;
 }

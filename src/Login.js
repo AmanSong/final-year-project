@@ -41,14 +41,14 @@ function Login() {
     }
 
     function signUp() {
-        
+
         const signup = async () => {
             // do some error checking first
-            if(userPassword !== userPasswordMatch) {
+            if (userPassword !== userPasswordMatch) {
                 alert('Passwords do not match')
                 return
             }
-            else if(userPassword.length < 6) {
+            else if (userPassword.length < 6) {
                 alert('Minimum password length is 6!')
                 return
             }
@@ -59,7 +59,7 @@ function Login() {
                     password: userPassword,
                     options: {
                         data: {
-                          user_name: userName,
+                            user_name: userName,
                         }
                     }
                 });
@@ -85,8 +85,13 @@ function Login() {
 
     return (
         <div className="login-page">
-            
+
             <div className="login-area">
+                
+                <div className="login-logo-section">
+                    <img className="login-logo" src="logo.png"></img>
+                </div>
+
                 {signingUp ?
 
                     <CForm className="login-form">
