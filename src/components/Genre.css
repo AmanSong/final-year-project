@@ -1,0 +1,42 @@
+.genre-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.open-genre {
+    width: 100%;
+    background-color: #2b7eb3;
+}
+
+.genre-card {
+    background-color: #dff2fd;
+    width: 15rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
+    align-items: center;
+    padding: 1%;
+}
+
+.genre-button {
+    justify-self: stretch;
+    align-self: stretch;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1%;
+
+    background-color: #549dca;
+
+    &:hover {
+        background-color: #2991d1;
+    }
+}
+
+.genre-button.high-lighted {
+    background-color: #761c88;
+
+    &:hover {
+        background-color: #4c125f;
+    }
+}

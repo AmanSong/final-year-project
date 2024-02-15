@@ -81,7 +81,6 @@ def select_model(request_data: ModelRequest):
     return {"SelectedModel": SelectedModel}
 
 
-
 # endpoint for selecting styles
 class ModelRequest(BaseModel):
     style: str
@@ -99,159 +98,48 @@ def set_style(style_choice: ModelRequest):
 # function generate
 @app.post("/")
 def generate(prompt: str):
+
     if(SelectedModel == 'stable-diffusion-xl-base-1.0'):
-
-        print('Using stable')
-
-        # change url for stability ai
         API_URL = stabilityai
-
-        def stability_ai(payload):
-            response = requests.post(API_URL, headers=headers, json=payload)
-            print(response)
-            print(payload)
-            return response.content
-
-        try:
-            if style != '':
-                prompt_with_style = f"{prompt}, {style}"
-            else:
-                prompt_with_style = prompt
-
-            print(f"using {prompt_with_style}")
-
-            # Make a request to the Hugging Face model using the provided text prompt
-            image_bytes = stability_ai({
-	            "inputs": prompt_with_style,
-            })
-
-            # Try to open the image with PIL
-            image = Image.open(BytesIO(image_bytes))
-
-            # Convert the PIL Image to base64 format
-            buffer = BytesIO()
-            image.save(buffer, format="PNG")
-            imgstr = base64.b64encode(buffer.getvalue())
-
-            return Response(content=imgstr, media_type="image/png")
-        
-        except Exception as e:
-            return f"Error generating image: {e}"
-        
     elif(SelectedModel == 'CompVis/stable-diffusion-v1-4'):
-
-        print('Using CompVis')
-
-        # change url for stability ai
         API_URL = compvis
-
-        def comp_vis(payload):
-            response = requests.post(API_URL, headers=headers, json=payload)
-            print(response)
-            print(payload)
-            return response.content
-
-        try:
-            if style != '':
-                prompt_with_style = f"{prompt}, {style}"
-            else:
-                prompt_with_style = prompt
-
-            print(f"using {prompt_with_style}")
-
-            # Make a request to the Hugging Face model using the provided text prompt
-            image_bytes = comp_vis({
-	            "inputs": prompt_with_style,
-            })
-
-            # Try to open the image with PIL
-            image = Image.open(BytesIO(image_bytes))
-
-            # Convert the PIL Image to base64 format
-            buffer = BytesIO()
-            image.save(buffer, format="PNG")
-            imgstr = base64.b64encode(buffer.getvalue())
-
-            return Response(content=imgstr, media_type="image/png")
-        
-        except Exception as e:
-            return f"Error generating image: {e}"
-        
-    elif(SelectedModel == "pixel-art-xl"):
-        print('Using pixel')
-
-        # change url for pixel art model
+    elif(SelectedModel == 'pixel-art-xl'):
         API_URL = pixel_art
-
-        def pixel_art_xl(payload):
-            response = requests.post(API_URL, headers=headers, json=payload)
-            print(response)
-            print(payload)
-            return response.content
-
-        try:
-            if style != '':
-                prompt_with_style = f"{prompt}, {style}"
-            else:
-                prompt_with_style = prompt
-
-            print(f"using {prompt_with_style}")
-
-            # Make a request to the Hugging Face model using the provided text prompt
-            image_bytes = pixel_art_xl({
-	            "inputs": prompt_with_style,
-            })
-
-            # Try to open the image with PIL
-            image = Image.open(BytesIO(image_bytes))
-
-            # Convert the PIL Image to base64 format
-            buffer = BytesIO()
-            image.save(buffer, format="PNG")
-            imgstr = base64.b64encode(buffer.getvalue())
-
-            return Response(content=imgstr, media_type="image/png")
-        
-        except Exception as e:
-            return f"Error generating image: {e}"
-        
-    elif(SelectedModel == "waifu-diffusion"):
-        print('Using waifu')
-
-        # change url for pixel art model
+    elif(SelectedModel == 'waifu-diffusion'):
         API_URL = waifu_diffusion
 
-        def waifuDiffusion(payload):
-            response = requests.post(API_URL, headers=headers, json=payload)
-            print(response)
-            print(payload)
-            return response.content
+    def huggingFace(payload):
+        response = requests.post(API_URL, headers=headers, json=payload)
+        print(response)
+        print(payload)
+        return response.content
+    
+    try:
+        if style != '':
+            prompt_with_style = f"{prompt}, {style}"
+        else:
+            prompt_with_style = prompt
 
-        try:
-            if style != '':
-                prompt_with_style = f"{prompt}, {style}"
-            else:
-                prompt_with_style = prompt
+        print(f"using {prompt_with_style}")
 
-            print(f"using {prompt_with_style}")
+        # Make a request to the Hugging Face model using the provided text prompt
+        image_bytes = huggingFace({
+            "inputs": prompt_with_style,
+        })
 
-            # Make a request to the Hugging Face model using the provided text prompt
-            image_bytes = waifuDiffusion({
-	            "inputs": prompt_with_style,
-            })
+        # Try to open the image with PIL
+        image = Image.open(BytesIO(image_bytes))
 
-            # Try to open the image with PIL
-            image = Image.open(BytesIO(image_bytes))
+        # Convert the PIL Image to base64 format
+        buffer = BytesIO()
+        image.save(buffer, format="PNG")
+        imgstr = base64.b64encode(buffer.getvalue())
 
-            # Convert the PIL Image to base64 format
-            buffer = BytesIO()
-            image.save(buffer, format="PNG")
-            imgstr = base64.b64encode(buffer.getvalue())
+        return Response(content=imgstr, media_type="image/png")
+    
+    except Exception as e:
+        return f"Error generating image: {e}"
 
-            return Response(content=imgstr, media_type="image/png")
-        
-        except Exception as e:
-            return f"Error generating image: {e}"
 
 # endpoint for uploaded
 @app.post("/upload-pdf")
@@ -280,6 +168,7 @@ async def upload_pdf(file: UploadFile):
     except Exception as e:
         print(f"Error processing the file: {e}")
         return JSONResponse(content={"message": "An error occurred while processing the file"}, status_code=500)
+    
     
 # endpoint for creating stories
 class ModelRequest(BaseModel):

@@ -148,15 +148,26 @@ function SidePanel({ handleProps, isGenerate }) {
 
             <CContainer className="submit-button-container">
               {isGenerate ?
-              <CButton disabled={true} className="submit-button"><CSpinner></CSpinner></CButton>
-              :
-              <CButton onClick={() => sendFile()} className="submit-button">Submit</CButton>
-              } 
+                <CButton disabled={true} className="submit-button"><CSpinner></CSpinner></CButton>
+                :
+                <CButton onClick={() => sendFile()} className="submit-button">Submit</CButton>
+              }
             </CContainer>
           </CTabPane>
 
+          {/* Story generation panel */}
           <CTabPane className="tab-content" visible={activeKey === 2}>
+
             <StoryGeneration story_props={handle_story_props}></StoryGeneration>
+
+            <div className="styleSelect-container">
+              <StyleDrop></StyleDrop>
+            </div>
+
+            <div className="selectModal-container">
+              <SelectModel selectedModel={updateModel}></SelectModel>
+            </div>
+
           </CTabPane>
 
           <CModal
