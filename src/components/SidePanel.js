@@ -11,15 +11,13 @@ import StoryGeneration from "./StoryGeneration";
 
 function SidePanel({ handleProps, isGenerate }) {
 
+  // states
   const [model, updateModel] = useState('');
   const [dropFileData, setDropFileData] = useState();
   const [activeKey, setActiveKey] = useState(1)
-  const [getStory, setGetStory] = useState('')
-
-  // Define a state variable to store the input value
   const [storyTitle, setStoryTitle] = useState('');
-
   const [visible, setVisible] = useState(false);
+  const [storyGenerate, setStoryGenerate] = useState(false);
 
   // Event handler for input change
   const handleStoryInput = (event) => {
@@ -28,7 +26,6 @@ function SidePanel({ handleProps, isGenerate }) {
 
   // set the uploaded file from dropFileData
   const setFile = () => {
-
     setDropFileData((prevDropFileData) => {
       const newData = {
         text: prevDropFileData,
@@ -47,9 +44,8 @@ function SidePanel({ handleProps, isGenerate }) {
       console.log('worked', newData);
       return prevDropFileData;
     });
+
   }
-
-
   const sendFile = () => {
     setFile();
   }
@@ -82,19 +78,11 @@ function SidePanel({ handleProps, isGenerate }) {
     });
   }, [activeKey])
 
-  // get story from the props and set it
-  const handle_story_props = (propsData) => {
-    const { story } = propsData;
-    setGetStory(story)
-  }
 
-  // when story has been set, change to the illustrative display
-  useEffect(() => {
-    handleProps({
-      display: activeKey,
-      story: getStory
-    }, [getStory]);
-  })
+  // tell story generation component to generate
+  const handleStorySubmit = () => {
+    setStoryGenerate(true);
+  }
 
   return (
 
@@ -158,7 +146,7 @@ function SidePanel({ handleProps, isGenerate }) {
           {/* Story generation panel */}
           <CTabPane className="tab-content" visible={activeKey === 2}>
 
-            <StoryGeneration story_props={handle_story_props}></StoryGeneration>
+            <StoryGeneration generate_story={storyGenerate} onGenerateStoryComplete={() => setStoryGenerate(false)}></StoryGeneration>
 
             <div className="styleSelect-container">
               <StyleDrop></StyleDrop>
@@ -167,6 +155,14 @@ function SidePanel({ handleProps, isGenerate }) {
             <div className="selectModal-container">
               <SelectModel selectedModel={updateModel}></SelectModel>
             </div>
+
+            <CContainer className="submit-button-container">
+              {storyGenerate ?
+                <CButton disabled={true} className="submit-button"><CSpinner></CSpinner></CButton>
+                :
+                <CButton onClick={handleStorySubmit} className="submit-button">Generate</CButton>
+              }
+            </CContainer>
 
           </CTabPane>
 

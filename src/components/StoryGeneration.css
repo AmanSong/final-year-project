@@ -30,3 +30,12 @@
 .genre-div {
     margin-top: 10%;
 }
+
+.page-amount-selection {
+    background-color: #c0e2f0;
+    border: 1px solid white;
+    border-radius: 4px;
+    margin-top: 5%;
+    padding: 2%;
+    text-align: center;
+}
