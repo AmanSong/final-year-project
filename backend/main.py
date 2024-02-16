@@ -101,11 +101,11 @@ def generate(prompt: str):
 
     if(SelectedModel == 'stable-diffusion-xl-base-1.0'):
         API_URL = stabilityai
-    elif(SelectedModel == 'CompVis/stable-diffusion-v1-4'):
+    if(SelectedModel == 'CompVis/stable-diffusion-v1-4'):
         API_URL = compvis
-    elif(SelectedModel == 'pixel-art-xl'):
+    if(SelectedModel == 'pixel-art-xl'):
         API_URL = pixel_art
-    elif(SelectedModel == 'waifu-diffusion'):
+    if(SelectedModel == 'waifu-diffusion'):
         API_URL = waifu_diffusion
 
     def huggingFace(payload):
@@ -169,7 +169,7 @@ async def upload_pdf(file: UploadFile):
         print(f"Error processing the file: {e}")
         return JSONResponse(content={"message": "An error occurred while processing the file"}, status_code=500)
     
-    
+
 # endpoint for creating stories
 class ModelRequest(BaseModel):
     story_prompt: str

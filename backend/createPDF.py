@@ -31,6 +31,7 @@ def base64_to_file(base64_string, file_extension=".png"):
         print(f"Error converting base64 to temporary file: {e}")
         return None
     
+    
 def create_PDF(raw_text, images, title):
     try:
         # get length of images
@@ -62,7 +63,7 @@ def create_PDF(raw_text, images, title):
         # Filter out empty pages
         filtered_pages = [page for page in raw_text if page.strip()]
 
-        # Draw front cover
+        ###### Draw front cover
         cover_img = createCover(title)
         cover_img_temp = base64_to_file(cover_img)
         pdf.drawImage(cover_img_temp, 0, 0, width=page_width, height=page_height)
@@ -81,7 +82,7 @@ def create_PDF(raw_text, images, title):
 
             pdf.drawString(x_position, y_position, line)
             y_position -= title_font_size
-
+        ###### end of drawing front cover
 
         for i in range(len(filtered_pages)):
             try:
@@ -95,18 +96,21 @@ def create_PDF(raw_text, images, title):
                 # new page for image
                 pdf.showPage()
 
+                # set the font and height of line
                 pdf.setFont("Times-Roman", line_height)
-
+                
+                # try to place image, otherwise continue on
                 try:
                     image_path = array_images[i]
                     pdf.drawImage(image_path, 0, 0, width=page_width, height=page_height)
                 except Exception:
                     pass
-
+                
+                # for every line 
                 for line in sentences:
                     # Calculate the x position to center the text
                     text_width = pdf.stringWidth(line, "Times-Roman", line_height)
-                    x_position = center_x - (text_width / 2)
+                    x_position = (center_x / 2) - 40
 
                     pdf.setFillColorRGB(1, 1, 1, 0.5) #choose fill colour
 
@@ -123,6 +127,7 @@ def create_PDF(raw_text, images, title):
                     if y_position <= margin:
                         pdf.showPage()
                         y_position = letter[1] - line_height
+                        continue
 
             except Exception:
                 print(f"Error processing page {i + 1}")
