@@ -11,21 +11,22 @@ function App() {
 
   const [PDF, setPDF] = useState(null);
   const [Display, SetDisplay] = useState(1);
-  const [story, setStory] = useState();
   const [currentUser, setCurrentUser] = useState('');
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
   const [storyTitle, setStoryTitle] = useState();
-
   const [status, setStatus] = useState();
+
+  const [story, setStory] = useState(null);
   
   const handleProps = (propsData) => {
-    const { image, text, display, story, title, generate } = propsData;
+    const { text, display, title, story_pdf } = propsData;
     SetDisplay(display)
     setPDF(text);
     setStoryTitle(title);
-    setStory(story);
+    setStory(story_pdf);
   };
 
+  console.log(story)
   const handleReturnedStatus = (returnedValue) => {
     setStatus(returnedValue);
   };
@@ -51,7 +52,7 @@ function App() {
           </div>
 
           <div className="display-container" style={{ display: Display === 2 ? 'block' : 'none' }}>
-            <DisplayStory story={story}></DisplayStory>
+            <DisplayStory story={story} ></DisplayStory>
           </div>
         </div>
 

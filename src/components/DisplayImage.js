@@ -199,9 +199,6 @@ function DisplayImage({ pdf, storyTitle, returnStatus }) {
                         </div>
                     )
                 )}
-
-
-
             </CContainer>
 
             {saving ?

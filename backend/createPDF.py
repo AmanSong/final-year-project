@@ -4,7 +4,10 @@ from io import BytesIO
 import base64
 import tempfile
 import os
-from reportlab.lib.colors import Color
+
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.utils import simpleSplit
+from reportlab.lib.units import inch
 
 from frontCover import createCover 
 
@@ -31,19 +34,97 @@ def base64_to_file(base64_string, file_extension=".png"):
         print(f"Error converting base64 to temporary file: {e}")
         return None
     
+
+def create_Story_PDF(story, title):
+    try:
+        # Create a BytesIO buffer to temporarily store the PDF content
+        story_pdf_buffer = BytesIO()
+
+        # Rest of your code remains unchanged
+        story_pdf = canvas.Canvas(story_pdf_buffer, pagesize=letter)
+
+        line_height = 15
+        margin = 50
+
+        # Calculate the center of the page
+        center_x = letter[0] / 2
+
+        # Get the dimensions of the image and the page
+        page_width, page_height = letter
+
+        ###### Draw front cover
+        cover_img = createCover(title)
+        cover_img_temp = base64_to_file(cover_img)
+        story_pdf.drawImage(cover_img_temp, 0, 0, width=page_width, height=page_height)
+
+        title_lines = title.split(' ')
+        title_font_size = 60
+        story_pdf.setFont("Times-Roman", title_font_size)
+
+        # Calculate the y position to center the title
+        y_position = letter[1] - 150
+        
+        for line in title_lines:
+            # Calculate the x position to center the text
+            text_width = story_pdf.stringWidth(line, "Times-Roman", title_font_size)
+            x_position = center_x - (text_width / 2)
+
+            story_pdf.drawString(x_position, y_position, line)
+            y_position -= title_font_size
+
+        story_pdf.showPage()
+        ###### end of drawing front cover
+            
+        ## now draw text here with word wrapping
+        story_font_size = 12
+        story_font_name = "Times-Roman"
+        story_width = page_width / 2
+
+        story_pdf.setFont(story_font_name, story_font_size)
+        y_position -= 50  # Adjusting the starting position
+
+        for paragraph in story:
+            lines = simpleSplit(paragraph, story_font_name, story_font_size, story_width)
+            print(lines)
+            for line in lines:
+                # Calculate the x position to center the text
+                text_width = story_pdf.stringWidth(line, story_font_name, story_font_size)
+                x_position = (page_width - text_width) / 2
+
+                if y_position - story_font_size < 50:
+                    # Start a new page if the current position is too close to the bottom
+                    story_pdf.showPage()
+                    y_position = page_height - 50
+
+                story_pdf.drawString(x_position, y_position, line)
+                y_position -= story_font_size + 2
+
+        story_pdf.showPage()
+        story_pdf.save()
+
+        return story_pdf_buffer
+
+    except Exception as outer_error:
+        # Log outer_error for the entire PDF generation
+        print(f"Error generating PDF, {outer_error}")
+        return None
+    
     
 def create_PDF(raw_text, images, title):
     try:
-        # get length of images
-        amount = len(images)
-        print(amount)
         array_images = []
 
-        # Convert images to file format
-        for x in range(amount):
-            temp_file_path = base64_to_file(images[x])
-            if temp_file_path:
-                array_images.append(temp_file_path)
+        # get length of images
+        if(images):
+            amount = len(images)
+            print(amount)
+            array_images = []
+
+            # Convert images to file format
+            for x in range(amount):
+                temp_file_path = base64_to_file(images[x])
+                if temp_file_path:
+                    array_images.append(temp_file_path)
 
         # Create a BytesIO buffer to temporarily store the PDF content
         pdf_buffer = BytesIO()
@@ -83,10 +164,11 @@ def create_PDF(raw_text, images, title):
             pdf.drawString(x_position, y_position, line)
             y_position -= title_font_size
         ###### end of drawing front cover
-
+            
         for i in range(len(filtered_pages)):
             try:
                 page = filtered_pages[i]
+
                 # Split text into lines
                 sentences = page.split('\n')
 
@@ -136,11 +218,12 @@ def create_PDF(raw_text, images, title):
         pdf.save()
 
         # make sure to handle temp file path deletion
-        delete_temp_files(array_images)
+        if(array_images):
+            delete_temp_files(array_images)
 
         return pdf_buffer
 
-    except Exception:
+    except Exception as outer_error:
         # Log outer_error for the entire PDF generation
-        print(f"Error generating PDF")
+        print(f"Error generating PDF, {outer_error}")
         return None

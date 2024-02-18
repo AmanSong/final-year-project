@@ -19,6 +19,8 @@ function SidePanel({ handleProps, isGenerate }) {
   const [visible, setVisible] = useState(false);
   const [storyGenerate, setStoryGenerate] = useState(false);
 
+  const [generatedStory, setGeneratedStory] = useState();
+
   // Event handler for input change
   const handleStoryInput = (event) => {
     setStoryTitle(event.target.value);
@@ -71,6 +73,7 @@ function SidePanel({ handleProps, isGenerate }) {
     chooseModel();
   }, [model]);
 
+  
   // to change the display from illustrative to generative
   useEffect(() => {
     handleProps({
@@ -78,11 +81,28 @@ function SidePanel({ handleProps, isGenerate }) {
     });
   }, [activeKey])
 
-
   // tell story generation component to generate
   const handleStorySubmit = () => {
     setStoryGenerate(true);
   }
+
+
+// handle when a story is returned
+const handleGeneratedStory = (story) => {
+  const newData = {
+    story_pdf: story,
+    display: activeKey,
+  };
+
+  setGeneratedStory((prevStory) => {
+    // Make sure to check if the new story is not null before updating
+    if (story) {
+      handleProps(newData);
+      return story;
+    }
+    return prevStory; // If story is null, keep the previous value
+  });
+};
 
   return (
 
@@ -146,7 +166,11 @@ function SidePanel({ handleProps, isGenerate }) {
           {/* Story generation panel */}
           <CTabPane className="tab-content" visible={activeKey === 2}>
 
-            <StoryGeneration generate_story={storyGenerate} onGenerateStoryComplete={() => setStoryGenerate(false)}></StoryGeneration>
+            <StoryGeneration
+              generate_story={storyGenerate}
+              onGenerateStoryComplete={() => setStoryGenerate(false)}
+              onUpdateGeneratedStory={handleGeneratedStory}
+            ></StoryGeneration>
 
             <div className="styleSelect-container">
               <StyleDrop></StyleDrop>

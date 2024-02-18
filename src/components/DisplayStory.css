@@ -1,35 +1,12 @@
 .story-displayImage {
-    background-color: rgb(224, 224, 224);
     height: 100vh;
-    width: 150vh;
+    width: 120vh;
     display: flex;
-
-    user-select: none;
+    background-color: rgba(240, 248, 255, 0.123);
+    padding-left: 2%;
 }
 
-.story-text {
-    width: 90%;
-    padding: 2%;
-    justify-content: center;
-    margin: auto;
-    margin-top: 5%;
-    font-size: 1.7vh;
-    background-color: rgb(245, 242, 239);
-}
-
-.story-firstpage {
-    width: 50%;
-    background-color: rgb(235, 240, 238);
-    
-}
-
-.story-secondpage {
-    width: 50%;
-    background-color: rgb(223, 227, 247);
-}
-
-.image {
-    padding: 1%;
-    width: 100%;
-    height: auto;
+.story-displayPDF {
+    background-image: url('/public/empty_pdf.jpg');
+    background-size: cover;
 }

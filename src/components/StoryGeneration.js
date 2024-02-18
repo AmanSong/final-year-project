@@ -1,13 +1,13 @@
 import { React, useEffect, useState } from "react"
-import { CButton, CForm, CFormTextarea, CContainer, CFormRange } from "@coreui/react";
+import { CButton, CForm, CFormTextarea, CContainer, CFormRange, CFormInput } from "@coreui/react";
 import Genre from "./Genre";
+import axios from "axios";
 import './StoryGeneration.css';
 
-function StoryGeneration( {generate_story, onGenerateStoryComplete} ) {
+function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGeneratedStory }) {
 
   const [storyInput, setStoryInput] = useState('');
-  const [GeneratedStory, setGeneratedStory] = useState('');
-
+  const [storyTitle, setStoryTitle] = useState('');
   const [genres, setGenres] = useState([]);
   const [amount, setAmount] = useState(1);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -16,19 +16,44 @@ function StoryGeneration( {generate_story, onGenerateStoryComplete} ) {
     setGenres(selectedGenres);
   }
 
+  // when user clicks generate, call api endpoint to generate
   useEffect(() => {
     if (generate_story && !isGenerating) {
-      // Set isGenerating to true to prevent further triggers until actions are complete
       setIsGenerating(true);
 
-      // Simulate asynchronous actions (replace with your actual logic)
-      setTimeout(() => {
-        console.log('Actions complete.');
+      // call endpoint
+      const generateStory = async (storyInput, storyTitle, genres, amount) => {
+        try {
+          const response = await axios.post("http://127.0.0.1:8000/story", {
+            story_prompt: storyInput,
+            story_title: storyTitle,
+            genres: genres,
+            amount: amount
+          }, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            responseType: 'arraybuffer'
+          });
 
-        // Call the callback function to update the parent state
-        onGenerateStoryComplete();
-        setIsGenerating(false);
-      }, 2000); // Adjust the timeout value based on your actual asynchronous actions
+          console.log(response);
+          const GeneratedStory = response.data;
+
+          console.log(GeneratedStory)
+
+          // Callback to pass the updated GeneratedStory to the parent component
+          onUpdateGeneratedStory(GeneratedStory);
+
+          setIsGenerating(false);
+          onGenerateStoryComplete();
+        } catch (error) {
+          console.error("Error sending data:", error);
+          setIsGenerating(false);
+          onGenerateStoryComplete();
+        }
+      }
+      generateStory(storyInput, storyTitle, genres, amount);
+
     }
   }, [generate_story, isGenerating, onGenerateStoryComplete]);
 
@@ -45,6 +70,15 @@ function StoryGeneration( {generate_story, onGenerateStoryComplete} ) {
           onChange={(e) => setStoryInput(e.target.value)}
         />
       </CForm>
+
+      <div className="storyTitleDiv">
+        <CFormInput
+          className="storyTitleInput"
+          type="text"
+          placeholder="Title of Story"
+          value={storyTitle}
+          onChange={(e) => setStoryTitle(e.target.value)} />
+      </div>
 
       <div className="page-amount-selection">
         <h6>Page Amount</h6>

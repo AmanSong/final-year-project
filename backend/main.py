@@ -17,6 +17,7 @@ from fastapi.responses import JSONResponse
 import tempfile
 from extract import read, summarize_pages
 from story import generateStory
+from generateStory import story_generator
 from createPDF import create_PDF
 
 # create FastAPI instances
@@ -173,25 +174,34 @@ async def upload_pdf(file: UploadFile):
 # endpoint for creating stories
 class ModelRequest(BaseModel):
     story_prompt: str
+    story_title: str
+    genres: list[str]
+    amount: int
 
 @app.post("/story")
-def generate(request: ModelRequest):
+def generate(storyParams: ModelRequest):
     try:
         # use story.py to generate story
-        generatedStory = generateStory(request.story_prompt)
+        generatedStory = story_generator(
+            storyParams.story_prompt,
+            storyParams.story_title,
+            storyParams.genres,
+            storyParams.amount
+        )
 
-        imagePrompt = summarize_pages(generatedStory)
+        # Create a temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file_story:
+            generatedStory.seek(0)
+            temp_file_story.write(generatedStory.read())
+            temp_file_story.seek(0)
 
-        response_content = {
-            "message": "Story generated succesfully",
-            "generated_story": generatedStory,
-            "imagePrompt": imagePrompt,
-        }
+        # Return the temporary file as a FileResponse
+        return FileResponse(temp_file_story.name, media_type="application/pdf", filename="generated_pdf.pdf")
 
-        return JSONResponse(content=response_content, status_code=200)
     except Exception as e:
         print(f"Error processing the file: {e}")
         return JSONResponse(content={"message": "An error occured while generating the story"}, status_code=500)
+    
 
 # endpoint to create PDF
 class ModelRequest(BaseModel):
