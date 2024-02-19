@@ -137,17 +137,18 @@ const handleGeneratedStory = (story) => {
         <CTabContent>
 
           <CTabPane className="tab-content" visible={activeKey === 1}>
-            <div className="upload-container">
-              <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
-            </div>
 
-            <div className="storyTitleDiv">
+          <div className="storyTitleDiv">
               <CFormInput
                 className="storyTitleInput"
                 type="text"
                 placeholder="Title of Story"
                 value={storyTitle}
                 onChange={handleStoryInput} />
+            </div>
+
+            <div className="upload-container">
+              <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
             </div>
 
             <div className="styleSelect-container">

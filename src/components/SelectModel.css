@@ -20,7 +20,7 @@
 }
 
 .model-button.highlighted {
-    background-color: #123491;
+    background-color: #133696;
     color: #fff;
 }
 
@@ -29,6 +29,7 @@
 }
 
 #model-collaspe {
-    background-color: #c8d7e0;
-    width: 17rem;
+    background-color: #a0d1f0;
+    width: 16rem;
+    padding: 5%;
 }

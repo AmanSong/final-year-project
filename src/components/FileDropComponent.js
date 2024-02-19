@@ -10,6 +10,12 @@ import * as icon from '@coreui/icons';
 function FileDropComponent({ onDataExtracted }) {
 
     const [fileName, setFileName] = useState('');
+    const [visible, setVisible] = useState(false)
+    const [isFlipped, setIsFlipped] = useState(false);
+
+    const flipArrow = () => {
+      setIsFlipped(!isFlipped);
+    };
 
     // this is the drop file component using the react-dropzone library
     const onDrop = useCallback(async (acceptedFiles) => {
@@ -43,11 +49,14 @@ function FileDropComponent({ onDataExtracted }) {
         },
     });
 
-    const [visible, setVisible] = useState(false)
-
     return (
         <div>
-            <CButton className="styledrop-button" onClick={() => setVisible(!visible)} aria-expanded={visible} aria-controls="collapseWidthExample">Upload PDF Story</CButton>
+            <CButton className="styledrop-button" onClick={() => {setVisible(!visible); flipArrow()}} aria-expanded={visible} aria-controls="collapseWidthExample">
+                <div>
+                    Upload PDF Story 
+                    <CIcon className={`button-icon ${isFlipped ? 'flipped' : ''}`} icon={icon.cilChevronBottom} size="xl"/>
+                </div>
+            </CButton>
             <CCollapse  visible={visible}>
                 <CCard id="upload-drop-container">
                     <CCardBody id="upload-drop-card">

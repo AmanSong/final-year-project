@@ -1,7 +1,7 @@
 .filedrop {
-    background-color: rgb(160, 214, 230);
-    height: 10vh;
-    width: 13vw;
+    background-color: rgb(188, 188, 188);
+    height: 7rem;
+    width: 15rem;
     border-radius: 1rem;
     border: .5px rgb(168, 168, 168) solid;
     cursor: pointer;
@@ -10,6 +10,7 @@
     align-items: center;
     justify-content: center;
 
+    padding: 5%;
     font-size: 1.5rem;
     word-wrap: break-word;
 }
@@ -19,11 +20,11 @@
     align-items: center;
     justify-content: center;
 
-    width: 17rem;
+    width: 16rem;
 }
 
 .filedrop:hover {
-    background-color: rgb(128, 210, 235);
+    background-color: rgb(185, 206, 253);
 }
 
 .upload-label {
@@ -34,6 +35,15 @@
 }
 
 #upload-drop-container {
-    background-color: #becbd8;
+    background-color: #e8e8e8;
     width: 100%;
+}
+
+.button-icon {
+    transition: transform 0.3s ease;
+    float: right;
+}
+
+.flipped {
+    transform: rotate(-180deg);
 }

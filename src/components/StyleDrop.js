@@ -1,6 +1,8 @@
 import { React, useState, useEffect } from "react"
 import { CButton, CCollapse, CCard, CCardBody } from "@coreui/react";
 import axios from "axios";
+import CIcon from '@coreui/icons-react';
+import * as icon from '@coreui/icons';
 
 import './StyleDrop.css'
 
@@ -8,6 +10,11 @@ function StyleDrop() {
     const [visible, setVisible] = useState(false)
     const [selectedStyle, setSelectedStyle] = useState('')
     const [highlight, setHighlight] = useState(false)
+    const [isFlipped, setIsFlipped] = useState(false);
+
+    const flipArrow = () => {
+        setIsFlipped(!isFlipped);
+    };
 
     const setStyle = (value) => {
         // If the clicked button is already selected, deselect it
@@ -23,27 +30,32 @@ function StyleDrop() {
 
     const chooseStyle = async (e) => {
         try {
-          const response = await axios.post("http://127.0.0.1:8000/style", {
-            style : selectedStyle
-          }, {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          console.log(response);
+            const response = await axios.post("http://127.0.0.1:8000/style", {
+                style: selectedStyle
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            console.log(response);
         } catch (error) {
-          console.error("Error sending data:", error);
+            console.error("Error sending data:", error);
         }
-      }
-      useEffect(() => {
+    }
+    useEffect(() => {
         console.log(selectedStyle);
         chooseStyle();
     }, [selectedStyle]);
-    
+
 
     return (
         <div className="styles-container">
-            <CButton className="styledrop-button" onClick={() => setVisible(!visible)}>Select image style</CButton>
+            <CButton className="styledrop-button" onClick={() => { setVisible(!visible); flipArrow() }}>
+                <div>
+                    Select Style
+                    <CIcon className={`button-icon ${isFlipped ? 'flipped' : ''}`} icon={icon.cilChevronBottom} size="xl" />
+                </div>
+            </CButton>
             <CCollapse visible={visible}>
                 <CCard>
                     <CCardBody id="collaspe-card">

@@ -133,6 +133,7 @@
 
 .storyTitleDiv {
     margin-top: 5%;
+    margin-bottom: 5%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,12 +141,12 @@
 .storyTitleInput {
     width: 16rem;
     text-align: center;
-    background-color: #b2e5ff;
+    background-color: #78c5eb;
 }
 .storyTitleInput:focus {
     outline: none;
     border-color: #007bff;
-    background-color: #c9ecfd;
+    background-color: #55b3e1;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 .storyTitleInput::placeholder {

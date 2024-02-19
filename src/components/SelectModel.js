@@ -1,5 +1,7 @@
 import { CButton, CCollapse, CCard } from "@coreui/react";
 import { React, useState, useEffect } from "react"
+import CIcon from '@coreui/icons-react';
+import * as icon from '@coreui/icons';
 
 import './SelectModel.css'
 
@@ -9,23 +11,28 @@ function SelectModel({ selectedModel }) {
     const [visible, setVisible] = useState(false)
     const [highlight, setHighlight] = useState(false)
     const [selected, SetSelected] = useState('CompVis/stable-diffusion-v1-4')
+    const [isFlipped, setIsFlipped] = useState(false);
+
+    const flipArrow = () => {
+        setIsFlipped(!isFlipped);
+    };
 
     const dropdownSelect = (value) => {
         // Toggle highlight when the same style button is clicked
         SetSelected((prevSelected) => (prevSelected === value ? '' : value));
     };
-    
+
     // Automatically call selectedModel when the component mounts or selected model changes
     useEffect(() => {
         // Get the selected model from local storage
         const storedModel = localStorage.getItem('selectedModel');
-    
+
         if (storedModel) {
             SetSelected(storedModel);
             selectedModel(storedModel);
         }
     }, []); // Run once when loaded in
-    
+
     // Update local storage and call selectedModel when the selected model changes
     useEffect(() => {
         if (selected) {
@@ -37,8 +44,13 @@ function SelectModel({ selectedModel }) {
 
     return (
         <div>
-            <CButton className="styledrop-button" onClick={() => setVisible(!visible)}>Select AI Model</CButton>
-            <CCollapse  visible={visible}>
+            <CButton className="styledrop-button" onClick={() => {setVisible(!visible); flipArrow()}}>
+                <div>
+                    Select AI Model
+                    <CIcon className={`button-icon ${isFlipped ? 'flipped' : ''}`} icon={icon.cilChevronBottom} size="xl" />
+                </div>
+            </CButton>
+            <CCollapse visible={visible}>
                 <CCard id="model-collaspe">
                     <CButton
                         onClick={() => dropdownSelect('CompVis/stable-diffusion-v1-4')}
