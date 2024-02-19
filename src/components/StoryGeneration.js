@@ -42,7 +42,7 @@ function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGene
           console.log(GeneratedStory)
 
           // Callback to pass the updated GeneratedStory to the parent component
-          onUpdateGeneratedStory(GeneratedStory);
+          onUpdateGeneratedStory({ generatedStory: GeneratedStory, Title: storyTitle });
 
           setIsGenerating(false);
           onGenerateStoryComplete();

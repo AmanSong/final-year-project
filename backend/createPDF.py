@@ -71,8 +71,6 @@ def create_Story_PDF(story, title):
 
             story_pdf.drawString(x_position, y_position, line)
             y_position -= title_font_size
-
-        story_pdf.showPage()
         ###### end of drawing front cover
             
         ## now draw text here with word wrapping
@@ -81,7 +79,7 @@ def create_Story_PDF(story, title):
         story_width = page_width / 2
 
         story_pdf.setFont(story_font_name, story_font_size)
-        y_position -= 50  # Adjusting the starting position
+        y_position -= letter[1] - 150
 
         for paragraph in story:
             lines = simpleSplit(paragraph, story_font_name, story_font_size, story_width)
@@ -106,7 +104,7 @@ def create_Story_PDF(story, title):
 
     except Exception as outer_error:
         # Log outer_error for the entire PDF generation
-        print(f"Error generating PDF, {outer_error}")
+        print(f"Error generating Story PDF, {outer_error}")
         return None
     
     

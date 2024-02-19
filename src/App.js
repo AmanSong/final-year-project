@@ -17,13 +17,15 @@ function App() {
   const [status, setStatus] = useState();
 
   const [story, setStory] = useState(null);
+  const [generatedStoryTitle, setGeneratedStoryTitle] = useState(null);
   
   const handleProps = (propsData) => {
-    const { text, display, title, story_pdf } = propsData;
+    const { text, display, title, story_pdf, storyTitle } = propsData;
     SetDisplay(display)
     setPDF(text);
     setStoryTitle(title);
     setStory(story_pdf);
+    setGeneratedStoryTitle(storyTitle);
   };
 
   console.log(story)
@@ -52,7 +54,7 @@ function App() {
           </div>
 
           <div className="display-container" style={{ display: Display === 2 ? 'block' : 'none' }}>
-            <DisplayStory story={story} ></DisplayStory>
+            <DisplayStory story={story} generatedStoryTitle={generatedStoryTitle} ></DisplayStory>
           </div>
         </div>
 

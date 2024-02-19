@@ -15,7 +15,7 @@ OPENAI_KEY = os.getenv('OPENAI_KEY')
 LLM_MODEL = 'gpt-3.5-turbo'
 client = OpenAI(api_key=OPENAI_KEY)
 
-LangLLM = LangchainOpenAI(api_key=OPENAI_KEY, model='gpt-3.5-turbo-instruct', temperature=0.7, max_tokens=300)
+LangLLM = LangchainOpenAI(api_key=OPENAI_KEY, model='gpt-3.5-turbo-instruct', temperature=0.7, max_tokens=3000)
 
 def convertToPDF(Story, Title):
     # provide the generated story and title, images come later
@@ -65,7 +65,7 @@ def story_generator(context, title, genres, amount):
         model=LLM_MODEL,
         messages=[
             {"role": "system", "content": "You are a helpful assistant that generates creative stories. You adhere to the given genres and you create a paragraph for each page stated"},
-            {"role": "user", "content": f"Write {amount} of summaries for a book called {title} with the genres being {Genre}, with the given conetext {context}"},
+            {"role": "user", "content": f"Write only {amount} of summaries for a book called {title} with the genres being {Genre}, with the given context {context}"},
         ],
         max_tokens=4096,
         stream=True,

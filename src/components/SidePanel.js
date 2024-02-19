@@ -89,8 +89,12 @@ function SidePanel({ handleProps, isGenerate }) {
 
 // handle when a story is returned
 const handleGeneratedStory = (story) => {
+
+  const { generatedStory, Title } = story;
+
   const newData = {
-    story_pdf: story,
+    story_pdf: generatedStory,
+    storyTitle: Title,
     display: activeKey,
   };
 
