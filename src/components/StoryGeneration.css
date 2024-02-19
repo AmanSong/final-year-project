@@ -1,12 +1,28 @@
 .story-tab {
-    background-color: aliceblue;
+    background: linear-gradient(135deg, #a574e4, #c471bf, rgb(33, 10, 131));
     padding: 5%;
 }
 
 .form-input {
     text-align: center;
-    background-color: rgb(231, 231, 231);
-    padding: 2%;
+    background: rgb(73, 157, 212);
+    padding: 5%;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+.context-input {
+    width: 100%;
+    margin-top: 1%;
+    padding: 5%;
+    border-radius: 5px;
+    background-color: #ffffffcc;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+.context-input:focus {
+    border-color: #124669;
+    outline: none;
 }
 
 .submit-story {
@@ -19,7 +35,7 @@
     width: 100%;
     border: none;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
@@ -29,13 +45,16 @@
 
 .genre-div {
     margin-top: 10%;
+    justify-content: center;
+    display: flex;
 }
 
 .page-amount-selection {
-    background-color: #c0e2f0;
-    border: 1px solid white;
-    border-radius: 4px;
+    color: white;
+    background: rgb(73, 157, 212);
+    border-radius: 5px;
     margin-top: 5%;
     padding: 2%;
     text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }

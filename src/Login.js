@@ -87,7 +87,7 @@ function Login() {
         <div className="login-page">
 
             <div className="login-area">
-                
+
                 <div className="login-logo-section">
                     <img className="login-logo" src="logo.png"></img>
                 </div>
@@ -97,50 +97,46 @@ function Login() {
                     <CForm className="login-form">
 
                         <div className="login-title">
-                            <h4>Sign Up</h4>
+                            <h4>Sign up for a new account</h4>
                         </div>
 
                         <div>
-                            <label>Username:
-                                <input
-                                    type="text"
-                                    value={userName}
-                                    onChange={(e) => setUserName(e.target.value)}
-                                />
-                            </label>
+                            <input
+                                placeholder="Username"
+                                type="text"
+                                value={userName}
+                                onChange={(e) => setUserName(e.target.value)}
+                            />
                         </div>
 
                         <div>
-                            <label>Email:
-                                <input
-                                    type="text"
-                                    value={userEmail}
-                                    onChange={(e) => setUserEmail(e.target.value)}
-                                />
-                            </label>
+                            <input
+                                placeholder="Email"
+                                type="text"
+                                value={userEmail}
+                                onChange={(e) => setUserEmail(e.target.value)}
+                            />
                         </div>
 
                         <div>
-                            <label>Password:
-                                <input
-                                    type="password"
-                                    value={userPassword}
-                                    onChange={(e) => setUserPassword(e.target.value)}
-                                />
-                            </label>
+                            <input
+                                placeholder="Password"
+                                type="password"
+                                value={userPassword}
+                                onChange={(e) => setUserPassword(e.target.value)}
+                            />
                         </div>
 
                         <div>
-                            <label>Re-Enter your Password:
-                                <input
-                                    type="password"
-                                    value={userPasswordMatch}
-                                    onChange={(e) => setUserPasswordMatch(e.target.value)}
-                                />
-                            </label>
+                            <input
+                                placeholder="Re-Enter your Password"
+                                type="password"
+                                value={userPasswordMatch}
+                                onChange={(e) => setUserPasswordMatch(e.target.value)}
+                            />
                         </div>
 
-                        <div>
+                        <div className="login-buttons-div">
                             <CButton onClick={() => signUp()}>Submit</CButton>
                             <CButton className="signup-button" onClick={() => isSigningUp()}>Already signed up?</CButton>
                         </div>
@@ -150,31 +146,30 @@ function Login() {
                     <CForm className="login-form">
 
                         <div className="login-title">
-                            <h4>Welcome, please login or sign up</h4>
+                            <h4>Login to your account</h4>
                         </div>
 
                         <div>
-                            <label>Email:
-                                <input
-                                    type="text"
-                                    value={userEmail}
-                                    onChange={(e) => setUserEmail(e.target.value)}
-                                />
-                            </label>
+                            <input
+                                placeholder="Email"
+                                className="login-form-input"
+                                type="text"
+                                value={userEmail}
+                                onChange={(e) => setUserEmail(e.target.value)}
+                            />
                         </div>
 
                         <div>
-                            <label>Password:
-                                <input
-                                    type="password"
-                                    value={userPassword}
-                                    minLength="6"
-                                    onChange={(e) => setUserPassword(e.target.value)}
-                                />
-                            </label>
+                            <input
+                                placeholder="Password"
+                                type="password"
+                                value={userPassword}
+                                minLength="6"
+                                onChange={(e) => setUserPassword(e.target.value)}
+                            />
                         </div>
 
-                        <div>
+                        <div className="login-buttons-div">
                             <CButton onClick={() => login()}>LOG IN</CButton>
                             <CButton className="signup-button" onClick={() => isSigningUp()}>SIGN UP</CButton>
                         </div>

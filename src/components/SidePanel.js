@@ -73,7 +73,7 @@ function SidePanel({ handleProps, isGenerate }) {
     chooseModel();
   }, [model]);
 
-  
+
   // to change the display from illustrative to generative
   useEffect(() => {
     handleProps({
@@ -87,26 +87,26 @@ function SidePanel({ handleProps, isGenerate }) {
   }
 
 
-// handle when a story is returned
-const handleGeneratedStory = (story) => {
+  // handle when a story is returned
+  const handleGeneratedStory = (story) => {
 
-  const { generatedStory, Title } = story;
+    const { generatedStory, Title } = story;
 
-  const newData = {
-    story_pdf: generatedStory,
-    storyTitle: Title,
-    display: activeKey,
+    const newData = {
+      story_pdf: generatedStory,
+      storyTitle: Title,
+      display: activeKey,
+    };
+
+    setGeneratedStory((prevStory) => {
+      // Make sure to check if the new story is not null before updating
+      if (story) {
+        handleProps(newData);
+        return story;
+      }
+      return prevStory; // If story is null, keep the previous value
+    });
   };
-
-  setGeneratedStory((prevStory) => {
-    // Make sure to check if the new story is not null before updating
-    if (story) {
-      handleProps(newData);
-      return story;
-    }
-    return prevStory; // If story is null, keep the previous value
-  });
-};
 
   return (
 
@@ -135,63 +135,67 @@ const handleGeneratedStory = (story) => {
         </CNav>
 
         <CTabContent>
-
           <CTabPane className="tab-content" visible={activeKey === 1}>
 
-          <div className="storyTitleDiv">
-              <CFormInput
-                className="storyTitleInput"
-                type="text"
-                placeholder="Title of Story"
-                value={storyTitle}
-                onChange={handleStoryInput} />
+            <div className="illustrate-tab">
+              <div className="storyTitleDiv">
+                <CFormInput
+                  className="storyTitleInput"
+                  type="text"
+                  placeholder="Title of Story"
+                  value={storyTitle}
+                  onChange={handleStoryInput} />
+              </div>
+
+              <div className="upload-container">
+                <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
+              </div>
+
+              <div className="styleSelect-container">
+                <StyleDrop></StyleDrop>
+              </div>
+
+              <div className="selectModal-container">
+                <SelectModel selectedModel={updateModel}></SelectModel>
+              </div>
+
+              <CContainer className="submit-button-container">
+                {isGenerate ?
+                  <CButton disabled={true} className="submit-button"><CSpinner></CSpinner></CButton>
+                  :
+                  <CButton onClick={() => sendFile()} className="submit-button">Submit</CButton>
+                }
+              </CContainer>
             </div>
 
-            <div className="upload-container">
-              <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
-            </div>
-
-            <div className="styleSelect-container">
-              <StyleDrop></StyleDrop>
-            </div>
-
-            <div className="selectModal-container">
-              <SelectModel selectedModel={updateModel}></SelectModel>
-            </div>
-
-            <CContainer className="submit-button-container">
-              {isGenerate ?
-                <CButton disabled={true} className="submit-button"><CSpinner></CSpinner></CButton>
-                :
-                <CButton onClick={() => sendFile()} className="submit-button">Submit</CButton>
-              }
-            </CContainer>
           </CTabPane>
 
           {/* Story generation panel */}
           <CTabPane className="tab-content" visible={activeKey === 2}>
 
-            <StoryGeneration
-              generate_story={storyGenerate}
-              onGenerateStoryComplete={() => setStoryGenerate(false)}
-              onUpdateGeneratedStory={handleGeneratedStory}
-            ></StoryGeneration>
+            <div className="story-tab">
+              <StoryGeneration
+                generate_story={storyGenerate}
+                onGenerateStoryComplete={() => setStoryGenerate(false)}
+                onUpdateGeneratedStory={handleGeneratedStory}
+              ></StoryGeneration>
 
-            <div className="styleSelect-container">
-              <StyleDrop></StyleDrop>
+              <div className="styleSelect-container">
+                <StyleDrop></StyleDrop>
+              </div>
+
+              <div className="selectModal-container">
+                <SelectModel selectedModel={updateModel}></SelectModel>
+              </div>
+
+              <CContainer className="submit-button-container">
+                {storyGenerate ?
+                  <CButton disabled={true} className="submit-button"><CSpinner></CSpinner></CButton>
+                  :
+                  <CButton onClick={handleStorySubmit} className="submit-button">Generate</CButton>
+                }
+              </CContainer>
             </div>
-
-            <div className="selectModal-container">
-              <SelectModel selectedModel={updateModel}></SelectModel>
-            </div>
-
-            <CContainer className="submit-button-container">
-              {storyGenerate ?
-                <CButton disabled={true} className="submit-button"><CSpinner></CSpinner></CButton>
-                :
-                <CButton onClick={handleStorySubmit} className="submit-button">Generate</CButton>
-              }
-            </CContainer>
 
           </CTabPane>
 

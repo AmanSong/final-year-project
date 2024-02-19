@@ -24,51 +24,54 @@
 .login-form {
     justify-content: center;
     margin: auto;
-    
-    background-color: aliceblue;
+    backdrop-filter: blur(5px);
+    background-color: rgba(240, 248, 255, 0.623);
     max-width: 40vw;
-    max-height: 20rem;
+    max-height: 60vh;
     margin: auto;
     padding: 2%;
-    border: 1% solid #ccc;
-    border-radius: 4px;
+    border-radius: 5%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.login-form label {
-    display: block;
-    font-size: 1rem;
-    margin-top: 5%;
-    margin-bottom: 5%;
-}
-
 .login-form input {
-    width: 100%;
-    padding: .5%;
-    margin-bottom: 5%;
+    width: 20vw;
+    height: 5vh;
+    padding: 1%;
+    margin-bottom: 2.5%;
+    margin-top: 2.5%;
     background-color: #f0f9ff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
 .login-form input:focus {
-    width: 100%;
-    padding: .5%;
-    margin-bottom: 5%;
     background-color: #e0f3ff;
+    outline: none;
+    border: 1px solid #3498db;
 }
 
 .login-form div {
     margin-bottom: 1%;
 }
 
+.login-buttons-div {
+    padding-top: 2.5vh;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
 .login-form button {
+    width: 100%;
     font-size: 1rem;
-    padding: 2.5% 2.5%;
-    margin-right: 5%;
     background-color: #3498db;
     color: #fff;
     border: none;
     border-radius: 1%;
     cursor: pointer;
+    border-radius: 4px;
 }
 
 .login-form button:hover {
@@ -76,7 +79,18 @@
 }
 
 .signup-button {
+    margin-left: 5%;
     background-color: rgb(28, 172, 121) !important;
+    font-size: 1rem;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 1%;
+    cursor: pointer;
+}
+
+.signup-button:hover {
+    background-color: rgb(57, 207, 155) !important;
 }
 
 .login-logo-section {
@@ -87,8 +101,6 @@
     margin: auto;
     justify-content: center;
     padding-top: 5%;
-
-
 }
 
 .login-logo {

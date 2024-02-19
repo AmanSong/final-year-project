@@ -1,11 +1,19 @@
 import { React, useState, useEffect } from "react"
 import { CButton, CCard, CCollapse, CContainer } from "@coreui/react";
 import './Genre.css'
+import CIcon from '@coreui/icons-react';
+import * as icon from '@coreui/icons';
+
 
 function Genre({ onGenresSelected }) {
     const [visible, setVisible] = useState(false);
     const [selectedGenres, setSelectedGenres] = useState([]);
     const [highlightedGenres, setHighlightedGenres] = useState([]);
+    const [isFlipped, setIsFlipped] = useState(false);
+
+    const flipArrow = () => {
+      setIsFlipped(!isFlipped);
+    };
 
     const toggleGenre = (value) => {
         // Check if the genre is already selected
@@ -33,7 +41,10 @@ function Genre({ onGenresSelected }) {
 
     return (
         <div className="genre-container">
-            <CButton className="open-genre" onClick={() => setVisible(!visible)}>Select Genre</CButton>
+            <CButton className="styledrop-button" onClick={() => {setVisible(!visible); flipArrow()}}>
+                Select Genre 
+                <CIcon className={`button-icon ${isFlipped ? 'flipped' : ''}`} icon={icon.cilChevronBottom} size="xl"/>
+            </CButton> 
             <CCollapse visible={visible}>
                 <CCard className="genre-card">
                     <CButton onClick={() => toggleGenre('Action')} className={`genre-button ${highlightedGenres.includes('Action') ? 'high-lighted' : ''}`}>

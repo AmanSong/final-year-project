@@ -58,18 +58,7 @@ function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGene
   }, [generate_story, isGenerating, onGenerateStoryComplete]);
 
   return (
-    <div className="story-tab">
-
-      <CForm className="form-input">
-        <CFormTextarea
-          id="story-input"
-          label="Give some context"
-          placeholder="A hero needs to defeat an evil dragon..."
-          rows={5}
-          value={storyInput}
-          onChange={(e) => setStoryInput(e.target.value)}
-        />
-      </CForm>
+    <div>
 
       <div className="storyTitleDiv">
         <CFormInput
@@ -79,6 +68,18 @@ function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGene
           value={storyTitle}
           onChange={(e) => setStoryTitle(e.target.value)} />
       </div>
+
+      <CForm className="form-input">
+        <CFormTextarea
+          className="context-input"
+          id="story-input"
+          label="Give some context"
+          placeholder="A hero needs to defeat an evil dragon..."
+          rows={5}
+          value={storyInput}
+          onChange={(e) => setStoryInput(e.target.value)}
+        />
+      </CForm>
 
       <div className="page-amount-selection">
         <h6>Page Amount</h6>

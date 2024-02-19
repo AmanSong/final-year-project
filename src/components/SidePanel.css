@@ -1,5 +1,5 @@
 .SidePanel {
-    background-color: rgba(73, 134, 221, 0.74);
+    background: linear-gradient(135deg, #8bb0db, #5ebedb, rgb(81, 108, 226));
     height: 100vh;
     width: 20rem;
     padding: 2.5%;
@@ -7,6 +7,11 @@
     display: block;
 
     overflow-y: auto;
+}
+
+.illustrate-tab {
+    background: linear-gradient(135deg, #2a80e2, #043f52);
+    padding: 5%;
 }
 
 .inputContainer {
@@ -137,6 +142,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 .storyTitleInput {
     width: 16rem;
