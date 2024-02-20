@@ -26,12 +26,13 @@ def expand_story(Pages):
 
     Story = []
 
-    template = """The following is a given summary of a story that the AI will expand on further,
-        The AI is a creative story writer that will help expand upon the summary,
-        The AI should be creative but follow the plot and the characters.
-        The AI should generate a large amount of text enough to fill a page.
+    template = """The following is a given summaries of pages of a story that the AI will expand on further,
+        The AI is a creative story writer that will help expand upon the summaries,
+        The AI should be creative but follow the plot and the characters. The AI should not repeat the plot 
+        but further expand upon it, Creating plot twists if can.
+        The AI should try to generate conversation between characters.
 
-    Current conversation:
+    Current Story:
     {history}
     Context: {input}
     AI:"""
@@ -65,7 +66,7 @@ def story_generator(context, title, genres, amount):
         model=LLM_MODEL,
         messages=[
             {"role": "system", "content": "You are a helpful assistant that generates creative stories. You adhere to the given genres and you create a paragraph for each page stated"},
-            {"role": "user", "content": f"Write only {amount} of summaries for a book called {title} with the genres being {Genre}, with the given context {context}"},
+            {"role": "user", "content": f"Write only {amount} pages of summaries for a book called {title} with the genres being {Genre}, with the given context: {context}"},
         ],
         max_tokens=4096,
         stream=True,
@@ -74,7 +75,7 @@ def story_generator(context, title, genres, amount):
     for chunk in stream:
         if chunk.choices[0].delta.content is not None:
             page_content = chunk.choices[0].delta.content
-            #print(page_content, end="")
+            print(page_content, end="")
             storyGenerated.append(page_content)
 
     full_story = ''.join(storyGenerated)

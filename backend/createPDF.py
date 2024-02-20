@@ -74,12 +74,12 @@ def create_Story_PDF(story, title):
         ###### end of drawing front cover
             
         ## now draw text here with word wrapping
-        story_font_size = 12
+        story_font_size = 16
         story_font_name = "Times-Roman"
-        story_width = page_width / 2
+        story_width = page_width - 100
 
         story_pdf.setFont(story_font_name, story_font_size)
-        y_position -= letter[1] - 150
+        y_position -= letter[1] - 200
 
         for paragraph in story:
             lines = simpleSplit(paragraph, story_font_name, story_font_size, story_width)
@@ -87,12 +87,12 @@ def create_Story_PDF(story, title):
             for line in lines:
                 # Calculate the x position to center the text
                 text_width = story_pdf.stringWidth(line, story_font_name, story_font_size)
-                x_position = (page_width - text_width) / 2
+                x_position = (center_x / 2) - 40
 
-                if y_position - story_font_size < 50:
+                if y_position - story_font_size < 75:
                     # Start a new page if the current position is too close to the bottom
                     story_pdf.showPage()
-                    y_position = page_height - 50
+                    y_position = page_height - 75
 
                 story_pdf.drawString(x_position, y_position, line)
                 y_position -= story_font_size + 2
