@@ -8,6 +8,7 @@ import "./SidePanel.css"
 import StyleDrop from "./StyleDrop";
 import { CNav, CTabPane, CTabContent } from "@coreui/react";
 import StoryGeneration from "./StoryGeneration";
+import ImageFormat from "./ImageFormat";
 
 function SidePanel({ handleProps, isGenerate }) {
 
@@ -108,6 +109,10 @@ function SidePanel({ handleProps, isGenerate }) {
     });
   };
 
+  const handleFormat = () => {
+    alert('hi');
+  }
+
   return (
 
     <div className="SidePanel-Container">
@@ -147,19 +152,23 @@ function SidePanel({ handleProps, isGenerate }) {
                   onChange={handleStoryInput} />
               </div>
 
-              <div className="upload-container">
+              <div className="select-container">
                 <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
               </div>
 
-              <div className="styleSelect-container">
+              <div className="select-container">
                 <StyleDrop></StyleDrop>
               </div>
 
-              <div className="selectModal-container">
+              <div className="select-container">
                 <SelectModel selectedModel={updateModel}></SelectModel>
               </div>
 
-              <CContainer className="submit-button-container">
+              <div className="select-container">
+                <ImageFormat onFormatSelected={handleFormat}></ImageFormat>
+              </div>
+
+              <CContainer className="select-container">
                 {isGenerate ?
                   <CButton disabled={true} className="submit-button"><CSpinner></CSpinner></CButton>
                   :
@@ -180,15 +189,15 @@ function SidePanel({ handleProps, isGenerate }) {
                 onUpdateGeneratedStory={handleGeneratedStory}
               ></StoryGeneration>
 
-              <div className="styleSelect-container">
+              <div className="select-container">
                 <StyleDrop></StyleDrop>
               </div>
 
-              <div className="selectModal-container">
+              <div className="select-container">
                 <SelectModel selectedModel={updateModel}></SelectModel>
               </div>
 
-              <CContainer className="submit-button-container">
+              <CContainer className="select-container">
                 {storyGenerate ?
                   <CButton disabled={true} className="submit-button"><CSpinner></CSpinner></CButton>
                   :

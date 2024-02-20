@@ -43,17 +43,12 @@
     background-color: #7920a2;
 }
 
-.genre-div {
-    margin-top: 10%;
-    justify-content: center;
-    display: flex;
-}
-
 .page-amount-selection {
     color: white;
     background: rgb(73, 157, 212);
     border-radius: 5px;
-    margin-top: 5%;
+    margin-top: 10%;
+    margin-bottom: 5%;
     padding: 2%;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);

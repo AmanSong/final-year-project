@@ -1,0 +1,42 @@
+.format-card {
+    align-items: center;
+    background-color: #a2c9db;
+}
+
+.format-button {
+    padding: 2vh;
+    background-color: #c2c2c2;
+    color: #fff;
+    border: .5px solid #ffffff;
+    border-radius: 1vh;
+    transition: background-color 0.3s ease;
+
+    margin: 1.5vh;
+    width: 10rem;
+    height: 10rem;
+
+
+    &:hover {
+        background-color: #cfcfcf;
+    }
+
+    .format-image {
+        height: auto;
+        width: 100%;
+        border-radius: 5px;
+        border: .5px solid #000000;
+    }
+}
+
+.format-button.high-lighted {
+    background-color: #98d8ff;
+    
+    &:hover {
+        background-color: #b2dffd;
+    }
+    .format-image {
+        height: auto;
+        width: 100%;
+        border-radius: 5px;
+    }
+}

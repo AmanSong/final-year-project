@@ -86,7 +86,7 @@ function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGene
         <CFormRange onChange={(event) => setAmount(event.target.value)} className="range-selector" min={1} max={10} label={amount} defaultValue="1" />
       </div>
 
-      <div className="genre-div">
+      <div className="select-container">
         <Genre onGenresSelected={handleGenre}></Genre>
       </div>
 
