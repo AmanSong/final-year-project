@@ -15,22 +15,22 @@ OPENAI_KEY = os.getenv('OPENAI_KEY')
 LLM_MODEL = 'gpt-3.5-turbo'
 client = OpenAI(api_key=OPENAI_KEY)
 
-LangLLM = LangchainOpenAI(api_key=OPENAI_KEY, model='gpt-3.5-turbo-instruct', temperature=0.7, max_tokens=3000)
+LangLLM = LangchainOpenAI(api_key=OPENAI_KEY, model='gpt-3.5-turbo-instruct', temperature=0.7, max_tokens=2500)
 
-def convertToPDF(Story, Title):
+def convertToPDF(Story, Title, Images):
     # provide the generated story and title, images come later
-    pdf = create_Story_PDF(Story, Title)
+    pdf = create_Story_PDF(Story, Title, Images)
     return pdf
 
-def expand_story(Pages):
 
+def expand_story(Pages):
     Story = []
 
-    template = """The following is a given summaries of pages of a story that the AI will expand on further,
+    template = """The following is a given summary of pages of a story that the AI will expand on further,
         The AI is a creative story writer that will help expand upon the summaries,
         The AI should be creative but follow the plot and the characters. The AI should not repeat the plot 
-        but further expand upon it, Creating plot twists if can.
-        The AI should try to generate conversation between characters.
+        but further expand upon it, creating plot twists if possible.
+        The AI should try to generate conversations between characters instead of narrating.
 
     Current Story:
     {history}
@@ -49,12 +49,14 @@ def expand_story(Pages):
     print('\n\n')
     print('The Story:\n')
     for index, page in enumerate(Pages, start=1):
-        generatedPage = story.predict(input=page)
+        # Dynamically update the history/context for each page
+        history = '\n'.join(Pages[:index])
+        generatedPage = story.predict(input=page, history=history)
         print(f"Page {index}:\n{generatedPage}")
         Story.append(generatedPage)
 
     return Story
-        
+
 
 def story_generator(context, title, genres, amount):
 
@@ -86,7 +88,7 @@ def story_generator(context, title, genres, amount):
 
     print(Story)
 
-    # After the story has been expanded, convert to PDF
-    StoryPDF = convertToPDF(Story, title)
+    # # After the story has been expanded, convert to PDF
+    # StoryPDF = convertToPDF(Story, title, storyGenerated)
 
-    return StoryPDF
+    return Story, Pages

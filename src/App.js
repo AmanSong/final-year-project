@@ -11,7 +11,6 @@ function App() {
 
   const [PDF, setPDF] = useState(null);
   const [Display, SetDisplay] = useState(1);
-  const [currentUser, setCurrentUser] = useState('');
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
   const [storyTitle, setStoryTitle] = useState();
   const [status, setStatus] = useState();
@@ -28,7 +27,7 @@ function App() {
     setGeneratedStoryTitle(storyTitle);
   };
 
-  console.log(story)
+  console.log(PDF)
   const handleReturnedStatus = (returnedValue) => {
     setStatus(returnedValue);
   };

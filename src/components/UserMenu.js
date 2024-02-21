@@ -181,7 +181,7 @@ function UserMenu() {
                         </CCard>
 
                         <CButton className='create-stories-button' onClick={() => CreateStories()}>Create and Illustrate</CButton>
-                        <CButton className='saved-stories-button' onClick={() => ViewStories()}>View Saved Stories</CButton>
+                        <CButton className='saved-stories-button' onClick={() => ViewStories()}>Library</CButton>
                         <CButton className='signout-button' onClick={() => SignOut()}>Sign Out      <CIcon icon={icon.cilAccountLogout} /></CButton>
                     </CCardBody>
                 </CCard>

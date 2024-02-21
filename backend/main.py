@@ -17,7 +17,7 @@ from fastapi.responses import JSONResponse
 import tempfile
 from extract import read, summarize_pages
 from story import generateStory
-from generateStory import story_generator
+from generateStory import story_generator, convertToPDF
 from createPDF import create_PDF
 
 # create FastAPI instances
@@ -57,8 +57,17 @@ waifu_diffusion = "https://api-inference.huggingface.co/models/hakurei/waifu-dif
 
 headers = {"Authorization": f"Bearer {auth_token}"}
 
-# selected model (compvis is default)
-SelectedModel = compvis
+
+class AppConfig:
+    def __init__(self):
+        self.SelectedModel = compvis
+        self.Style = ''
+        self.Format = 'NextPage'
+
+        # Add more variables as needed
+
+# Create an instance of AppConfig
+config = AppConfig()
 
 class ModelRequest(BaseModel):
     model: str
@@ -66,47 +75,54 @@ class ModelRequest(BaseModel):
 # endpoint for selecting model
 @app.post("/selectModel")
 def select_model(request_data: ModelRequest):
-    global SelectedModel
     model = request_data.model 
 
     if model == 'stable-diffusion-xl-base-1.0':
-        SelectedModel = model
+        config.SelectedModel = model
     elif model == 'CompVis/stable-diffusion-v1-4':
-        SelectedModel = model
+        config.SelectedModel = model
     elif model == "pixel-art-xl":
-        SelectedModel = model
+        config.SelectedModel = model
     elif model == "waifu-diffusion":
-        SelectedModel = model
+        config.SelectedModel = model
 
-    print(f'Selected Model: {SelectedModel}')
-    return {"SelectedModel": SelectedModel}
+    print(f'Selected Model: {config.SelectedModel}')
+    return {"SelectedModel": config.SelectedModel}
 
 
 # endpoint for selecting styles
 class ModelRequest(BaseModel):
     style: str
 
-style = ''
 @app.post("/style")
 def set_style(style_choice: ModelRequest):
-    global style
     if style_choice.style == '':
         print('nothing')
-    style = style_choice.style
-    print(f"New style: {style}")
+    config.Style = style_choice.style
+    print(f"New style: {config.Style}")
+
+
+# endpoint to select format
+class ModelRequest(BaseModel):
+    format: str
+
+@app.post("/format")
+def set_style(format_choice: ModelRequest):
+    config.Format = format_choice.format
+    print(f"Format: {config.Format}")
 
     
 # function generate
 @app.post("/")
 def generate(prompt: str):
 
-    if(SelectedModel == 'stable-diffusion-xl-base-1.0'):
+    if(config.SelectedModel == 'stable-diffusion-xl-base-1.0'):
         API_URL = stabilityai
-    if(SelectedModel == 'CompVis/stable-diffusion-v1-4'):
+    if(config.SelectedModel == 'CompVis/stable-diffusion-v1-4'):
         API_URL = compvis
-    if(SelectedModel == 'pixel-art-xl'):
+    if(config.SelectedModel == 'pixel-art-xl'):
         API_URL = pixel_art
-    if(SelectedModel == 'waifu-diffusion'):
+    if(config.SelectedModel == 'waifu-diffusion'):
         API_URL = waifu_diffusion
 
     def huggingFace(payload):
@@ -116,8 +132,8 @@ def generate(prompt: str):
         return response.content
     
     try:
-        if style != '':
-            prompt_with_style = f"{prompt}, {style}"
+        if config.Style != '':
+            prompt_with_style = f"{prompt}, {config.Style}"
         else:
             prompt_with_style = prompt
 
@@ -182,11 +198,48 @@ class ModelRequest(BaseModel):
 def generate(storyParams: ModelRequest):
     try:
         # use story.py to generate story
-        generatedStory = story_generator(
+        generatedStory, storyPrompts = story_generator(
             storyParams.story_prompt,
             storyParams.story_title,
             storyParams.genres,
             storyParams.amount
+        )
+
+        response_content = {
+            "message": "File uploaded and processed successfully",
+            "generatedStory": generatedStory,
+            "storyPrompts": storyPrompts,
+        }
+
+        # # Create a temporary file
+        # with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file_story:
+        #     generatedStory.seek(0)
+        #     temp_file_story.write(generatedStory.read())
+        #     temp_file_story.seek(0)
+
+        # # Return the temporary file as a FileResponse
+        # return FileResponse(temp_file_story.name, media_type="application/pdf", filename="generated_pdf.pdf")
+        return JSONResponse(content=response_content, status_code=200)
+
+    except Exception as e:
+        print(f"Error processing the file: {e}")
+        return JSONResponse(content={"message": "An error occured while generating the story"}, status_code=500)
+    
+    
+# endpoint for onvert to pdf with images
+class ModelRequest(BaseModel):
+    story: list[str]
+    story_title: str
+    story_images: list[str]
+
+@app.post("/storyToPDF")
+def generate(storyReq: ModelRequest):
+    try:
+        # use story.py to generate story
+        generatedStory = convertToPDF(
+            storyReq.story,
+            storyReq.story_title,
+            storyReq.story_images,
         )
 
         # Create a temporary file
@@ -212,7 +265,7 @@ class ModelRequest(BaseModel):
 @app.post("/createPDF")
 def create(request: ModelRequest):
     try:
-        pdf_buffer = create_PDF(request.text, request.images, request.title)
+        pdf_buffer = create_PDF(request.text, request.images, request.title, config.Format)
 
         # Create a temporary file
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:

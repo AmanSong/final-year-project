@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react"
 import { CButton, CCard, CCollapse, CContainer } from "@coreui/react";
 import './ImageFormat.css'
+import axios from "axios";
 import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
 
@@ -27,23 +28,24 @@ function ImageFormat({ onFormatSelected }) {
         }
     };
 
-    // const chooseStyle = async (e) => {
-    //     try {
-    //         const response = await axios.post("http://127.0.0.1:8000/style", {
-    //             style: selectedStyle
-    //         }, {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //         });
-    //         console.log(response);
-    //     } catch (error) {
-    //         console.error("Error sending data:", error);
-    //     }
-    // }
+    const chooseFormat = async (e) => {
+        try {
+            const response = await axios.post("http://127.0.0.1:8000/format", {
+                format: selectedFormat
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            console.log(response);
+        } catch (error) {
+            console.error("Error sending data:", error);
+        }
+    }
 
     useEffect(() => {
         console.log(selectedFormat);
+        chooseFormat();
     }, [selectedFormat]);
 
     return (
@@ -55,14 +57,16 @@ function ImageFormat({ onFormatSelected }) {
             <CCollapse visible={visible}>
                 <CCard className="format-card">
                     <CButton
-                        onClick={() => setFormat('BehindText')}
-                        className={`format-button ${highlighted && selectedFormat === 'BehindText' ? 'high-lighted' : ''}`}>
-                        <img src="/BehindText.png" alt="Button" className="format-image" />
-                    </CButton>
-                    <CButton
                         onClick={() => setFormat('NextPage')}
                         className={`format-button ${highlighted && selectedFormat === 'NextPage' ? 'high-lighted' : ''}`}>
                         <img src="/NextPage.png" alt="Button" className="format-image" />
+                        Illustrations on the next page
+                    </CButton>
+                    <CButton
+                        onClick={() => setFormat('BehindText')}
+                        className={`format-button ${highlighted && selectedFormat === 'BehindText' ? 'high-lighted' : ''}`}>
+                        <img src="/BehindText.png" alt="Button" className="format-image" />
+                        Illustrations behind text
                     </CButton>
                 </CCard>
             </CCollapse>

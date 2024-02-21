@@ -35,16 +35,29 @@ def base64_to_file(base64_string, file_extension=".png"):
         return None
     
 
-def create_Story_PDF(story, title):
+def create_Story_PDF(story, title, images):
     try:
+        array_images = []
+
+        # get length of images
+        if(images):
+            amount = len(images)
+            print(amount)
+            array_images = []
+
+            # Convert images to file format
+            for x in range(amount):
+                temp_file_path = base64_to_file(images[x])
+                if temp_file_path:
+                    array_images.append(temp_file_path)
+
         # Create a BytesIO buffer to temporarily store the PDF content
         story_pdf_buffer = BytesIO()
 
         # Rest of your code remains unchanged
         story_pdf = canvas.Canvas(story_pdf_buffer, pagesize=letter)
 
-        line_height = 15
-        margin = 50
+        background_image = "page-background.jpg"
 
         # Calculate the center of the page
         center_x = letter[0] / 2
@@ -76,26 +89,38 @@ def create_Story_PDF(story, title):
         ## now draw text here with word wrapping
         story_font_size = 16
         story_font_name = "Times-Roman"
-        story_width = page_width - 100
+        story_width = page_width - 125
 
         story_pdf.setFont(story_font_name, story_font_size)
-        y_position -= letter[1] - 200
+        y_position -= letter[1] - 100
 
-        for paragraph in story:
-            lines = simpleSplit(paragraph, story_font_name, story_font_size, story_width)
-            print(lines)
+        for i in range(len(story)):
+
+            lines = simpleSplit(story[i], story_font_name, story_font_size, story_width)
+            y_position -= 25
+
             for line in lines:
                 # Calculate the x position to center the text
                 text_width = story_pdf.stringWidth(line, story_font_name, story_font_size)
                 x_position = (center_x / 2) - 40
 
-                if y_position - story_font_size < 75:
-                    # Start a new page if the current position is too close to the bottom
-                    story_pdf.showPage()
-                    y_position = page_height - 75
-
                 story_pdf.drawString(x_position, y_position, line)
                 y_position -= story_font_size + 2
+
+                if y_position - story_font_size < 85:
+                    # Start a new page if the current position is too close to the bottom
+                    story_pdf.showPage()
+                    story_pdf.drawImage(background_image, 0, 0, width=page_width, height=page_height)
+                    y_position = page_height - 100
+
+            # try to place image, otherwise continue on
+            try:
+                image_path = array_images[i]
+                story_pdf.showPage()
+                story_pdf.drawImage(image_path, 0, 0, width=page_width, height=page_height)
+            except Exception:
+                print('ERROR')
+                pass
 
         story_pdf.showPage()
         story_pdf.save()
@@ -108,7 +133,7 @@ def create_Story_PDF(story, title):
         return None
     
     
-def create_PDF(raw_text, images, title):
+def create_PDF(raw_text, images, title, Format):
     try:
         array_images = []
 
@@ -131,8 +156,7 @@ def create_PDF(raw_text, images, title):
         pdf = canvas.Canvas(pdf_buffer, pagesize=letter)
 
         line_height = 15
-        margin = 50
-
+        margin = 80
         # Calculate the center of the page
         center_x = letter[0] / 2
 
@@ -163,51 +187,98 @@ def create_PDF(raw_text, images, title):
             y_position -= title_font_size
         ###### end of drawing front cover
             
+        # Begin drawing text
         for i in range(len(filtered_pages)):
             try:
-                page = filtered_pages[i]
+                if(Format == 'BehindText'):
+                    page = filtered_pages[i]
 
-                # Split text into lines
-                sentences = page.split('\n')
+                    # Split text into lines
+                    sentences = page.split('\n')
 
-                # Move down for text
-                y_position = letter[1] - margin
+                    # Move down for text
+                    y_position = letter[1] - margin
 
-                # new page for image
-                pdf.showPage()
+                    # new page for image
+                    pdf.showPage()
 
-                # set the font and height of line
-                pdf.setFont("Times-Roman", line_height)
-                
-                # try to place image, otherwise continue on
-                try:
-                    image_path = array_images[i]
-                    pdf.drawImage(image_path, 0, 0, width=page_width, height=page_height)
-                except Exception:
-                    pass
-                
-                # for every line 
-                for line in sentences:
-                    # Calculate the x position to center the text
-                    text_width = pdf.stringWidth(line, "Times-Roman", line_height)
-                    x_position = (center_x / 2) - 40
+                    # set the font and height of line
+                    pdf.setFont("Times-Roman", line_height)
+                    
+                    # try to place image, otherwise continue on
+                    try:
+                        image_path = array_images[i]
+                        pdf.drawImage(image_path, 0, 0, width=page_width, height=page_height)
+                    except Exception:
+                        pass
+                    
+                    # for every line 
+                    for line in sentences:
+                        # Calculate the x position to center the text
+                        text_width = pdf.stringWidth(line, "Times-Roman", line_height)
+                        x_position = (center_x / 2) - 40
 
-                    pdf.setFillColorRGB(1, 1, 1, 0.5) #choose fill colour
+                        pdf.setFillColorRGB(1, 1, 1, 0.5) #choose fill colour
 
-                    # avoid drawing with when no line
-                    if line.strip():
-                        pdf.rect(x_position, y_position, text_width + 5, line_height, stroke=0, fill=1)
+                        # avoid drawing with when no line
+                        if line.strip():
+                            pdf.rect(x_position, y_position, text_width + 5, line_height, stroke=0, fill=1)
 
-                    # finally draw the text
-                    pdf.setFillColorRGB(0, 0, 0, 1)
-                    pdf.drawString(x_position, y_position, line)
-                    y_position -= line_height
+                        # finally draw the text
+                        pdf.setFillColorRGB(0, 0, 0, 1)
+                        pdf.drawString(x_position, y_position, line)
+                        y_position -= line_height
 
-                    # Check if the text goes beyond the page, create a new page
-                    if y_position <= margin:
+                        # Check if the text goes beyond the page, create a new page
+                        if y_position <= margin:
+                            pdf.showPage()
+                            y_position = letter[1] - line_height
+                            continue
+
+                elif(Format == 'NextPage'):
+                    page = filtered_pages[i]
+
+                    # Split text into lines
+                    sentences = page.split('\n')
+
+                    # Move down for text
+                    y_position = letter[1] - margin
+                    
+                    # set the font and height of line
+                    pdf.setFont("Times-Roman", line_height)
+
+                    # add new page
+                    pdf.showPage()
+
+                    #draw image on the page
+                    background_image = "page-background.jpg"
+                    pdf.drawImage(background_image, 0, 0, width=page_width, height=page_height)
+
+                    # for every line 
+                    for line in sentences:
+
+                        # Calculate the x position to center the text
+                        text_width = pdf.stringWidth(line, "Times-Roman", line_height)
+                        x_position = (center_x / 2) - 40
+
+                        # finally draw the text
+                        pdf.drawString(x_position, y_position, line)
+                        y_position -= line_height
+                        
+                        # Check if the text goes beyond the page, create a new page
+                        if y_position <= margin:
+                            y_position = letter[1] - margin
+                            pdf.showPage()
+                            pdf.drawImage(background_image, 0, 0, width=page_width, height=page_height)
+                            continue
+
+                    # try to place image after text, otherwise continue on
+                    try:
+                        image_path = array_images[i]
                         pdf.showPage()
-                        y_position = letter[1] - line_height
-                        continue
+                        pdf.drawImage(image_path, 0, 0, width=page_width, height=page_height)
+                    except Exception:
+                        pass
 
             except Exception:
                 print(f"Error processing page {i + 1}")

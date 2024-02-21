@@ -15,7 +15,7 @@ function DisplayImage({ pdf, storyTitle, returnStatus }) {
     const [Title, setStoryTitle] = useState(null);
 
     // give a default value for 5 images to generate
-    const [amountToGen, setAmountToGen] = useState(2);
+    const [amountToGen, setAmountToGen] = useState(5);
     const [progressValue, setProgressValue] = useState(0);
 
     const [forceUpdate, setForceUpdate] = useState(false);
