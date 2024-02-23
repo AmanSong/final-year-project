@@ -108,6 +108,8 @@ class ModelRequest(BaseModel):
 
 @app.post("/format")
 def set_style(format_choice: ModelRequest):
+    if format_choice.format == '':
+        print('default format')
     config.Format = format_choice.format
     print(f"Format: {config.Format}")
 
@@ -124,6 +126,9 @@ def generate(prompt: str):
         API_URL = pixel_art
     if(config.SelectedModel == 'waifu-diffusion'):
         API_URL = waifu_diffusion
+    else:
+        # default
+        API_URL = compvis
 
     def huggingFace(payload):
         response = requests.post(API_URL, headers=headers, json=payload)
@@ -138,6 +143,7 @@ def generate(prompt: str):
             prompt_with_style = prompt
 
         print(f"using {prompt_with_style}")
+        print(f"using {API_URL}")
 
         # Make a request to the Hugging Face model using the provided text prompt
         image_bytes = huggingFace({

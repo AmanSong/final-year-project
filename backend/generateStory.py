@@ -8,6 +8,7 @@ from langchain.memory import ConversationSummaryMemory
 from langchain.prompts.prompt import PromptTemplate
 
 from createPDF import create_Story_PDF
+from extract import summarize_pages
 
 # retrieve the secret key
 load_dotenv()
@@ -18,7 +19,6 @@ client = OpenAI(api_key=OPENAI_KEY)
 LangLLM = LangchainOpenAI(api_key=OPENAI_KEY, model='gpt-3.5-turbo-instruct', temperature=0.7, max_tokens=2500)
 
 def convertToPDF(Story, Title, Images):
-    # provide the generated story and title, images come later
     pdf = create_Story_PDF(Story, Title, Images)
     return pdf
 
@@ -26,11 +26,12 @@ def convertToPDF(Story, Title, Images):
 def expand_story(Pages):
     Story = []
 
-    template = """The following is a given summary of pages of a story that the AI will expand on further,
-        The AI is a creative story writer that will help expand upon the summaries,
-        The AI should be creative but follow the plot and the characters. The AI should not repeat the plot 
-        but further expand upon it, creating plot twists if possible.
-        The AI should try to generate conversations between characters instead of narrating.
+    template = """Engage in creative storytelling and further expand upon the given summaries of story pages.
+        Avoid repeating the original plot details and instead, introduce creative plot twists.
+        Foster character interactions by generating meaningful conversations rather than straightforward narration.
+        Maintain coherence with the established plot and characters while infusing a fresh and imaginative perspective into the narrative.
+        Your goal is to be a creative storyteller, providing depth and richness to the existing story elements.
+        Avoid writing endings until the summary clearly states so.
 
     Current Story:
     {history}
@@ -88,7 +89,11 @@ def story_generator(context, title, genres, amount):
 
     print(Story)
 
-    # # After the story has been expanded, convert to PDF
-    # StoryPDF = convertToPDF(Story, title, storyGenerated)
+    # the pages can be too long which can cause error during generation, 
+    # use summarise to shrink it down.
+    prompts = summarize_pages(Pages)
 
-    return Story, Pages
+    print("\nPrompts:\n")
+    print(prompts)
+
+    return Story, prompts

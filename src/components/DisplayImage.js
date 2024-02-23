@@ -9,7 +9,7 @@ import { v4 as uuid } from "uuid";
 function DisplayImage({ pdf, storyTitle, returnStatus }) {
 
     const [isGenerating, setIsGenerating] = useState(false);
-    const [PDF, SetPDF] = useState();
+    const [PDF, setPDF] = useState();
     const [pdfUrl, setPdfUrl] = useState(null);
     const [pdfBlob, setPdfBlob] = useState(null)
     const [Title, setStoryTitle] = useState(null);
@@ -31,14 +31,15 @@ function DisplayImage({ pdf, storyTitle, returnStatus }) {
           </CToastHeader>
         </CToast>
     )
-
+    
     useEffect(() => {
         if (pdf) {
-            SetPDF(pdf);
+            console.log('hi')
+            setPDF(pdf);
             setStoryTitle(storyTitle);
             setForceUpdate(prevState => !prevState);
         }
-    }, [pdf]);
+    }, [pdf, storyTitle, returnStatus]);
 
     // api to generate images
     const generate = async (prompt) => {

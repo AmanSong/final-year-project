@@ -118,6 +118,11 @@ def create_Story_PDF(story, title, images):
                 image_path = array_images[i]
                 story_pdf.showPage()
                 story_pdf.drawImage(image_path, 0, 0, width=page_width, height=page_height)
+                
+                # reset y position
+                story_pdf.showPage()
+                story_pdf.drawImage(background_image, 0, 0, width=page_width, height=page_height)
+                y_position = page_height - 100
             except Exception:
                 print('ERROR')
                 pass

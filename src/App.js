@@ -27,7 +27,6 @@ function App() {
     setGeneratedStoryTitle(storyTitle);
   };
 
-  console.log(PDF)
   const handleReturnedStatus = (returnedValue) => {
     setStatus(returnedValue);
   };

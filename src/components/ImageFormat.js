@@ -8,7 +8,7 @@ import * as icon from '@coreui/icons';
 
 function ImageFormat({ onFormatSelected }) {
     const [visible, setVisible] = useState(false);
-    const [selectedFormat, setSelectedFormat] = useState([]);
+    const [selectedFormat, setSelectedFormat] = useState('');
     const [highlighted, setHighlighted] = useState([]);
     const [isFlipped, setIsFlipped] = useState(false);
 
