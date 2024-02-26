@@ -60,7 +60,7 @@ headers = {"Authorization": f"Bearer {auth_token}"}
 
 class AppConfig:
     def __init__(self):
-        self.SelectedModel = compvis
+        self.SelectedModel = ''
         self.Style = ''
         self.Format = 'NextPage'
 
@@ -117,14 +117,14 @@ def set_style(format_choice: ModelRequest):
 # function generate
 @app.post("/")
 def generate(prompt: str):
-
-    if(config.SelectedModel == 'stable-diffusion-xl-base-1.0'):
+    
+    if config.SelectedModel == 'stable-diffusion-xl-base-1.0':
         API_URL = stabilityai
-    if(config.SelectedModel == 'CompVis/stable-diffusion-v1-4'):
+    elif config.SelectedModel == 'CompVis/stable-diffusion-v1-4':
         API_URL = compvis
-    if(config.SelectedModel == 'pixel-art-xl'):
+    elif config.SelectedModel == 'pixel-art-xl':
         API_URL = pixel_art
-    if(config.SelectedModel == 'waifu-diffusion'):
+    elif config.SelectedModel == 'waifu-diffusion':
         API_URL = waifu_diffusion
     else:
         # default

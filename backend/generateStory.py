@@ -26,12 +26,13 @@ def convertToPDF(Story, Title, Images):
 def expand_story(Pages):
     Story = []
 
-    template = """Engage in creative storytelling and further expand upon the given summaries of story pages.
+    template = """You are an AI that will engage in creative storytelling and further expand upon the given summaries of story pages.
         Avoid repeating the original plot details and instead, introduce creative plot twists.
         Foster character interactions by generating meaningful conversations rather than straightforward narration.
         Maintain coherence with the established plot and characters while infusing a fresh and imaginative perspective into the narrative.
         Your goal is to be a creative storyteller, providing depth and richness to the existing story elements.
-        Avoid writing endings until the summary clearly states so.
+        Avoid writing endings until the summary clearly states so. 
+        The AI's goal is to create a wonderful and coherent story.
 
     Current Story:
     {history}
