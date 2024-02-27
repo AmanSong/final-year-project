@@ -39,7 +39,7 @@ function DisplayImage({ pdf, storyTitle, returnStatus }) {
             setStoryTitle(storyTitle);
             setForceUpdate(prevState => !prevState);
         }
-    }, [pdf, storyTitle, returnStatus]);
+    }, [pdf, storyTitle]);
 
     // api to generate images
     const generate = async (prompt) => {

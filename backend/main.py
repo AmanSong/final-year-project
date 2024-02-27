@@ -19,6 +19,7 @@ from extract import read, summarize_pages
 from story import generateStory
 from generateStory import story_generator, convertToPDF
 from createPDF import create_PDF
+from generatePrompt import createPrompt
 
 # create FastAPI instances
 app = FastAPI()
@@ -138,9 +139,9 @@ def generate(prompt: str):
     
     try:
         if config.Style != '':
-            prompt_with_style = f"{prompt}, {config.Style}"
+            prompt_with_style = createPrompt(prompt, config.Style)
         else:
-            prompt_with_style = prompt
+            prompt_with_style = createPrompt(prompt, "No Style")
 
         print(f"using {prompt_with_style}")
         print(f"using {API_URL}")
@@ -155,7 +156,7 @@ def generate(prompt: str):
 
         # Convert the PIL Image to base64 format
         buffer = BytesIO()
-        image.save(buffer, format="PNG")
+        image.save(buffer, format="PNG") 
         imgstr = base64.b64encode(buffer.getvalue())
 
         return Response(content=imgstr, media_type="image/png")

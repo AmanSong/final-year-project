@@ -33,8 +33,9 @@ def read(file_content):
 
     return text, page_summaries, images
 
+
 # function to extract prompts for image generation
-def summarize_pages(text, num_sentences=2):
+def summarize_pages(text, num_sentences=4):
 
     summaries = []
     stop_words = set(stopwords.words("english"))

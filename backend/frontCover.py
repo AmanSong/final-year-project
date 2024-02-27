@@ -5,7 +5,7 @@ from PIL import Image
 import requests
 from dotenv import load_dotenv
 
-# API for the stability ai model, currently seems to be down as of 15/11/2023
+# API for the stability ai model
 stabilityai = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
 
 # Load environment variables from the .env file
