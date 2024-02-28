@@ -9,6 +9,7 @@ import StyleDrop from "./StyleDrop";
 import { CNav, CTabPane, CTabContent } from "@coreui/react";
 import StoryGeneration from "./StoryGeneration";
 import ImageFormat from "./ImageFormat";
+import TextSettings from "./TextSettings";
 
 function SidePanel({ handleProps, isGenerate }) {
 
@@ -19,13 +20,19 @@ function SidePanel({ handleProps, isGenerate }) {
   const [storyTitle, setStoryTitle] = useState('');
   const [visible, setVisible] = useState(false);
   const [storyGenerate, setStoryGenerate] = useState(false);
-
+  const [fontName, setFontName] = useState('Helvetica');
+  const [fontSize, setFontSize] = useState(15);
   const [generatedStory, setGeneratedStory] = useState();
 
   // Event handler for input change
   const handleStoryInput = (event) => {
     setStoryTitle(event.target.value);
   };
+
+  const handleTextSettings = (fontname, fontsize) => {
+    setFontName(fontname);
+    setFontSize(fontsize);
+  }
 
   // set the uploaded file from dropFileData
   const setFile = () => {
@@ -34,7 +41,9 @@ function SidePanel({ handleProps, isGenerate }) {
         text: prevDropFileData,
         display: activeKey,
         title: storyTitle,
-        generate: true
+        generate: true,
+        fontName: fontName,
+        fontSize: fontSize
       };
 
       // Check if storyTitle is not empty
@@ -162,6 +171,9 @@ function SidePanel({ handleProps, isGenerate }) {
 
               <div className="select-container">
                 <ImageFormat></ImageFormat>
+              </div>
+              <div className="select-container">
+                <TextSettings onTextSettings={handleTextSettings}></TextSettings>
               </div>
 
               <CContainer className="select-container">

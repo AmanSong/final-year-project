@@ -1,0 +1,13 @@
+.textsettings-card {
+    padding: 5%;
+    background-color: aliceblue;
+}
+
+.font-size-selection {
+    width: 100%;
+    text-align: center;
+    color: white;
+    border-radius: 5px;
+    padding: 1%;
+    background-color: rgb(196, 196, 196);
+}

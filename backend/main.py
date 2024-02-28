@@ -267,11 +267,13 @@ class ModelRequest(BaseModel):
     text: list[str]
     images: list[str]
     title: str
+    fontName: str
+    fontSize: int
 
 @app.post("/createPDF")
 def create(request: ModelRequest):
     try:
-        pdf_buffer = create_PDF(request.text, request.images, request.title, config.Format)
+        pdf_buffer = create_PDF(request.text, request.images, request.title, config.Format, request.fontName, request.fontSize)
 
         # Create a temporary file
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:

@@ -7,7 +7,6 @@ import os
 
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.utils import simpleSplit
-from reportlab.lib.units import inch
 
 from frontCover import createCover 
 
@@ -99,7 +98,7 @@ def create_Story_PDF(story, title, images):
             lines = simpleSplit(story[i], story_font_name, story_font_size, story_width)
 
             for line in lines:
-                
+
                 if y_position - story_font_size < 85:
                     # Start a new page if the current position is too close to the bottom
                     story_pdf.showPage()
@@ -111,6 +110,7 @@ def create_Story_PDF(story, title, images):
                 x_position = (center_x / 2) - 40
                 y_position -= story_font_size + 5
 
+                story_pdf.setFont(story_font_name, story_font_size)
                 story_pdf.drawString(x_position, y_position, line)
 
             # try to place image, otherwise continue on
@@ -138,7 +138,7 @@ def create_Story_PDF(story, title, images):
         return None
     
     
-def create_PDF(raw_text, images, title, Format):
+def create_PDF(raw_text, images, title, Format, fontName, fontSize):
     try:
         array_images = []
 
@@ -208,7 +208,7 @@ def create_PDF(raw_text, images, title, Format):
                     pdf.showPage()
 
                     # set the font and height of line
-                    pdf.setFont("Times-Roman", line_height)
+                    pdf.setFont(fontName, fontSize)
                     
                     # try to place image, otherwise continue on
                     try:
@@ -220,7 +220,7 @@ def create_PDF(raw_text, images, title, Format):
                     # for every line 
                     for line in sentences:
                         # Calculate the x position to center the text
-                        text_width = pdf.stringWidth(line, "Times-Roman", line_height)
+                        text_width = pdf.stringWidth(line, fontName, fontSize)
                         x_position = (center_x / 2) - 40
 
                         pdf.setFillColorRGB(1, 1, 1, 0.5) #choose fill colour
@@ -248,10 +248,7 @@ def create_PDF(raw_text, images, title, Format):
 
                     # Move down for text
                     y_position = letter[1] - margin
-                    
-                    # set the font and height of line
-                    pdf.setFont("Times-Roman", line_height)
-
+        
                     # add new page
                     pdf.showPage()
 
@@ -261,9 +258,10 @@ def create_PDF(raw_text, images, title, Format):
 
                     # for every line 
                     for line in sentences:
+                        # set the font and height of line
+                        pdf.setFont(fontName, fontSize)
 
                         # Calculate the x position to center the text
-                        text_width = pdf.stringWidth(line, "Times-Roman", line_height)
                         x_position = (center_x / 2) - 40
 
                         # finally draw the text

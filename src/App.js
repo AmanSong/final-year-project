@@ -14,28 +14,34 @@ function App() {
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
   const [storyTitle, setStoryTitle] = useState();
   const [status, setStatus] = useState();
+  const [fontName, setFontName] = useState();
+  const [fontSize, setFontSize] = useState();
 
   const [story, setStory] = useState(null);
   const [generatedStoryTitle, setGeneratedStoryTitle] = useState(null);
-  
+
   const handleProps = (propsData) => {
-    const { text, display, title, story_pdf, storyTitle } = propsData;
+    const { text, display, title, story_pdf, storyTitle, fontName, fontSize } = propsData;
     SetDisplay(display)
     setPDF(text);
     setStoryTitle(title);
     setStory(story_pdf);
     setGeneratedStoryTitle(storyTitle);
+    setFontName(fontName);
+    setFontSize(fontSize);
   };
 
   const handleReturnedStatus = (returnedValue) => {
     setStatus(returnedValue);
   };
 
+  console.log(fontName, fontSize)
+
   return (
     <div className="App">
 
       <CHeader className="main-header">
-        <img className="logo" src="logo.png"/>
+        <img className="logo" src="logo.png" />
         <UserMenu />
       </CHeader>
 
@@ -48,7 +54,13 @@ function App() {
 
         <div className="display">
           <div className="display-container" style={{ display: Display === 1 ? 'block' : 'none' }}>
-            <DisplayImage pdf={PDF} storyTitle={storyTitle} returnStatus={handleReturnedStatus}></DisplayImage>
+            <DisplayImage
+              pdf={PDF}
+              storyTitle={storyTitle}
+              returnStatus={handleReturnedStatus}
+              fontName={fontName}
+              fontSize={fontSize}
+            ></DisplayImage>
           </div>
 
           <div className="display-container" style={{ display: Display === 2 ? 'block' : 'none' }}>

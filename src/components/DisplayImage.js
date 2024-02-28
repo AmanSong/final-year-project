@@ -6,14 +6,15 @@ import './DisplayImage.css'
 import supabase from "../config/SupabaseClient";
 import { v4 as uuid } from "uuid";
 
-function DisplayImage({ pdf, storyTitle, returnStatus }) {
+function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize }) {
 
     const [isGenerating, setIsGenerating] = useState(false);
     const [PDF, setPDF] = useState();
     const [pdfUrl, setPdfUrl] = useState(null);
     const [pdfBlob, setPdfBlob] = useState(null)
     const [Title, setStoryTitle] = useState(null);
-
+    const [FontName, setFontName] = useState()
+    const [FontSize, setFontSize] = useState()
     // give a default value for 5 images to generate
     const [amountToGen, setAmountToGen] = useState(5);
     const [progressValue, setProgressValue] = useState(0);
@@ -37,6 +38,8 @@ function DisplayImage({ pdf, storyTitle, returnStatus }) {
             console.log('hi')
             setPDF(pdf);
             setStoryTitle(storyTitle);
+            setFontName(fontName);
+            setFontSize(fontSize);
             setForceUpdate(prevState => !prevState);
         }
     }, [pdf, storyTitle]);
@@ -52,12 +55,14 @@ function DisplayImage({ pdf, storyTitle, returnStatus }) {
         }
     };
 
-    const create = async (Text, Images, Title) => {
+    const create = async (Text, Images, Title, FontName, FontSize) => {
         try {
             const response = await axios.post("http://127.0.0.1:8000/createPDF", {
                 text: Text,
                 images: Images,
-                title: Title
+                title: Title,
+                fontName: FontName,
+                fontSize: FontSize
             }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -100,7 +105,7 @@ function DisplayImage({ pdf, storyTitle, returnStatus }) {
                     newAiImages.push(image);
                 }
             }
-            create(PDF.rawtext, newAiImages, Title);
+            create(PDF.rawtext, newAiImages, Title, FontName, FontSize);
         } catch (error) {
             console.error("Error in generateImages:", error);
         }
