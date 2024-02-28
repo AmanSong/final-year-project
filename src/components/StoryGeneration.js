@@ -93,7 +93,7 @@ function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGene
   const generateImages = async (storyPrompts, len) => {
     try {
       const newAiImages = [];
-      for (let i = 0; i <= len; i++) {
+      for (let i = 0; i < len; i++) {
         let prompt = storyPrompts[i];
 
         console.log(prompt)
@@ -102,8 +102,8 @@ function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGene
         if (prompt !== '') {
           const image = await generate(prompt);
           if (image === null || image.includes('Error generating image')) {
-            alert('Model seems to be down!');
-            break;
+            alert('An error occured while generating an image');
+            continue;
           }
           console.log("Generated image:");
           newAiImages.push(image);

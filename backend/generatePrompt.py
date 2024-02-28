@@ -11,6 +11,7 @@ client = OpenAI(api_key=OPENAI_KEY)
 
 def createPrompt(summary, style):
     print('Generating prompt\n')
+    print(summary)
 
     stream = client.chat.completions.create(
         model=LLM_MODEL,

@@ -6,7 +6,7 @@ import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
 
 
-function ImageFormat({ onFormatSelected }) {
+function ImageFormat() {
     const [visible, setVisible] = useState(false);
     const [selectedFormat, setSelectedFormat] = useState('NextPage');
     const [highlighted, setHighlighted] = useState([]);

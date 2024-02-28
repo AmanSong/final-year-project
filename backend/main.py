@@ -65,7 +65,6 @@ class AppConfig:
         self.Style = ''
         self.Format = 'NextPage'
 
-        # Add more variables as needed
 
 # Create an instance of AppConfig
 config = AppConfig()

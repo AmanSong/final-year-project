@@ -109,10 +109,6 @@ function SidePanel({ handleProps, isGenerate }) {
     });
   };
 
-  const handleFormat = () => {
-    alert('hi');
-  }
-
   return (
 
     <div className="SidePanel-Container">
@@ -165,7 +161,7 @@ function SidePanel({ handleProps, isGenerate }) {
               </div>
 
               <div className="select-container">
-                <ImageFormat onFormatSelected={handleFormat}></ImageFormat>
+                <ImageFormat></ImageFormat>
               </div>
 
               <CContainer className="select-container">

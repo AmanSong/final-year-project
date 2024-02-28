@@ -40,8 +40,6 @@ function DisplayStory({ story, generatedStoryTitle }) {
                 const blob = new Blob([Story], { type: 'application/pdf' });
                 const url = URL.createObjectURL(blob);
                 console.log("PDF URL:", url);
-
-
                 setStoryPDFURL(url);
                 setStoryBlob(blob);
             } catch (error) {

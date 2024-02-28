@@ -137,8 +137,8 @@ function Login() {
                         </div>
 
                         <div className="login-buttons-div">
-                            <CButton onClick={() => signUp()}>Submit</CButton>
-                            <CButton className="signup-button" onClick={() => isSigningUp()}>Already signed up?</CButton>
+                            <CButton onClick={() => signUp()}>Sign Up</CButton>
+                            <CButton className="signup-button" onClick={() => isSigningUp()}>Return</CButton>
                         </div>
 
                     </CForm>

@@ -92,26 +92,26 @@ def create_Story_PDF(story, title, images):
         story_width = page_width - 125
 
         story_pdf.setFont(story_font_name, story_font_size)
-        y_position -= letter[1] - 100
+        y_position -= letter[1] - 125
 
         for i in range(len(story)):
 
             lines = simpleSplit(story[i], story_font_name, story_font_size, story_width)
-            y_position -= 25
 
             for line in lines:
-                # Calculate the x position to center the text
-                text_width = story_pdf.stringWidth(line, story_font_name, story_font_size)
-                x_position = (center_x / 2) - 40
-
-                story_pdf.drawString(x_position, y_position, line)
-                y_position -= story_font_size + 2
-
+                
                 if y_position - story_font_size < 85:
                     # Start a new page if the current position is too close to the bottom
                     story_pdf.showPage()
                     story_pdf.drawImage(background_image, 0, 0, width=page_width, height=page_height)
-                    y_position = page_height - 100
+                    y_position = page_height - 125
+
+                # Calculate the x position to center the text
+                # text_width = story_pdf.stringWidth(line, story_font_name, story_font_size)
+                x_position = (center_x / 2) - 40
+                y_position -= story_font_size + 5
+
+                story_pdf.drawString(x_position, y_position, line)
 
             # try to place image, otherwise continue on
             try:

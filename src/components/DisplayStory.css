@@ -2,11 +2,11 @@
     height: 100vh;
     width: 120vh;
     display: flex;
-    background-color: rgba(240, 248, 255, 0.123);
+    background: linear-gradient(135deg, #ff5fbc28, #6f00ff3a);
     padding-left: 2%;
 }
 
 .story-displayPDF {
-    background-image: url('/public/empty_pdf.jpg');
+    background-image: url('/public/background_create.jpg');
     background-size: cover;
 }
