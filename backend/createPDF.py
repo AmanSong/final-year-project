@@ -88,7 +88,7 @@ def create_Story_PDF(story, title, images):
         ## now draw text here with word wrapping
         story_font_size = 16
         story_font_name = "Times-Roman"
-        story_width = page_width - 125
+        story_width = page_width - 200
 
         story_pdf.setFont(story_font_name, story_font_size)
         y_position -= letter[1] - 125
@@ -162,6 +162,7 @@ def create_PDF(raw_text, images, title, Format, fontName, fontSize):
 
         line_height = 15
         margin = 80
+
         # Calculate the center of the page
         center_x = letter[0] / 2
 
@@ -170,6 +171,8 @@ def create_PDF(raw_text, images, title, Format, fontName, fontSize):
 
         # Filter out empty pages
         filtered_pages = [page for page in raw_text if page.strip()]
+
+        story_width = page_width - 150
 
         ###### Draw front cover
         cover_img = createCover(title)
@@ -199,16 +202,13 @@ def create_PDF(raw_text, images, title, Format, fontName, fontSize):
                     page = filtered_pages[i]
 
                     # Split text into lines
-                    sentences = page.split('\n')
+                    sentences = simpleSplit(page, fontName, fontSize, story_width - fontSize)
 
                     # Move down for text
                     y_position = letter[1] - margin
 
                     # new page for image
                     pdf.showPage()
-
-                    # set the font and height of line
-                    pdf.setFont(fontName, fontSize)
                     
                     # try to place image, otherwise continue on
                     try:
@@ -219,9 +219,11 @@ def create_PDF(raw_text, images, title, Format, fontName, fontSize):
                     
                     # for every line 
                     for line in sentences:
+                        pdf.setFont(fontName, fontSize)
+
                         # Calculate the x position to center the text
                         text_width = pdf.stringWidth(line, fontName, fontSize)
-                        x_position = (center_x / 2) - 40
+                        x_position = (center_x / 2) - 40 
 
                         pdf.setFillColorRGB(1, 1, 1, 0.5) #choose fill colour
 
@@ -232,7 +234,7 @@ def create_PDF(raw_text, images, title, Format, fontName, fontSize):
                         # finally draw the text
                         pdf.setFillColorRGB(0, 0, 0, 1)
                         pdf.drawString(x_position, y_position, line)
-                        y_position -= line_height
+                        y_position -= fontSize
 
                         # Check if the text goes beyond the page, create a new page
                         if y_position <= margin:
@@ -244,7 +246,7 @@ def create_PDF(raw_text, images, title, Format, fontName, fontSize):
                     page = filtered_pages[i]
 
                     # Split text into lines
-                    sentences = page.split('\n')
+                    sentences = simpleSplit(page, fontName, fontSize, story_width - fontSize)
 
                     # Move down for text
                     y_position = letter[1] - margin
@@ -258,6 +260,7 @@ def create_PDF(raw_text, images, title, Format, fontName, fontSize):
 
                     # for every line 
                     for line in sentences:
+
                         # set the font and height of line
                         pdf.setFont(fontName, fontSize)
 
@@ -266,7 +269,7 @@ def create_PDF(raw_text, images, title, Format, fontName, fontSize):
 
                         # finally draw the text
                         pdf.drawString(x_position, y_position, line)
-                        y_position -= line_height
+                        y_position -= fontSize
                         
                         # Check if the text goes beyond the page, create a new page
                         if y_position <= margin:
