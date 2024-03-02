@@ -34,7 +34,7 @@ def base64_to_file(base64_string, file_extension=".png"):
         return None
     
 
-def create_Story_PDF(story, title, images):
+def create_Story_PDF(story, title, images, fontName, fontSize):
     try:
         array_images = []
 
@@ -86,8 +86,8 @@ def create_Story_PDF(story, title, images):
         ###### end of drawing front cover
             
         ## now draw text here with word wrapping
-        story_font_size = 16
-        story_font_name = "Times-Roman"
+        story_font_size = fontSize
+        story_font_name = fontName
         story_width = page_width - 200
 
         story_pdf.setFont(story_font_name, story_font_size)

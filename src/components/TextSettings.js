@@ -5,7 +5,7 @@ import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
 
 
-function TextSettings({onTextSettings}) {
+function TextSettings({ onTextSettings }) {
 
     const [visible, setVisible] = useState(false);
     //Helvetica, Courier, Times Roman
@@ -48,22 +48,25 @@ function TextSettings({onTextSettings}) {
                         <CFormRange onChange={(event) => setFontSize(event.target.value)} className="range-selector" min={15} max={30} label={fontSize} defaultValue="15" />
                     </div>
 
-                    <div>
-                    <CButton
-                        onClick={() => setFont('Helvetica')}
-                        className={`model-button ${highlighted && fontName === 'Helvetica' ? 'highlighted' : ''}`}>
-                        Helvetica
-                    </CButton>
-                    <CButton
-                        onClick={() => setFont('Courier')}
-                        className={`model-button ${highlighted && fontName === 'Courier' ? 'highlighted' : ''}`}>
-                        Courier
-                    </CButton>
-                    <CButton
-                        onClick={() => setFont('Times-Roman')}
-                        className={`model-button ${highlighted && fontName === 'Times-Roman' ? 'highlighted' : ''}`}>
-                        Times-Roman
-                    </CButton>
+                    <div className="fontname-buttons-container">
+                        <CButton
+                            onClick={() => setFont('Helvetica')}
+                            id="font-button-helvetica"
+                            className={`font-button ${highlighted && fontName === 'Helvetica' ? 'highlighted' : ''}`}>
+                            Helvetica
+                        </CButton>
+                        <CButton
+                            onClick={() => setFont('Courier')}
+                            id="font-button-courier"
+                            className={`font-button ${highlighted && fontName === 'Courier' ? 'highlighted' : ''}`}>
+                            Courier
+                        </CButton>
+                        <CButton
+                            onClick={() => setFont('Times-Roman')}
+                            id="font-button-times-roman"
+                            className={`font-button ${highlighted && fontName === 'Times-Roman' ? 'highlighted' : ''}`}>
+                            Times-Roman
+                        </CButton>
                     </div>
                 </CCard>
             </CCollapse>

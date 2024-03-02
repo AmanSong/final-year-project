@@ -3,6 +3,7 @@ import { CButton, CForm, CFormTextarea, CContainer, CFormRange, CFormInput } fro
 import Genre from "./Genre";
 import axios from "axios";
 import './StoryGeneration.css';
+import TextSettings from "./TextSettings";
 
 function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGeneratedStory }) {
 
@@ -11,9 +12,16 @@ function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGene
   const [genres, setGenres] = useState([]);
   const [amount, setAmount] = useState(1);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [fontName, setFontName] = useState('Helvetica');
+  const [fontSize, setFontSize] = useState(15);
 
   const handleGenre = (selectedGenres) => {
     setGenres(selectedGenres);
+  }
+
+  const handleTextSettings = (fontname, fontsize) => {
+    setFontName(fontname);
+    setFontSize(fontsize);
   }
 
   // when user clicks generate, call api endpoint to generate
@@ -22,7 +30,7 @@ function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGene
       setIsGenerating(true);
 
       // call endpoint
-      const generateStory = async (storyInput, storyTitle, genres, amount) => {
+      const generateStory = async (storyInput, storyTitle, genres, amount, fontName, fontSize) => {
         try {
           const response = await axios.post("http://127.0.0.1:8000/story", {
             story_prompt: storyInput,
@@ -53,6 +61,8 @@ function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGene
             story: storyGenerated,
             story_title: storyTitle,
             story_images: images,
+            font_name: fontName,
+            font_size: fontSize
           }, {
             headers: {
               'Content-Type': 'application/json',
@@ -72,7 +82,7 @@ function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGene
           onGenerateStoryComplete();
         }
       }
-      generateStory(storyInput, storyTitle, genres, amount);
+      generateStory(storyInput, storyTitle, genres, amount, fontName, fontSize);
 
     }
   }, [generate_story, isGenerating, onGenerateStoryComplete]);
@@ -147,6 +157,10 @@ function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGene
 
       <div className="select-container">
         <Genre onGenresSelected={handleGenre}></Genre>
+      </div>
+
+      <div className="select-container">
+        <TextSettings onTextSettings={handleTextSettings}></TextSettings>
       </div>
 
     </div>

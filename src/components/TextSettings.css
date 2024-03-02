@@ -1,6 +1,6 @@
 .textsettings-card {
     padding: 5%;
-    background-color: aliceblue;
+    background-color: rgb(47, 125, 194);
 }
 
 .font-size-selection {
@@ -9,5 +9,52 @@
     color: white;
     border-radius: 5px;
     padding: 1%;
-    background-color: rgb(196, 196, 196);
+    background-color: rgb(0, 136, 177);
+    margin-bottom: 10%;
+}
+
+.textsettings-card {
+    background-color: #dffdd7;
+    width: 16rem;
+    padding: 5%;
+    margin: auto;
+}
+
+.fontname-buttons-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(5rem, 15rem));
+    align-items: center;
+
+    margin: auto;
+}
+
+.font-button {
+    background-color: #20a0c7;
+    color: #ffffff;
+    margin: 1% 0;
+    border: .5px solid #1c0327;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #2980b9;
+    }
+}
+
+.font-button.highlighted {
+    background-color: #44cfc3;
+    color: #ffffff;
+}
+
+.font-button {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#font-button-courier {
+    font-family: 'Courier New', Courier, monospace;
+}
+#font-button-times-roman {
+    font-family: 'Times New Roman', Times, serif;
+}
+#font-button-helvetica {
+    font-family: Arial, Helvetica, sans-serif;
 }

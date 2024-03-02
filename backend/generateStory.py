@@ -18,8 +18,8 @@ client = OpenAI(api_key=OPENAI_KEY)
 
 LangLLM = LangchainOpenAI(api_key=OPENAI_KEY, model='gpt-3.5-turbo-instruct', temperature=0.7, max_tokens=2500)
 
-def convertToPDF(Story, Title, Images):
-    pdf = create_Story_PDF(Story, Title, Images)
+def convertToPDF(Story, Title, Images, fontName, fontSize):
+    pdf = create_Story_PDF(Story, Title, Images, fontName, fontSize)
     return pdf
 
 

@@ -217,14 +217,6 @@ def generate(storyParams: ModelRequest):
             "storyPrompts": storyPrompts,
         }
 
-        # # Create a temporary file
-        # with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file_story:
-        #     generatedStory.seek(0)
-        #     temp_file_story.write(generatedStory.read())
-        #     temp_file_story.seek(0)
-
-        # # Return the temporary file as a FileResponse
-        # return FileResponse(temp_file_story.name, media_type="application/pdf", filename="generated_pdf.pdf")
         return JSONResponse(content=response_content, status_code=200)
 
     except Exception as e:
@@ -237,6 +229,8 @@ class ModelRequest(BaseModel):
     story: list[str]
     story_title: str
     story_images: list[str]
+    font_name: str
+    font_size: int
 
 @app.post("/storyToPDF")
 def generate(storyReq: ModelRequest):
@@ -246,6 +240,8 @@ def generate(storyReq: ModelRequest):
             storyReq.story,
             storyReq.story_title,
             storyReq.story_images,
+            storyReq.font_name,
+            storyReq.font_size
         )
 
         # Create a temporary file
