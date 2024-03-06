@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react"
-import { CButton, CCard, CCollapse, CContainer } from "@coreui/react";
+import { CButton, CCard, CCollapse, CContainer, CForm, CFormInput } from "@coreui/react";
 import './Genre.css'
 import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
@@ -10,9 +10,10 @@ function Genre({ onGenresSelected }) {
     const [selectedGenres, setSelectedGenres] = useState([]);
     const [highlightedGenres, setHighlightedGenres] = useState([]);
     const [isFlipped, setIsFlipped] = useState(false);
+    const [customGenre, setCustomGenre] = useState('');
 
     const flipArrow = () => {
-      setIsFlipped(!isFlipped);
+        setIsFlipped(!isFlipped);
     };
 
     const toggleGenre = (value) => {
@@ -33,18 +34,29 @@ function Genre({ onGenresSelected }) {
         );
     };
 
+    const handleCustomGenreChange = (event) => {
+        setCustomGenre(event.target.value);
+    };
+
+    const addCustomGenre = (event) => {
+        if(customGenre != '') {
+            setSelectedGenres([...selectedGenres, customGenre.trim()]);
+        }
+    };
+
     useEffect(() => {
         if (onGenresSelected) {
             onGenresSelected(selectedGenres);
+            console.log(selectedGenres);
         }
     }, [selectedGenres, onGenresSelected]);
 
     return (
         <div className="genre-container">
-            <CButton className="styledrop-button" onClick={() => {setVisible(!visible); flipArrow()}}>
-                Select Genre 
-                <CIcon className={`button-icon ${isFlipped ? 'flipped' : ''}`} icon={icon.cilChevronBottom} size="xl"/>
-            </CButton> 
+            <CButton className="styledrop-button" onClick={() => { setVisible(!visible); flipArrow() }}>
+                Select Genre
+                <CIcon className={`button-icon ${isFlipped ? 'flipped' : ''}`} icon={icon.cilChevronBottom} size="xl" />
+            </CButton>
             <CCollapse visible={visible}>
                 <CCard className="genre-card">
                     <CButton onClick={() => toggleGenre('Action')} className={`genre-button ${highlightedGenres.includes('Action') ? 'high-lighted' : ''}`}>
@@ -62,6 +74,20 @@ function Genre({ onGenresSelected }) {
                     <CButton onClick={() => toggleGenre('Mystery')} className={`genre-button ${highlightedGenres.includes('Mystery') ? 'high-lighted' : ''}`}>
                         Mystery
                     </CButton>
+                    <CForm>
+                        <CFormInput
+                            className="custom-genre-button"
+                            placeholder="Other..."
+                            value={customGenre}
+                            onChange={handleCustomGenreChange}
+                            onKeyDown={(event) => {
+                                if (event.key === 'Enter') {
+                                    event.preventDefault();
+                                    addCustomGenre();
+                                }
+                            }}
+                        ></CFormInput>
+                    </CForm>
                 </CCard>
             </CCollapse>
         </div>

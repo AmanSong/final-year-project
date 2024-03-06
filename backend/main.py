@@ -7,19 +7,17 @@ from fastapi import FastAPI, Response
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from io import BytesIO
-import base64 
-from PIL import Image
 import requests
 from dotenv import load_dotenv
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import JSONResponse
 import tempfile
-from extract import read, summarize_pages
-from story import generateStory
+from extract import read
+from story_local_model import generateStory
 from generateStory import story_generator, convertToPDF
 from createPDF import create_PDF
 from generatePrompt import createPrompt
+from createImages import HuggingFace
 
 # create FastAPI instances
 app = FastAPI()
@@ -38,6 +36,7 @@ app.add_middleware(
 load_dotenv()
 auth_token = os.getenv('hugging_face_api_token')
 
+
 # create or take from models folder
 models_dir = "models"
 
@@ -53,9 +52,6 @@ compvis = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-
 # pixel art, works as of 15/11/23 and fast
 pixel_art = "https://api-inference.huggingface.co/models/nerijs/pixel-art-xl"
 
-# Waifu diffusion, a model that seems to be trained on anime style art
-waifu_diffusion = "https://api-inference.huggingface.co/models/hakurei/waifu-diffusion"
-
 headers = {"Authorization": f"Bearer {auth_token}"}
 
 
@@ -64,7 +60,6 @@ class AppConfig:
         self.SelectedModel = ''
         self.Style = ''
         self.Format = 'NextPage'
-
 
 # Create an instance of AppConfig
 config = AppConfig()
@@ -83,7 +78,7 @@ def select_model(request_data: ModelRequest):
         config.SelectedModel = model
     elif model == "pixel-art-xl":
         config.SelectedModel = model
-    elif model == "waifu-diffusion":
+    elif model == "dall-e-2":
         config.SelectedModel = model
 
     print(f'Selected Model: {config.SelectedModel}')
@@ -124,18 +119,12 @@ def generate(prompt: str):
         API_URL = compvis
     elif config.SelectedModel == 'pixel-art-xl':
         API_URL = pixel_art
-    elif config.SelectedModel == 'waifu-diffusion':
-        API_URL = waifu_diffusion
+    elif config.SelectedModel == 'dall-e-2':
+        API_URL = 'dall-e-2'
     else:
         # default
         API_URL = compvis
 
-    def huggingFace(payload):
-        response = requests.post(API_URL, headers=headers, json=payload)
-        print(response)
-        print(payload)
-        return response.content
-    
     try:
         if config.Style != '':
             prompt_with_style = createPrompt(prompt, config.Style)
@@ -145,18 +134,7 @@ def generate(prompt: str):
         print(f"using {prompt_with_style}")
         print(f"using {API_URL}")
 
-        # Make a request to the Hugging Face model using the provided text prompt
-        image_bytes = huggingFace({
-            "inputs": prompt_with_style,
-        })
-
-        # Try to open the image with PIL
-        image = Image.open(BytesIO(image_bytes))
-
-        # Convert the PIL Image to base64 format
-        buffer = BytesIO()
-        image.save(buffer, format="PNG") 
-        imgstr = base64.b64encode(buffer.getvalue())
+        imgstr = HuggingFace(API_URL, headers, prompt_with_style)
 
         return Response(content=imgstr, media_type="image/png")
     

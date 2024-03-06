@@ -59,22 +59,23 @@ function SelectModel({ selectedModel }) {
                         -fast but low quality-
                     </CButton>
                     <CButton
-                        onClick={() => dropdownSelect('stable-diffusion-xl-base-1.0')}
-                        className={`model-button ${highlight && selected === 'stable-diffusion-xl-base-1.0' ? 'highlighted' : ''}`}>
-                        StableDiffusion-XL-Base-1.0 <br></br>
-                        -Slow but high quality-
-                    </CButton>
-                    <CButton
                         onClick={() => dropdownSelect('pixel-art-xl')}
                         className={`model-button ${highlight && selected === 'pixel-art-xl' ? 'highlighted' : ''}`}>
                         Pixel-Art-XL <br></br>
                         -fast, good quality, no style needed-
                     </CButton>
                     <CButton
-                        onClick={() => dropdownSelect('waifu-diffusion')}
-                        className={`model-button ${highlight && selected === 'waifu-diffusion' ? 'highlighted' : ''}`}>
-                        Waifu-Diffusion <br></br>
-                        -fast, low quality, can produce broken images-
+                        onClick={() => dropdownSelect('stable-diffusion-xl-base-1.0')}
+                        className={`model-button ${highlight && selected === 'stable-diffusion-xl-base-1.0' ? 'highlighted' : ''}`}>
+                        StableDiffusion-XL-Base-1.0 <br></br>
+                        -Slow but high quality-
+                    </CButton>
+                    <CButton
+                        onClick={() => dropdownSelect('dall-e-2')}
+                        className={`model-button ${highlight && selected === 'dall-e-2' ? 'highlighted' : ''}`}
+                        id="dall-e-2-model-button">
+                        Dall-E-2 <br></br>
+                        -OpenAI Image Generator, Costly-
                     </CButton>
                 </CCard>
             </CCollapse>

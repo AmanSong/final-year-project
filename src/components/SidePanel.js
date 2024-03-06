@@ -172,6 +172,7 @@ function SidePanel({ handleProps, isGenerate }) {
               <div className="select-container">
                 <ImageFormat></ImageFormat>
               </div>
+
               <div className="select-container">
                 <TextSettings onTextSettings={handleTextSettings}></TextSettings>
               </div>
@@ -180,7 +181,7 @@ function SidePanel({ handleProps, isGenerate }) {
                 {isGenerate ?
                   <CButton disabled={true} className="submit-button"><CSpinner></CSpinner></CButton>
                   :
-                  <CButton onClick={() => sendFile()} className="submit-button">Submit</CButton>
+                  <CButton onClick={() => sendFile()} className="submit-button">Illustrate</CButton>
                 }
               </CContainer>
             </div>

@@ -11,6 +11,7 @@
     color: #ffffff;
     padding: 5%;
     margin: 2% 0;
+    height: 7rem;
     border: .5px solid #1c0327;
     cursor: pointer;
 
@@ -32,4 +33,15 @@
     background-color: #a0d1f0;
     width: 16rem;
     padding: 5%;
+}
+
+#dall-e-2-model-button {
+    background-color: rgb(226, 172, 92);
+
+    &:hover {
+        background-color: #d8bd8a;
+    }
+}
+#dall-e-2-model-button.model-button.highlighted {
+    background-color: rgb(255, 153, 0);
 }

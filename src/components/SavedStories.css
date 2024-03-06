@@ -7,7 +7,7 @@
   
 
 .saved-stories {
-    background-color: #5ad3ff;
+    background: linear-gradient(95deg, #6aafff, #3551af, rgb(209, 142, 226));
     height: 100vh;
     width: 65vw;
     padding: 2.5%;
@@ -16,7 +16,7 @@
 }
 
 .saved-stories-container {
-    background-color: #fbb8fd80;
+    background-color: #fbb8fd56;
     width: 60vw;
     margin: auto;
     padding-bottom: 10vh;
@@ -59,13 +59,19 @@
 }
 
 .saved-stories-header {
-    color: rgb(255, 255, 255);
-    height: 6vh;
-    margin-bottom: 1%;
-    border: .5px dotted white;
+
+    height: 5rem;
+    margin-bottom: 5%;
     text-align: center;
     padding: 1%;
+    background-color: #3551af2f;
+    border-radius: 8px;
 }
 .saved-stories-header h4{
-    font-size: 2vh;
+    font-size: 3rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: linear-gradient(45deg, #b8dfc5, #c9fcf5, rgb(224, 53, 53));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }

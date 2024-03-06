@@ -38,3 +38,15 @@
         background-color: #4c125f;
     }
 }
+
+.custom-genre-button {
+    height: 3.5rem;
+    width: 6.5rem;
+    background-color: #c296fc;
+    margin: 5%;
+    text-align: center;
+    
+}
+.custom-genre-button:focus {
+    background-color: #d4b3ff;
+}

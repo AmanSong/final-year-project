@@ -238,8 +238,8 @@ def create_PDF(raw_text, images, title, Format, fontName, fontSize):
 
                         # Check if the text goes beyond the page, create a new page
                         if y_position <= margin:
+                            y_position = letter[1] - margin
                             pdf.showPage()
-                            y_position = letter[1] - line_height
                             continue
 
                 elif(Format == 'NextPage'):
