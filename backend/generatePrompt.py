@@ -17,7 +17,7 @@ def createPrompt(summary, style):
         model=LLM_MODEL,
         messages = [
             {"role": "system", "content": "You are a creative AI generating prompts for image creation. Example output: 'High Quality, Field, Flowers, Vibrant colors and gradients'"},
-            {"role": "user", "content": f"Generate vivid and descriptive prompts for AI image generation based on the given summary: {summary}. Style: {style}, Maximum of 30 words"},
+            {"role": "user", "content": f"Generate vivid and descriptive prompts for AI image generation based on the given summary with maximum of 30 words: {summary}. Style: {style}"},
         ],
         max_tokens=4096,
         stream=True,

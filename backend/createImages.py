@@ -13,7 +13,7 @@ DALL_E_2 = "dall-e-2"
 client = OpenAI(api_key=OPENAI_KEY)
 
 
-def HuggingFace(API_URL, headers, prompt):
+def CreateImages(API_URL, headers, prompt):
 
     def huggingFace(payload):
         response = requests.post(API_URL, headers=headers, json=payload)

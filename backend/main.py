@@ -17,7 +17,7 @@ from story_local_model import generateStory
 from generateStory import story_generator, convertToPDF
 from createPDF import create_PDF
 from generatePrompt import createPrompt
-from createImages import HuggingFace
+from createImages import CreateImages
 
 # create FastAPI instances
 app = FastAPI()
@@ -134,7 +134,7 @@ def generate(prompt: str):
         print(f"using {prompt_with_style}")
         print(f"using {API_URL}")
 
-        imgstr = HuggingFace(API_URL, headers, prompt_with_style)
+        imgstr = CreateImages(API_URL, headers, prompt_with_style)
 
         return Response(content=imgstr, media_type="image/png")
     
@@ -202,7 +202,7 @@ def generate(storyParams: ModelRequest):
         return JSONResponse(content={"message": "An error occured while generating the story"}, status_code=500)
     
     
-# endpoint for onvert to pdf with images
+# endpoint for convert to pdf with images
 class ModelRequest(BaseModel):
     story: list[str]
     story_title: str
@@ -261,6 +261,24 @@ def create(request: ModelRequest):
     except Exception as e:
         print(f"Error processing the file: {e}")
         return JSONResponse(content={"message": "An error occured while generating the story"}, status_code=500)
+    
+    
+# end point to rewrite a story
+class ModelRequest(BaseModel):
+    Story_To_Rewrite: list[str]
+    In_The_Style: str
+    title: str
+    fontName: str
+    fontSize: int
+
+@app.post("/rewrite")
+def rewrite(request: ModelRequest):
+    try:
+        print('hi')
+
+    except Exception as e:
+        print(f"Error processing the file: {e}")
+        return JSONResponse(content={"message": "An error occured while rewriting the story"}, status_code=500)
 
 # code for using local model using GPU
 # print('using CompVis')

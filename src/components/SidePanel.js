@@ -10,6 +10,7 @@ import { CNav, CTabPane, CTabContent } from "@coreui/react";
 import StoryGeneration from "./StoryGeneration";
 import ImageFormat from "./ImageFormat";
 import TextSettings from "./TextSettings";
+import Rewrite from "./Rewrite";
 
 function SidePanel({ handleProps, isGenerate }) {
 
@@ -175,6 +176,10 @@ function SidePanel({ handleProps, isGenerate }) {
 
               <div className="select-container">
                 <TextSettings onTextSettings={handleTextSettings}></TextSettings>
+              </div>
+
+              <div className="select-container">
+                <Rewrite></Rewrite>
               </div>
 
               <CContainer className="select-container">
