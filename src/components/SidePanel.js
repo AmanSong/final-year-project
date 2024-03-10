@@ -23,6 +23,7 @@ function SidePanel({ handleProps, isGenerate }) {
   const [storyGenerate, setStoryGenerate] = useState(false);
   const [fontName, setFontName] = useState('Helvetica');
   const [fontSize, setFontSize] = useState(15);
+  const [toRewrite, setToRewrite] = useState(false);
   const [generatedStory, setGeneratedStory] = useState();
 
   // Event handler for input change
@@ -35,6 +36,10 @@ function SidePanel({ handleProps, isGenerate }) {
     setFontSize(fontsize);
   }
 
+  const handleRewrite = (isOn) => {
+    setToRewrite(isOn);
+  }
+
   // set the uploaded file from dropFileData
   const setFile = () => {
     setDropFileData((prevDropFileData) => {
@@ -44,7 +49,8 @@ function SidePanel({ handleProps, isGenerate }) {
         title: storyTitle,
         generate: true,
         fontName: fontName,
-        fontSize: fontSize
+        fontSize: fontSize,
+        toRewrite: toRewrite
       };
 
       // Check if storyTitle is not empty
@@ -73,7 +79,6 @@ function SidePanel({ handleProps, isGenerate }) {
           'Content-Type': 'application/json',
         },
       });
-      console.log(response);
     } catch (error) {
       console.error("Error sending data:", error);
     }
@@ -179,7 +184,7 @@ function SidePanel({ handleProps, isGenerate }) {
               </div>
 
               <div className="select-container">
-                <Rewrite></Rewrite>
+                <Rewrite toggle_rewrite={handleRewrite}></Rewrite>
               </div>
 
               <CContainer className="select-container">

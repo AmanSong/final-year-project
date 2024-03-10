@@ -16,12 +16,13 @@ function App() {
   const [status, setStatus] = useState();
   const [fontName, setFontName] = useState();
   const [fontSize, setFontSize] = useState();
+  const [toRewrite, setToRewrite] = useState();
 
   const [story, setStory] = useState(null);
   const [generatedStoryTitle, setGeneratedStoryTitle] = useState(null);
 
   const handleProps = (propsData) => {
-    const { text, display, title, story_pdf, storyTitle, fontName, fontSize } = propsData;
+    const { text, display, title, story_pdf, storyTitle, fontName, fontSize, toRewrite } = propsData;
     SetDisplay(display)
     setPDF(text);
     setStoryTitle(title);
@@ -29,13 +30,13 @@ function App() {
     setGeneratedStoryTitle(storyTitle);
     setFontName(fontName);
     setFontSize(fontSize);
+    setToRewrite(toRewrite);
   };
 
   const handleReturnedStatus = (returnedValue) => {
     setStatus(returnedValue);
   };
 
-  console.log(fontName, fontSize)
 
   return (
     <div className="App">
@@ -60,6 +61,7 @@ function App() {
               returnStatus={handleReturnedStatus}
               fontName={fontName}
               fontSize={fontSize}
+              toRewrite={toRewrite}
             ></DisplayImage>
           </div>
 

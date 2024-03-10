@@ -47,7 +47,6 @@ function Genre({ onGenresSelected }) {
     useEffect(() => {
         if (onGenresSelected) {
             onGenresSelected(selectedGenres);
-            console.log(selectedGenres);
         }
     }, [selectedGenres, onGenresSelected]);
 

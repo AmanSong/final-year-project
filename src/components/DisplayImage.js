@@ -6,7 +6,7 @@ import './DisplayImage.css'
 import supabase from "../config/SupabaseClient";
 import { v4 as uuid } from "uuid";
 
-function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize }) {
+function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize, toRewrite }) {
 
     const [isGenerating, setIsGenerating] = useState(false);
     const [PDF, setPDF] = useState();
@@ -62,7 +62,8 @@ function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize }) {
                 images: Images,
                 title: Title,
                 fontName: FontName,
-                fontSize: FontSize
+                fontSize: FontSize,
+                toRewrite: toRewrite
             }, {
                 headers: {
                     'Content-Type': 'application/json',

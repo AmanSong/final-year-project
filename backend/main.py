@@ -18,6 +18,7 @@ from generateStory import story_generator, convertToPDF
 from createPDF import create_PDF
 from generatePrompt import createPrompt
 from createImages import CreateImages
+from rewrite_story import rewrite
 
 # create FastAPI instances
 app = FastAPI()
@@ -60,6 +61,7 @@ class AppConfig:
         self.SelectedModel = ''
         self.Style = ''
         self.Format = 'NextPage'
+        self.RewriteStyle = ''
 
 # Create an instance of AppConfig
 config = AppConfig()
@@ -107,6 +109,16 @@ def set_style(format_choice: ModelRequest):
         print('default format')
     config.Format = format_choice.format
     print(f"Format: {config.Format}")
+
+
+# endpoint to select rewrite style
+class ModelRequest(BaseModel):
+    rewrite_to: str
+
+@app.post("/rewrite")
+def set_style(rewrite_request: ModelRequest):
+    config.RewriteStyle = rewrite_request.rewrite_to
+    print(f"Will rewrite to: {config.RewriteStyle}")
 
     
 # function generate
@@ -243,11 +255,17 @@ class ModelRequest(BaseModel):
     title: str
     fontName: str
     fontSize: int
+    toRewrite: bool
 
 @app.post("/createPDF")
 def create(request: ModelRequest):
     try:
-        pdf_buffer = create_PDF(request.text, request.images, request.title, config.Format, request.fontName, request.fontSize)
+
+        if(request.toRewrite == True):
+            rewritten_story = rewrite(request.text[:10], config.RewriteStyle)
+            pdf_buffer = create_PDF(rewritten_story, request.images, request.title, config.Format, request.fontName, request.fontSize)
+        else:
+            pdf_buffer = create_PDF(request.text, request.images, request.title, config.Format, request.fontName, request.fontSize)
 
         # Create a temporary file
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
@@ -263,22 +281,20 @@ def create(request: ModelRequest):
         return JSONResponse(content={"message": "An error occured while generating the story"}, status_code=500)
     
     
-# end point to rewrite a story
-class ModelRequest(BaseModel):
-    Story_To_Rewrite: list[str]
-    In_The_Style: str
-    title: str
-    fontName: str
-    fontSize: int
+# # end point to get style of rewriting
+# class ModelRequest(BaseModel):
+#     Story_To_Rewrite: list[str]
+#     In_The_Style: str
 
-@app.post("/rewrite")
-def rewrite(request: ModelRequest):
-    try:
-        print('hi')
+# @app.post("/rewrite")
+# def rewrite(request: ModelRequest):
+#     try:
+#         print('hi')
 
-    except Exception as e:
-        print(f"Error processing the file: {e}")
-        return JSONResponse(content={"message": "An error occured while rewriting the story"}, status_code=500)
+#     except Exception as e:
+#         print(f"Error processing the file: {e}")
+#         return JSONResponse(content={"message": "An error occured while rewriting the story"}, status_code=500)
+    
 
 # code for using local model using GPU
 # print('using CompVis')

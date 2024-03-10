@@ -24,8 +24,6 @@ function DisplayStory({ story, generatedStoryTitle }) {
         </CToast>
     )
 
-    console.log(Story)
-
     useEffect(() => {
         if (story) {
             setStory(story);

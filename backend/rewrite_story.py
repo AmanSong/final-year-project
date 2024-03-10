@@ -11,7 +11,7 @@ LLM_MODEL = 'gpt-3.5-turbo'
 client = OpenAI(api_key=OPENAI_KEY)
 
 def openAi_model(Page, Style):
-    Rewritten_Page = ''
+    Rewritten_Page = []
 
     stream = client.chat.completions.create(
         model=LLM_MODEL,
@@ -29,19 +29,25 @@ def openAi_model(Page, Style):
     for chunk in stream:
         if chunk.choices[0].delta.content is not None:
             page_content = chunk.choices[0].delta.content
-            print(page_content, end="")
-            Page = page_content
+            Rewritten_Page.append(page_content)
 
-    return Rewritten_Page
+    full_rewritten = ''.join(Rewritten_Page)
+    rewritten_pages = full_rewritten.split('\n\n')
+
+    return rewritten_pages[0]
       
 
 def rewrite(Story, Style):
-        Re_WrittenStory = []
-        
-        for index, page in enumerate(Story, start=1):
+    Re_WrittenStory = []
+    
+    for index, page in enumerate(Story, start=1):
+        if page == '':
+            return page
+        else:
             generatedPage = openAi_model(page, Style)
             print(f"Page {index}:\n{generatedPage}")
             Re_WrittenStory.append(generatedPage)
 
-        return Re_WrittenStory
+    print(Re_WrittenStory)
+    return Re_WrittenStory
 

@@ -3,8 +3,9 @@ import { CButton, CCard, CCollapse } from "@coreui/react";
 import './Rewrite.css'
 import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
+import axios from "axios";
 
-function Rewrite() {
+function Rewrite({ toggle_rewrite }) {
 
     const [visible, setVisible] = useState(false);
 
@@ -33,6 +34,27 @@ function Rewrite() {
         setIsFlipped(!isFlipped);
     };
 
+    useEffect(() => {
+        toggle_rewrite(isOn);
+    }, [isOn]);
+
+    useEffect(() => {
+        const rewrite_choice = async (e) => {
+            try {
+                const response = await axios.post("http://127.0.0.1:8000/rewrite", {
+                    rewrite_to: selected
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+            } catch (error) {
+                console.error("Error sending data:", error);
+            }
+        }
+        rewrite_choice(selected)
+    }, [selected])
+
     return (
         <div>
             <CButton className="styledrop-button" onClick={() => { setVisible(!visible); flipArrow() }}>
@@ -49,7 +71,7 @@ function Rewrite() {
                     <div id="rewrite-toggle-button">
                         <label>
                             <input type="checkbox" checked={isOn} onChange={handleToggle} />
-                            <span class="fill"></span>
+                            <span className="fill"></span>
                         </label>
                         <h6>Toggle re-write on?</h6>
                     </div>
@@ -58,7 +80,7 @@ function Rewrite() {
                         <CCard>
                             <CButton
                                 onClick={() => setSelectedRewrite('Childrens story book')}
-                                className={`rewritten-button ${highlighted && selected === 'Childrens story book' ? 'high-lighted' : ''}`}>
+                                className={`rewritten-button ${highlighted && selected === "Children's story book" ? 'high-lighted' : ''}`}>
                                 Children's story book
                             </CButton>
                             <CButton
