@@ -11,16 +11,16 @@ LLM_MODEL = 'gpt-3.5-turbo'
 client = OpenAI(api_key=OPENAI_KEY)
 
 def openAi_model(Page, Style):
-    Rewritten_Page = []
+    rewritten_page = ""
 
     stream = client.chat.completions.create(
         model=LLM_MODEL,
         messages=[
             {"role": "system", "content":
-            "You are a helpful AI assistant that will take help rewrite pages from stories using a given style"},
+            "You are a helpful AI assistant that will take help rewrite pages from stories using a given style. Maintain the overall structure but format it as requested"},
     
             {"role": "user", "content": 
-            f"Rewrite this page in the style of {Style}, keeping the same structure and any dialouge within, Page: '{Page}' "},
+            f"Rewrite this page in the style of {Style}, keeping the same structure, word length and any dialouge within, Page: '{Page}' "},
         ],
         max_tokens=4096,
         stream=True,
@@ -29,23 +29,25 @@ def openAi_model(Page, Style):
     for chunk in stream:
         if chunk.choices[0].delta.content is not None:
             page_content = chunk.choices[0].delta.content
-            Rewritten_Page.append(page_content)
+            rewritten_page += page_content
 
-    full_rewritten = ''.join(Rewritten_Page)
-    rewritten_pages = full_rewritten.split('\n\n')
-
-    return rewritten_pages[0]
+    return rewritten_page
       
 
 def rewrite(Story, Style):
     Re_WrittenStory = []
+
+    # Filter out empty pages
+    filtered_pages = [page for page in Story if page.strip()]
     
-    for index, page in enumerate(Story, start=1):
+    for index, page in enumerate(filtered_pages, start=1):
         if page == '':
             return page
         else:
             generatedPage = openAi_model(page, Style)
             print(f"Page {index}:\n{generatedPage}")
+            print()
+            print(f"Actual page: {index}:\n{page}")
             Re_WrittenStory.append(generatedPage)
 
     print(Re_WrittenStory)

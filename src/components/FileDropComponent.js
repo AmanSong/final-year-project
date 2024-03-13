@@ -61,7 +61,7 @@ function FileDropComponent({ onDataExtracted }) {
                 <CCard id="upload-drop-container">
                     <CCardBody id="upload-drop-card">
                         {/* Handle user file drops */}
-                        <div {...getRootProps()} className="filedrop">
+                        <div {...getRootProps()} className={`filedrop ${fileName ? 'filedropped' : ''}`}>
                             <input {...getInputProps()} />
                             <h4 className="upload-label">{fileName ? fileName : <CIcon icon={icon.cilArrowThickFromBottom} size="xxl"/>}</h4>
                         </div>

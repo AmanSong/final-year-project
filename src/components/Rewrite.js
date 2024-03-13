@@ -79,7 +79,7 @@ function Rewrite({ toggle_rewrite }) {
                     <CCollapse visible={isOn}>
                         <CCard>
                             <CButton
-                                onClick={() => setSelectedRewrite('Childrens story book')}
+                                onClick={() => setSelectedRewrite("Children's story book")}
                                 className={`rewritten-button ${highlighted && selected === "Children's story book" ? 'high-lighted' : ''}`}>
                                 Children's story book
                             </CButton>

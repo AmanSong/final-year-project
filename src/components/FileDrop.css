@@ -47,3 +47,10 @@
 .flipped {
     transform: rotate(-180deg);
 }
+
+.filedropped {
+    background-color: #78b0e9;
+}
+.filedropped:hover {
+    background-color: #97cbff;
+}

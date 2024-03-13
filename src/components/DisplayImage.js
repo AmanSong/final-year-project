@@ -6,24 +6,22 @@ import './DisplayImage.css'
 import supabase from "../config/SupabaseClient";
 import { v4 as uuid } from "uuid";
 
-function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize, toRewrite }) {
+function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize, toRewrite, triggerUpdate }) {
 
     const [isGenerating, setIsGenerating] = useState(false);
     const [PDF, setPDF] = useState();
     const [pdfUrl, setPdfUrl] = useState(null);
     const [pdfBlob, setPdfBlob] = useState(null)
     const [Title, setStoryTitle] = useState(null);
-    const [FontName, setFontName] = useState()
-    const [FontSize, setFontSize] = useState()
+    const [FontName, setFontName] = useState();
+    const [FontSize, setFontSize] = useState();
+
     // give a default value for 5 images to generate
     const [amountToGen, setAmountToGen] = useState(1);
     const [progressValue, setProgressValue] = useState(0);
-
-    const [forceUpdate, setForceUpdate] = useState(false);
     const [saving, setSaving] = useState(false);
-
-    const [toast, addToast] = useState(0)
-    const toaster = useRef()
+    const [toast, addToast] = useState(0);
+    const toaster = useRef();
 
     const toastSaved = (
         <CToast>
@@ -34,15 +32,19 @@ function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize, toRew
     )
     
     useEffect(() => {
-        if (pdf) {
-            console.log('hi')
+        if(pdf) {
             setPDF(pdf);
             setStoryTitle(storyTitle);
             setFontName(fontName);
             setFontSize(fontSize);
-            setForceUpdate(prevState => !prevState);
+            setIsGenerating(true)
+            setProgressValue(0);
         }
-    }, [pdf, storyTitle]);
+        else if(triggerUpdate) {
+            setIsGenerating(true)
+            setProgressValue(0);
+        }
+    }, [pdf, storyTitle, triggerUpdate]);
 
     // api to generate images
     const generate = async (prompt) => {
@@ -111,15 +113,6 @@ function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize, toRew
             console.error("Error in generateImages:", error);
         }
     };
-
-
-    // to call set is generating to true to allow generation
-    useEffect(() => {
-        if (PDF && PDF.summaries && PDF.summaries.length > 0) {
-            setIsGenerating(true)
-            setProgressValue(0);
-        }
-    }, [PDF, forceUpdate]);
 
     // to begin generation of images depending on if its set to true or not
     useEffect(() => {
