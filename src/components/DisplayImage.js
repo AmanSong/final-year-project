@@ -17,7 +17,7 @@ function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize, toRew
     const [FontSize, setFontSize] = useState();
 
     // give a default value for 5 images to generate
-    const [amountToGen, setAmountToGen] = useState(1);
+    const [amountToGen, setAmountToGen] = useState(20);
     const [progressValue, setProgressValue] = useState(0);
     const [saving, setSaving] = useState(false);
     const [toast, addToast] = useState(0);

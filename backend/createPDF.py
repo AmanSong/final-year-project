@@ -161,7 +161,7 @@ def create_PDF(raw_text, images, title, Format, fontName, fontSize):
         pdf = canvas.Canvas(pdf_buffer, pagesize=letter)
 
         line_height = 15
-        margin = 80
+        margin = 125
 
         # Calculate the center of the page
         center_x = letter[0] / 2
@@ -172,7 +172,7 @@ def create_PDF(raw_text, images, title, Format, fontName, fontSize):
         # Filter out empty pages
         filtered_pages = [page for page in raw_text if page.strip()]
 
-        story_width = page_width - 150
+        story_width = page_width - 200
 
         ###### Draw front cover
         cover_img = createCover(title)
@@ -202,7 +202,7 @@ def create_PDF(raw_text, images, title, Format, fontName, fontSize):
                     page = filtered_pages[i]
 
                     # Split text into lines
-                    sentences = simpleSplit(page, fontName, fontSize, story_width - fontSize)
+                    sentences = simpleSplit(page, fontName, fontSize, story_width)
 
                     # Move down for text
                     y_position = letter[1] - margin
@@ -246,7 +246,7 @@ def create_PDF(raw_text, images, title, Format, fontName, fontSize):
                     page = filtered_pages[i]
 
                     # Split text into lines
-                    sentences = simpleSplit(page, fontName, fontSize, story_width - fontSize)
+                    sentences = simpleSplit(page, fontName, fontSize, story_width)
 
                     # Move down for text
                     y_position = letter[1] - margin
