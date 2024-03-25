@@ -124,6 +124,8 @@ function SidePanel({ handleProps, isGenerate }) {
     });
   };
 
+  console.log(isGenerate)
+
   return (
 
     <div className="SidePanel-Container">
@@ -133,7 +135,6 @@ function SidePanel({ handleProps, isGenerate }) {
         <CNav variant="tabs">
           <CButton
             active={activeKey === 1}
-
             className="tab-button"
             aria-selected={activeKey === 1}
             onClick={() => setActiveKey(1)}

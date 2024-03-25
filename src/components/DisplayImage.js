@@ -40,7 +40,7 @@ function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize, toRew
             setIsGenerating(true)
             setProgressValue(0);
         }
-        else if(triggerUpdate) {
+        else if(triggerUpdate && pdf) {
             setIsGenerating(true)
             setProgressValue(0);
         }
