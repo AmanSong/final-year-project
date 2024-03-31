@@ -17,12 +17,9 @@ function App() {
   const [fontName, setFontName] = useState();
   const [fontSize, setFontSize] = useState();
   const [toRewrite, setToRewrite] = useState();
-
   const [story, setStory] = useState(null);
   const [generatedStoryTitle, setGeneratedStoryTitle] = useState(null);
-
   const [triggerUpdate, setTriggerUpdate] = useState(false);
-
 
   const handleProps = (propsData) => {
     const { text, display, title, story_pdf, storyTitle, fontName, fontSize, toRewrite } = propsData;

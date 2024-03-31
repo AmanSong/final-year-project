@@ -74,14 +74,8 @@ class ModelRequest(BaseModel):
 def select_model(request_data: ModelRequest):
     model = request_data.model 
 
-    if model == 'stable-diffusion-xl-base-1.0':
-        config.SelectedModel = model
-    elif model == 'CompVis/stable-diffusion-v1-4':
-        config.SelectedModel = model
-    elif model == "pixel-art-xl":
-        config.SelectedModel = model
-    elif model == "dall-e-2":
-        config.SelectedModel = model
+    # take model request and place it in config class
+    config.SelectedModel = model
 
     print(f'Selected Model: {config.SelectedModel}')
     return {"SelectedModel": config.SelectedModel}
@@ -164,7 +158,7 @@ async def upload_pdf(file: UploadFile):
         # Read the file content into memory
         file_content = await file.read()
 
-        rawtext, prompts, images = read(file_content)
+        rawtext, prompts = read(file_content)
 
         # Once processing is done, you can discard the file content
         del file_content
@@ -173,7 +167,6 @@ async def upload_pdf(file: UploadFile):
             "message": "File uploaded and processed successfully",
             "rawtext": rawtext,
             "summaries": prompts,
-            "images": images,
         }
 
         return JSONResponse(content=response_content, status_code=200)

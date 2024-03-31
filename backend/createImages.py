@@ -5,6 +5,7 @@ import os
 from PIL import Image
 from io import BytesIO
 from dotenv import load_dotenv
+import time
 
 # retrieve the secret key
 load_dotenv()
@@ -16,7 +17,17 @@ client = OpenAI(api_key=OPENAI_KEY)
 def CreateImages(API_URL, headers, prompt):
 
     def huggingFace(payload):
-        response = requests.post(API_URL, headers=headers, json=payload)
+        max_retries = 3
+        retry_delay = 2
+
+        for retry_count in range(max_retries):
+            response = requests.post(API_URL, headers=headers, json=payload)
+            if response.status_code == 503:
+                print(f"503 Error encountered, retrying... (Attempt {retry_count + 1}/{max_retries})")
+                time.sleep(retry_delay)
+            else:
+                return response.content
+        
         print(response)
         print(payload)
         return response.content

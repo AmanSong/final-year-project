@@ -53,9 +53,10 @@ def create_Story_PDF(story, title, images, fontName, fontSize):
         # Create a BytesIO buffer to temporarily store the PDF content
         story_pdf_buffer = BytesIO()
 
-        # Rest of your code remains unchanged
+        # Create blank canvas
         story_pdf = canvas.Canvas(story_pdf_buffer, pagesize=letter)
 
+        # simple background image for 
         background_image = "page-background.jpg"
 
         # Calculate the center of the page

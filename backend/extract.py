@@ -10,8 +10,6 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 # function to extract text from each page
 def read(file_content):
     text = []
-    images = []
-
     try:
         # Open the PDF using PyMuPDF
         document = fitz.open(stream=file_content, filetype="pdf")
@@ -31,7 +29,7 @@ def read(file_content):
 
     page_summaries = summarize_pages(text, num_sentences=1)
 
-    return text, page_summaries, images
+    return text, page_summaries
 
 
 # function to extract prompts for image generation

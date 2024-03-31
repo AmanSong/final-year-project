@@ -41,7 +41,6 @@ function Login() {
     }
 
     function signUp() {
-
         const signup = async () => {
             // do some error checking first
             if (userPassword !== userPasswordMatch) {
@@ -52,7 +51,6 @@ function Login() {
                 alert('Minimum password length is 6!')
                 return
             }
-
             try {
                 let { user, error } = await supabase.auth.signUp({
                     email: userEmail,
@@ -63,14 +61,11 @@ function Login() {
                         }
                     }
                 });
-
                 if (error) {
                     console.error('error fetching details', error.message);
                     return;
                 }
-
                 alert('A verify link has been sent to the email provided')
-
             }
             catch (error) {
                 console.error('Error in signup:', error.message);
