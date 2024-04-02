@@ -6,7 +6,7 @@ import './DisplayImage.css'
 import supabase from "../config/SupabaseClient";
 import { v4 as uuid } from "uuid";
 
-function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize, toRewrite, triggerUpdate }) {
+function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize, toRewrite, triggerUpdate, amount }) {
 
     const [isGenerating, setIsGenerating] = useState(false);
     const [PDF, setPDF] = useState();
@@ -17,7 +17,7 @@ function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize, toRew
     const [FontSize, setFontSize] = useState();
 
     // give a default value for 5 images to generate
-    const [amountToGen, setAmountToGen] = useState(2);
+    const [amountToGen, setAmountToGen] = useState(0);
     const [progressValue, setProgressValue] = useState(0);
     const [saving, setSaving] = useState(false);
     const [toast, addToast] = useState(0);
@@ -39,6 +39,7 @@ function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize, toRew
             setFontSize(fontSize);
             setIsGenerating(true)
             setProgressValue(0);
+            setAmountToGen(amount);
         }
         else if(triggerUpdate && pdf) {
             setIsGenerating(true)
@@ -56,6 +57,8 @@ function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize, toRew
             return null;
         }
     };
+
+    console.log(amountToGen)
 
     const create = async (Text, Images, Title, FontName, FontSize) => {
         try {

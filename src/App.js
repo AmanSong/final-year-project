@@ -20,9 +20,10 @@ function App() {
   const [story, setStory] = useState(null);
   const [generatedStoryTitle, setGeneratedStoryTitle] = useState(null);
   const [triggerUpdate, setTriggerUpdate] = useState(false);
+  const [amount, setAmount] = useState(5);
 
   const handleProps = (propsData) => {
-    const { text, display, title, story_pdf, storyTitle, fontName, fontSize, toRewrite } = propsData;
+    const { text, display, title, story_pdf, storyTitle, fontName, fontSize, toRewrite, amount } = propsData;
     SetDisplay(display)
     setPDF(text);
     setStoryTitle(title);
@@ -31,6 +32,7 @@ function App() {
     setFontName(fontName);
     setFontSize(fontSize);
     setToRewrite(toRewrite);
+    setAmount(amount);
 
     setTriggerUpdate((prev) => !prev);
   };
@@ -65,6 +67,7 @@ function App() {
               fontSize={fontSize}
               toRewrite={toRewrite}
               triggerUpdate={triggerUpdate}
+              amount={amount}
             ></DisplayImage>
           </div>
 

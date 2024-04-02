@@ -148,3 +148,14 @@
     align-items: center;
     justify-content: center;
 }
+
+.illustrate-amount-container {
+    width: 100%;
+    text-align: center;
+    color: white;
+    border-radius: 15px;
+    border: solid 1px;
+    border-color: #c6d4e4;
+    padding: 5%;
+    background-color: rgb(39, 156, 224);
+}

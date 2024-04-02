@@ -1,5 +1,5 @@
 import { CButton, CContainer, CFormInput, CSpinner } from "@coreui/react";
-import { CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter } from '@coreui/react';
+import { CModal, CModalHeader, CModalTitle, CModalBody, CFormRange } from '@coreui/react';
 import { React, useState, useEffect } from "react"
 import axios from "axios";
 import FileDropComponent from "./FileDropComponent";
@@ -25,6 +25,7 @@ function SidePanel({ handleProps, isGenerate }) {
   const [fontSize, setFontSize] = useState(15);
   const [toRewrite, setToRewrite] = useState(false);
   const [generatedStory, setGeneratedStory] = useState();
+  const [amount, setAmount] = useState(5);
 
   // Event handler for input change
   const handleStoryInput = (event) => {
@@ -50,7 +51,8 @@ function SidePanel({ handleProps, isGenerate }) {
         generate: true,
         fontName: fontName,
         fontSize: fontSize,
-        toRewrite: toRewrite
+        toRewrite: toRewrite,
+        amount: amount
       };
 
       // Check if storyTitle is not empty
@@ -105,7 +107,6 @@ function SidePanel({ handleProps, isGenerate }) {
 
   // handle when a story is returned
   const handleGeneratedStory = (story) => {
-
     const { generatedStory, Title } = story;
 
     const newData = {
@@ -123,8 +124,6 @@ function SidePanel({ handleProps, isGenerate }) {
       return prevStory; // If story is null, keep the previous value
     });
   };
-
-  console.log(isGenerate)
 
   return (
 
@@ -166,6 +165,11 @@ function SidePanel({ handleProps, isGenerate }) {
 
               <div className="select-container">
                 <FileDropComponent onDataExtracted={setDropFileData}></FileDropComponent>
+              </div>
+
+              <div className="illustrate-amount-container">
+                <h6>Amount of Illustrations</h6>
+                <CFormRange onChange={(event) => setAmount(event.target.value)} className="range-selector" min={5} max={20} label={amount} defaultValue="5" />
               </div>
 
               <div className="select-container">
