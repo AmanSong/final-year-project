@@ -4,8 +4,10 @@ from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize, word_tokenize
 
 # make sure to download before running
-# nltk.download('punkt')
-# nltk.download('stopwords')
+import nltk
+
+nltk.download('punkt')
+nltk.download('stopwords')
 
 # function to extract text from each page
 def read(file_content):
