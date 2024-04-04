@@ -1,19 +1,15 @@
 # import dependencies
 import os
-import torch
-from torch import autocast
-from diffusers import StableDiffusionPipeline
 from fastapi import FastAPI, Response
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import requests
 from dotenv import load_dotenv
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import JSONResponse
 import tempfile
 from extract import read
-from story_local_model import generateStory
+# from story_local_model import generateStory
 from generateStory import story_generator, convertToPDF
 from createPDF import create_PDF
 from generatePrompt import createPrompt

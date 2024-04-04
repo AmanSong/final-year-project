@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from createPDF import create_Story_PDF
 
 # retrieve the secret key
 load_dotenv()
