@@ -1,7 +1,7 @@
 import { React, useEffect, useState, useRef } from "react"
 import supabase from '../config/SupabaseClient';
 import './SavedStories.css'
-import { CHeader, CToast, CToastHeader, CToaster } from '@coreui/react';
+import { CNavbar, CNavbarBrand, CToast, CToastHeader, CToaster } from '@coreui/react';
 import UserMenu from "./UserMenu";
 import { pdfjs } from 'react-pdf';
 import { Document } from 'react-pdf';
@@ -35,9 +35,9 @@ function SavedStories() {
 
     const toastDelete = (
         <CToast>
-          <CToastHeader closeButton>
-            <div className="fw-bold me-auto">Successfully deleted</div>
-          </CToastHeader>
+            <CToastHeader closeButton>
+                <div className="fw-bold me-auto">Successfully deleted</div>
+            </CToastHeader>
         </CToast>
     )
 
@@ -173,10 +173,12 @@ function SavedStories() {
 
     return (
         <div className="saved-stories-section">
-            <CHeader className="main-header">
-                <img onClick={() => Return()} className="logo" src="/logo.png" />
+            <CNavbar className="main-header">
+                <CNavbarBrand className="brand">
+                    <img onClick={() => Return()} className="logo" src="/logo.png" alt="Ai Illustrator" />
+                </CNavbarBrand> 
                 <UserMenu />
-            </CHeader>
+            </CNavbar >
 
             {openViewer
                 ?

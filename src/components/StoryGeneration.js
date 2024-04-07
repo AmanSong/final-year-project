@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react"
-import { CButton, CForm, CFormTextarea, CContainer, CFormRange, CFormInput } from "@coreui/react";
+import { CForm, CFormTextarea, CFormRange, CFormInput } from "@coreui/react";
 import Genre from "./Genre";
 import axios from "axios";
 import './StoryGeneration.css';

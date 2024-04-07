@@ -1,7 +1,7 @@
 .saved-stories-section {
     width: 100vw;
     height: 100vh;
-    background-color: rgb(168, 168, 168);
+    background: linear-gradient(135deg, #66567c, #685c88, rgb(95, 68, 158));
     overflow: hidden;
   }
   

@@ -1,6 +1,5 @@
-import { CContainer, CImage, CProgressBar, CToast, CSpinner, CButton, CToastHeader, CToaster } from "@coreui/react";
+import { CContainer, CToast, CSpinner, CButton, CToastHeader, CToaster } from "@coreui/react";
 import { React, useState, useEffect, useRef } from "react"
-import axios from "axios";
 import { v4 as uuid } from "uuid";
 import supabase from "../config/SupabaseClient";
 import './DisplayStory.css'

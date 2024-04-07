@@ -1,5 +1,5 @@
-import { React, useState, useEffect } from "react"
-import { CHeader } from '@coreui/react';
+import { React, useState } from "react"
+import { CNavbar, CNavbarBrand } from '@coreui/react';
 import './App.css';
 import '@coreui/coreui/dist/css/coreui.min.css'
 import SidePanel from "./components/SidePanel";
@@ -45,10 +45,14 @@ function App() {
   return (
     <div className="App">
 
-      <CHeader className="main-header">
-        <img className="logo" src="logo.png" />
+      <CNavbar className="main-header">
+
+        <CNavbarBrand className="brand">
+          <img className="logo" src="logo.png" alt="Ai Illustrator"/>
+        </CNavbarBrand>
         <UserMenu />
-      </CHeader>
+
+      </CNavbar >
 
       <div className="components">
 

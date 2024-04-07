@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 
-
 # retrieve the secret key
 load_dotenv()
 OPENAI_KEY = os.getenv('OPENAI_KEY')

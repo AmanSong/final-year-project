@@ -24,7 +24,6 @@ function UserMenu() {
     useEffect(() => {
 
         const getUserDetails = async () => {
-
             try {
                 const { data: user, error: userError } = await supabase.auth.getUser();
 
@@ -32,7 +31,7 @@ function UserMenu() {
                     console.error('Error fetching user:', userError.message);
                     return;
                 }
-                
+
                 if (cachedUserDetails.userId === user.user.id) {
                     setCurrentUser(cachedUserDetails.userId);
                     setUserPicture(cachedUserDetails.userPicture);
@@ -112,7 +111,7 @@ function UserMenu() {
             }
 
             // Upload file to Supabase Bucket
-            const { data, error } = await supabase
+            await supabase
                 .storage
                 .from('user-profile-picture')
                 .upload(currentUser + "/" + uuid(), image, {
@@ -128,7 +127,7 @@ function UserMenu() {
         } catch (error) {
             console.error('Error uploading the file:', error);
         }
-    }, [currentUser, userPicture, setCurrentUser]);
+    }, [currentUser, userPicture]);
 
     const { open } = useDropzone({
         onDrop,
@@ -162,7 +161,13 @@ function UserMenu() {
     return (
         <div className='menu-section' onClick={handleClickInside}>
             <CButton className='menu-button' onClick={() => setMenuVisible(!menuVisible)}>
-                <img src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/${userPicture}`} alt="Button Icon" />
+                <img
+                    src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/${userPicture}`}
+                    alt="Button Icon"
+                    onError={(e) => {
+                        e.target.src = 'Default_pfp.jpg';
+                    }}
+                />
             </CButton>
             <CCollapse visible={menuVisible}>
                 <CCard className={`menu-dropdown ${menuVisible ? 'show' : ''}`} ref={menuRef} >
@@ -174,7 +179,7 @@ function UserMenu() {
                                 src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/${userPicture}`}
                                 onClick={() => changeProfilePic()}
                                 onError={(e) => {
-                                    console.error("Error loading image:");
+                                    e.target.src = 'Default_pfp.jpg';
                                 }}
                             ></CImage>
                             <CCardTitle className='user-name'>{currentUserName}</CCardTitle>

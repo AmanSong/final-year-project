@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react"
-import { CButton, CCard, CCollapse, CContainer, CForm, CFormInput } from "@coreui/react";
+import { CButton, CCard, CCollapse, CForm, CFormInput } from "@coreui/react";
 import './Genre.css'
 import CIcon from '@coreui/icons-react';
 import * as icon from '@coreui/icons';
@@ -39,7 +39,7 @@ function Genre({ onGenresSelected }) {
     };
 
     const addCustomGenre = (event) => {
-        if(customGenre != '') {
+        if(customGenre !== '') {
             setSelectedGenres([...selectedGenres, customGenre.trim()]);
         }
     };

@@ -58,8 +58,6 @@ function DisplayImage({ pdf, storyTitle, returnStatus, fontName, fontSize, toRew
         }
     };
 
-    console.log(amountToGen)
-
     const create = async (Text, Images, Title, FontName, FontSize) => {
         try {
             const response = await axios.post("http://127.0.0.1:8000/createPDF", {

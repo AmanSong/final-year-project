@@ -2,21 +2,13 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: rgb(131, 131, 131);
-}
-
-.Main {
-  padding: 0;
-  display: flex;
+  background: linear-gradient(135deg, #56667c, #5c7a88, rgb(68, 104, 158));
 }
 
 .main-header {
-  position: fixed;
-  height: 3rem;
-  border-width: 0 !important;
-  background-color: rgb(126, 208, 255) !important;
-  display: flex;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #75bae7;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .logo {
@@ -25,6 +17,10 @@
   -webkit-user-select: none;
   user-select: none;
   cursor: pointer;
+}
+
+.brand {
+  margin-left: .5%;
 }
 
 #p-title {

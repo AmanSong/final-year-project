@@ -1,19 +1,18 @@
 .menu-section {
     position: relative;
-    margin-top: -.9vh;
 }
 
 .menu-button {
     background-color: rgb(111, 127, 142);
-    text-align: center;
-    height: 2.9rem;
-    width: 2.9rem;
+    height: 3rem;
+    width: 3rem;
     border-radius: 50%;
-    border: 2px solid rgb(92, 90, 216);
+    border: .1px solid rgb(92, 90, 216);
     overflow: hidden;
     padding: 0;
     margin: 0;
 }
+
 .menu-button img {
     -webkit-user-drag: none;
     -webkit-user-select: none;
