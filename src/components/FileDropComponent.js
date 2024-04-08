@@ -1,6 +1,6 @@
 import { React, useCallback, useState } from "react"
 import { useDropzone } from "react-dropzone";
-import { CButton, CCollapse, CCard, CCardBody, CFormInput } from "@coreui/react";
+import { CButton, CCollapse, CCard, CCardBody } from "@coreui/react";
 import axios from "axios";
 import "./FileDrop.css"
 
@@ -14,11 +14,19 @@ function FileDropComponent({ onDataExtracted }) {
     const [isFlipped, setIsFlipped] = useState(false);
 
     const flipArrow = () => {
-      setIsFlipped(!isFlipped);
+        setIsFlipped(!isFlipped);
     };
 
     // this is the drop file component using the react-dropzone library
-    const onDrop = useCallback(async (acceptedFiles) => {
+    const onDrop = useCallback(async (acceptedFiles, fileRejections) => {
+
+        // Check if there are any rejected files
+        if (fileRejections.length > 0) {
+            console.log('Rejected files:', fileRejections);
+            alert('Please upload a PDF file.');
+            return; // Exit early if there are rejected files
+        }
+
         const file = acceptedFiles[0];
         const formData = new FormData();
         formData.append('file', file);
@@ -45,25 +53,25 @@ function FileDropComponent({ onDataExtracted }) {
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: {
-            'application/pdf': ['.pdf'], 
+            'application/pdf': ['.pdf'],
         },
     });
 
     return (
         <div>
-            <CButton className="styledrop-button" onClick={() => {setVisible(!visible); flipArrow()}} aria-expanded={visible} aria-controls="collapseWidthExample">
+            <CButton className="styledrop-button" onClick={() => { setVisible(!visible); flipArrow() }} aria-expanded={visible} aria-controls="collapseWidthExample">
                 <div>
-                    Upload PDF Story 
-                    <CIcon className={`button-icon ${isFlipped ? 'flipped' : ''}`} icon={icon.cilChevronBottom} size="xl"/>
+                    Upload PDF Story
+                    <CIcon className={`button-icon ${isFlipped ? 'flipped' : ''}`} icon={icon.cilChevronBottom} size="xl" />
                 </div>
             </CButton>
-            <CCollapse  visible={visible}>
+            <CCollapse visible={visible}>
                 <CCard id="upload-drop-container">
                     <CCardBody id="upload-drop-card">
                         {/* Handle user file drops */}
                         <div {...getRootProps()} className={`filedrop ${fileName ? 'filedropped' : ''}`}>
                             <input {...getInputProps()} />
-                            <h4 className="upload-label">{fileName ? fileName : <CIcon icon={icon.cilArrowThickFromBottom} size="xxl"/>}</h4>
+                            <h4 className="upload-label">{fileName ? fileName : <CIcon icon={icon.cilArrowThickFromBottom} size="xxl" />}</h4>
                         </div>
                     </CCardBody>
                 </CCard>

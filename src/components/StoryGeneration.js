@@ -27,6 +27,14 @@ function StoryGeneration({ generate_story, onGenerateStoryComplete, onUpdateGene
   // when user clicks generate, call api endpoint to generate
   useEffect(() => {
     if (generate_story && !isGenerating) {
+
+      if(storyInput == '' || storyTitle == ''){
+        alert('Please provide some context and a title!');
+        setIsGenerating(false);
+        onGenerateStoryComplete();
+        return;
+      }
+
       setIsGenerating(true);
 
       // call endpoint
