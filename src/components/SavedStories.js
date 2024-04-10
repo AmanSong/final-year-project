@@ -45,8 +45,8 @@ function SavedStories() {
 
     const captureThumbnail = async (pdf, index) => {
         try {
-            const page = await pdf.getPage(1); // Assuming you want the first page
-            const viewport = page.getViewport({ scale: 0.5 }); // Adjust the scale as needed
+            const page = await pdf.getPage(1);
+            const viewport = page.getViewport({ scale: 0.5 }); 
 
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
