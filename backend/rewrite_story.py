@@ -18,7 +18,7 @@ def openAi_model(Page, Style):
             "You are a helpful AI assistant that will take help rewrite pages from stories using a given style. Maintain the overall structure but format it as requested"},
     
             {"role": "user", "content": 
-            f"Rewrite this page in the style of {Style}, keeping the same structure, word length and any dialouge within, Page: '{Page}' "},
+            f"Rewrite this page froma story in the style of {Style}, keeping the same structure, word length and any dialouge within, Page: '{Page}' "},
         ],
         max_tokens=4096,
         stream=True,

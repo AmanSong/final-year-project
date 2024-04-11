@@ -56,7 +56,7 @@ def create_Story_PDF(story, title, images, fontName, fontSize):
         # Create blank canvas
         story_pdf = canvas.Canvas(story_pdf_buffer, pagesize=letter)
 
-        # simple background image for 
+        # simple background image for PDFs
         background_image = "page-background.jpg"
 
         # Calculate the center of the page

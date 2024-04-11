@@ -31,7 +31,8 @@ function UserMenu() {
                     console.error('Error fetching user:', userError.message);
                     return;
                 }
-
+                
+                // check cache for user id to retrieve user and profile picture
                 if (cachedUserDetails.userId === user.user.id) {
                     setCurrentUser(cachedUserDetails.userId);
                     setUserPicture(cachedUserDetails.userPicture);

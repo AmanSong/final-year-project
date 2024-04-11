@@ -24,7 +24,7 @@ function FileDropComponent({ onDataExtracted }) {
         if (fileRejections.length > 0) {
             console.log('Rejected files:', fileRejections);
             alert('Please upload a PDF file.');
-            return; // Exit early if there are rejected files
+            return;
         }
 
         const file = acceptedFiles[0];
@@ -33,6 +33,7 @@ function FileDropComponent({ onDataExtracted }) {
 
         setFileName(file.name)
 
+        // send PDF to endpoint for text extraction
         try {
             const response = await axios.post('http://127.0.0.1:8000/upload-pdf', formData, {
                 headers: {
