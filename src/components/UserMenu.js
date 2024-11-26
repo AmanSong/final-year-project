@@ -33,7 +33,7 @@ function UserMenu() {
                 }
                 
                 // check cache for user id to retrieve user and profile picture
-                if (cachedUserDetails.userId === user.user.id) {
+                if (cachedUserDetails && (cachedUserDetails.userId === user.user.id)) {
                     setCurrentUser(cachedUserDetails.userId);
                     setUserPicture(cachedUserDetails.userPicture);
                     setCurrentUserName(cachedUserDetails.user_name);
@@ -48,13 +48,12 @@ function UserMenu() {
                             .storage
                             .from('user-profile-picture')
                             .list(currentUser + '/');
-
                         if (imageError) {
                             console.error('Error fetching images:', imageError.message);
                             return;
                         }
 
-                        const pfp_pic = images[1].name;
+                        const pfp_pic = images[0].name;
 
                         // Update local storage with the new user details
                         localStorage.setItem('userDetails', JSON.stringify({
@@ -163,7 +162,7 @@ function UserMenu() {
         <div className='menu-section' onClick={handleClickInside}>
             <CButton className='menu-button' onClick={() => setMenuVisible(!menuVisible)}>
                 <img
-                    src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/${userPicture}`}
+                    src={`https://snqrwvqjrqlawrpfqhxb.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/${userPicture}`}
                     alt="Button Icon"
                     onError={(e) => {
                         e.target.src = 'Default_pfp.jpg';
@@ -177,7 +176,7 @@ function UserMenu() {
                         <CCard className='profile-picture'>
                             <CImage
                                 className="pfp-image"
-                                src={`https://nxvblpqurqlefmvialip.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/${userPicture}`}
+                                src={`https://snqrwvqjrqlawrpfqhxb.supabase.co/storage/v1/object/public/user-profile-picture/${currentUser}/${userPicture}`}
                                 onClick={() => changeProfilePic()}
                                 onError={(e) => {
                                     e.target.src = 'Default_pfp.jpg';
